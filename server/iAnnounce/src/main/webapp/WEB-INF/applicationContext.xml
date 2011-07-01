@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+
+	<bean id="dataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+          p:driverClassName="com.mysql.jdbc.Driver"
+          p:url="jdbc:mysql://localhost:3306/iAnnounceDb"
+	  p:username="root"
+          p:password="" />
+					
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean" >
+		<property name="dataSource" ref="dataSource"/>
+		<property name="configurationClass" value="org.hibernate.cfg.AnnotationConfiguration"/>
+		<property name="configLocation" value="/WEB-INF/hibernate.cfg.xml"/>
+	</bean>
+	
+	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<bean id="finderAdvisor" class="dao.FinderAdvisor" />
+
+	<bean id="abstractDaoGeneric" class="dao.DaoGeneric" abstract="true">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+
+	<bean id="abstractDaoFinderImp" class="org.springframework.aop.framework.ProxyFactoryBean" abstract="true">
+		<property name="interceptorNames" value="finderAdvisor" />
+	</bean>
+
+	<bean id="personDao" parent="abstractDaoFinderImp">
+		<property name="proxyInterfaces">
+			<value>idao.IPersonDao</value>
+		</property>
+		<property name="target">
+			<bean parent="abstractDaoGeneric">
+				<constructor-arg value="hibernate.entities.Person" />
+			</bean>
+		</property>
+	</bean>
+	
+	
+	<bean id="ADao" parent="abstractDaoFinderImp">
+		<property name="proxyInterfaces">
+			<value>idao.IAnnouncementDao</value>
+		</property>
+		<property name="target">
+			<bean parent="abstractDaoGeneric">
+				<constructor-arg value="hibernate.entities.Announcement" />
+			</bean>
+		</property>
+	</bean>
+
+	<!--
+	<bean id="PADao" parent="abstractDaoFinderImp">
+		<property name="proxyInterfaces">
+			<value>com.testapp.sample.idao.IPaidAnnouncementDao</value>
+		</property>
+		<property name="target">
+			<bean parent="abstractDaoGeneric">
+				<constructor-arg value="com.testapp.sample.entity.PaidAnnouncement" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="PAADao" parent="abstractDaoFinderImp">
+		<property name="proxyInterfaces">
+			<value>com.testapp.sample.idao.IPaidAnnouncementAreaDao</value>
+		</property>
+		<property name="target">
+			<bean parent="abstractDaoGeneric">
+				<constructor-arg value="com.testapp.sample.entity.PaidAnnouncementArea" />
+			</bean>
+		</property>
+	</bean>
+	-->
+        
+
+	<bean id="CDao" parent="abstractDaoFinderImp">
+		<property name="proxyInterfaces">
+			<value>idao.ICommentDao</value>
+		</property>
+		<property name="target">
+			<bean parent="abstractDaoGeneric">
+				<constructor-arg value="hibernate.entities.Comment" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="USDao" parent="abstractDaoFinderImp">
+		<property name="proxyInterfaces">
+			<value>idao.IUserSessionDao</value>
+		</property>
+		<property name="target">
+			<bean parent="abstractDaoGeneric">
+				<constructor-arg value="hibernate.entities.UserSession" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="ratingDao" parent="abstractDaoFinderImp">
+		<property name="proxyInterfaces">
+			<value>idao.IRatingDao</value>
+		</property>
+		<property name="target">
+			<bean parent="abstractDaoGeneric">
+				<constructor-arg value="hibernate.entities.Rating" />
+			</bean>
+		</property>
+	</bean>
+
+        <bean id="RangeDao" parent="abstractDaoFinderImp">
+		<property name="proxyInterfaces">
+			<value>idao.IRangeDao</value>
+		</property>
+		<property name="target">
+			<bean parent="abstractDaoGeneric">
+				<constructor-arg value="hibernate.entities.Rangee" />
+			</bean>
+		</property>
+	</bean>
+
+
+	<bean id="personService" class="services.PersonService">
+		<constructor-arg ref="personDao" />
+	</bean>
+
+
+	<bean id="commentService" class="services.CommentService">
+		<constructor-arg ref="CDao" />
+	</bean>
+
+	<bean id="usersessionService" class="services.UserSessionService">
+		<constructor-arg ref="USDao" />
+	</bean>
+	
+	<bean id="announcementService" class="services.AnnouncementService">
+		<constructor-arg ref="ADao" />
+	</bean>
+<!--
+	<bean id="paidannouncementService" class="com.testapp.sample.PaidAnnouncementService">
+		<constructor-arg ref="PADao" />
+	</bean>
+-->
+	<bean id="ratingService" class="services.RatingService">
+		<constructor-arg ref="ratingDao" />
+	</bean>
+
+        <bean id="RangeService" class="services.RangeService">
+		<constructor-arg ref="RangeDao" />
+	</bean>
+	<!--
+	<bean id="paidannouncementareaService" class="com.testapp.sample.PaidAnnouncementAreaService">
+		<constructor-arg ref="PAADao" />
+	</bean>
+        -->
+	<!-- -->
+	<!--
+	<bean id="personDao" class="com.testapp.sample.dao.DaoGeneric">
+		<constructor-arg>
+			<value>com.testapp.sample.entity.Person</value>
+		</constructor-arg>
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+
+	
+	<bean id="personService" class="com.testapp.sample.PersonService">
+		<property name="personDao" ref="personDao"/>
+	</bean>
+
+    <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
+          p:location="/WEB-INF/jdbc.properties" />
+    
+    -->
+    <!-- ADD PERSISTENCE SUPPORT HERE (jpa, hibernate, etc) -->
+    
+</beans>
