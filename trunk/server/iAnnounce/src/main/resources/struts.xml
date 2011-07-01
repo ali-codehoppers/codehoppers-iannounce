@@ -1,0 +1,70 @@
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+    <package name="default" extends="struts-default">
+        
+		
+		<!--for redirection -->
+		
+		<action name="">
+			<result>index.jsp</result>
+		</action>
+		
+		
+		<!-- Actions  :D-->
+		
+		<action name="register" class="actions.struts.Register">
+            <result name="MOBILE">/results/ResponseXml.jsp</result>
+			<result name="PC">/results/ResponseXml.jsp</result>
+        </action>
+		
+		<action name="login" class="actions.struts.Login">
+            <result name="MOBILE">/results/ResponseXml.jsp</result>
+        </action>
+		
+		<action name="logout" class="actions.struts.Logout">
+            <result name="MOBILE">/results/ResponseXml.jsp</result>
+        </action>
+		
+		<action name="getannouncements" class="actions.struts.AnnouncementGet">
+            <result name="MOBILE">/results/ResponseXml.jsp</result>
+        </action>
+		<action name="getmyannouncements" class="actions.struts.AnnouncementGetMy">
+            <result name="MOBILE">/results/ResponseXml.jsp</result>
+        </action>
+		<action name="postannouncement" class="actions.struts.AnnouncementPost">
+            <result name="MOBILE">/results/ResponseXml.jsp</result>
+        </action>
+		<action name="getcomments" class="actions.struts.CommentGet">
+            <result name="MOBILE">/results/ResponseXml.jsp</result>
+        </action>
+		<action name="postcomment" class="actions.struts.CommentPost">
+            <result name="MOBILE">/results/ResponseXml.jsp</result>
+        </action>
+		<action name="deleteaccount" class="actions.struts.DeleteAccount">
+            <result name="MOBILE">/results/ResponseXml.jsp</result>
+        </action>
+		<action name="editprofile" class="actions.struts.EditProfile">
+            <result name="MOBILE">/results/ResponseXml.jsp</result>
+        </action>
+		<action name="forgetpassword" class="actions.struts.ForgetPassword">
+            <result name="MOBILE">/results/ResponseXml.jsp</result>
+        </action>
+		<action name="getprofile" class="actions.struts.GetProfile">
+            <result name="MOBILE">/results/ResponseXml.jsp</result>
+        </action>
+		<action name="rate" class="actions.struts.RatingPost">
+            <result name="MOBILE">/results/ResponseXml.jsp</result>
+        </action>
+		<action name="verifyaccount" class="actions.struts.VerifyAccount">
+            <result name="MOBILE">/results/ResponseXml.jsp</result>
+        </action>
+		
+		
+		
+    </package>
+	
+	
+</struts>
