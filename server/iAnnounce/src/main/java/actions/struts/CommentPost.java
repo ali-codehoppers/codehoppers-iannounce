@@ -25,6 +25,48 @@ public class CommentPost  extends ActionSupport implements ServletRequestAware {
 
     private HttpServletRequest request;
 
+    private String xmlResponse;
+
+    private String sessionId;
+    private  String commentToPost;
+    private String announcementId;
+
+    public String getAnnouncementId() {
+        return announcementId;
+    }
+
+    public void setAnnouncementId(String announcementId) {
+        this.announcementId = announcementId;
+    }
+
+    public String getCommentToPost() {
+        return commentToPost;
+    }
+
+    public void setCommentToPost(String commentToPost) {
+        this.commentToPost = commentToPost;
+    }
+
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
+    }
+
+    public String getXmlResponse() {
+        return xmlResponse;
+    }
+
+    public void setXmlResponse(String xmlResponse) {
+        this.xmlResponse = xmlResponse;
+    }
+
+    
+
+
+
     public void setServletRequest(HttpServletRequest hsr) {
         this.request = hsr;
     }
@@ -38,7 +80,7 @@ public class CommentPost  extends ActionSupport implements ServletRequestAware {
             //if(true){
 
             UserSessionService userSessionService = getUserSessionService();
-            List<UserSession> userSessionList = userSessionService.findByName(request.getParameter("sessionId"));
+            List<UserSession> userSessionList = userSessionService.findByName(sessionId);
             Boolean validSession = false;
             String username = "";
             if (!userSessionList.isEmpty() && userSessionList.get(0).getStatuss()) {
@@ -56,7 +98,7 @@ public class CommentPost  extends ActionSupport implements ServletRequestAware {
                 //get currunt time stamp for insert in DB
                 java.util.Date date = new java.util.Date();
                 Timestamp time = new Timestamp(date.getTime());
-                Comment comment = new Comment(0, username, Integer.parseInt(request.getParameter("announcementId")), request.getParameter("commentToPost"), time);
+                Comment comment = new Comment(0, username, Integer.parseInt(announcementId), commentToPost, time);
 
                 Integer newId = service.addNew(comment);
                 if (newId != 0) {
@@ -67,7 +109,7 @@ public class CommentPost  extends ActionSupport implements ServletRequestAware {
 
                 xml += "</PostComment>";
             }
-            request.setAttribute("responsexml", xml);
+            xmlResponse=xml;
             return "MOBILE";
         }
         else{

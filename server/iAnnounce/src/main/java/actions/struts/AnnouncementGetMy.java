@@ -26,6 +26,38 @@ public class AnnouncementGetMy extends ActionSupport implements ServletRequestAw
 
     private HttpServletRequest request;
 
+
+    private String xmlResponse;
+
+    private String sessionId;
+    private String pageNum;
+
+    public String getPageNum() {
+        return pageNum;
+    }
+
+    public void setPageNum(String pageNum) {
+        this.pageNum = pageNum;
+    }
+
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
+    }
+
+    public String getXmlResponse() {
+        return xmlResponse;
+    }
+
+    public void setXmlResponse(String xmlResponse) {
+        this.xmlResponse = xmlResponse;
+    }
+
+    
+
     public void setServletRequest(HttpServletRequest hsr) {
         this.request = hsr;
     }
@@ -37,7 +69,7 @@ public class AnnouncementGetMy extends ActionSupport implements ServletRequestAw
         CommentService commentService = getCommentService();
         UserSessionService userSessionService = getUserSessionService();
 
-        List<UserSession> userSessionList = userSessionService.findByName(request.getParameter("sessionId"));
+        List<UserSession> userSessionList = userSessionService.findByName(sessionId);
         Boolean validSession = false;
         String username = "";
 
@@ -55,7 +87,7 @@ public class AnnouncementGetMy extends ActionSupport implements ServletRequestAw
                 xml = "<forceLogin/>";
             } else {
                 xml = "<myAnnouncements>";
-                int page = Integer.valueOf(request.getParameter("pageNum"));
+                int page = Integer.valueOf(pageNum);
                 int counter = 0;
 
                 List<Announcement> announcementList = service.findByName(username);
@@ -92,7 +124,9 @@ public class AnnouncementGetMy extends ActionSupport implements ServletRequestAw
                 xml += "</myAnnouncements>";
             }
 
-            request.setAttribute("responsexml", xml);
+            xmlResponse=xml;
+
+            
             return "MOBILE";
         } else {
             return "PC";

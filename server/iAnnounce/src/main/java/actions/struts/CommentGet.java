@@ -24,6 +24,38 @@ import xtras.insertionSortCommentDate;
 public class CommentGet extends ActionSupport implements ServletRequestAware{
     private HttpServletRequest request;
 
+    private String xmlResponse;
+
+    private String sessionId;
+    private String announcementId;
+
+    public String getAnnouncementId() {
+        return announcementId;
+    }
+
+    public void setAnnouncementId(String announcementId) {
+        this.announcementId = announcementId;
+    }
+
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
+    }
+
+    public String getXmlResponse() {
+        return xmlResponse;
+    }
+
+    public void setXmlResponse(String xmlResponse) {
+        this.xmlResponse = xmlResponse;
+    }
+
+    
+
+
     public void setServletRequest(HttpServletRequest hsr) {
         this.request=hsr;
     }
@@ -35,7 +67,7 @@ public class CommentGet extends ActionSupport implements ServletRequestAware{
             //if(true){
 
             UserSessionService userSessionService = getUserSessionService();
-            List<UserSession> userSessionList = userSessionService.findByName(request.getParameter("sessionId"));
+            List<UserSession> userSessionList = userSessionService.findByName(sessionId);
             Boolean validSession = false;
 
             //check valid user session
@@ -50,7 +82,7 @@ public class CommentGet extends ActionSupport implements ServletRequestAware{
                 xml = "<forceLogin/>";
             } else {
                 //get comments of the announcement
-                List<Comment> commentList = service.findByName(Integer.parseInt(request.getParameter("announcementId")));
+                List<Comment> commentList = service.findByName(Integer.parseInt(announcementId));
 
                 //sort list according to time
                 commentList = (new insertionSortCommentDate(commentList)).mySort();
@@ -66,7 +98,7 @@ public class CommentGet extends ActionSupport implements ServletRequestAware{
 
                 xml += "</GetComments>";
             }
-            request.setAttribute("responsexml", xml);
+            xmlResponse=xml;
             return "MOBILE";
         }
         else{

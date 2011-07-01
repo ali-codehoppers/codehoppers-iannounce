@@ -25,7 +25,67 @@ import services.UserSessionService;
  * @author Awais
  */
 public class AnnouncementPost extends ActionSupport implements ServletRequestAware{
+
     private HttpServletRequest request;
+    
+    private String xmlResponse;
+
+    private String sessionId;
+    private String range;
+    private String announce;
+    private String longitude;
+    private String latitude;
+
+    public String getAnnounce() {
+        return announce;
+    }
+
+    public void setAnnounce(String announce) {
+        this.announce = announce;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getRange() {
+        return range;
+    }
+
+    public void setRange(String range) {
+        this.range = range;
+    }
+
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
+    }
+
+    public String getXmlResponse() {
+        return xmlResponse;
+    }
+
+    public void setXmlResponse(String xmlResponse) {
+        this.xmlResponse = xmlResponse;
+    }
+
+
+
 
     public void setServletRequest(HttpServletRequest hsr) {
         this.request=hsr;
@@ -40,7 +100,7 @@ public class AnnouncementPost extends ActionSupport implements ServletRequestAwa
         if (request.getHeader("User-Agent").contains("UNAVAILABLE")) {
             //if (true) {
             UserSessionService userSessionService = getUserSessionService();
-            List<UserSession> userSessionList = userSessionService.findByName(request.getParameter("sessionId"));
+            List<UserSession> userSessionList = userSessionService.findByName(sessionId);
             Boolean validSession = false;
             String username = "";
 
@@ -52,8 +112,8 @@ public class AnnouncementPost extends ActionSupport implements ServletRequestAwa
                 //update currunt location of person
                 PersonService personService = getPersonService();
                 Person person = personService.findByName(username).get(0);
-                person.setLatitude(Double.parseDouble(request.getParameter("latitude")));
-                person.setLongitude(Double.parseDouble(request.getParameter("longitude")));
+                person.setLatitude(Double.parseDouble(latitude));
+                person.setLongitude(Double.parseDouble(longitude));
                 personService.addOrUpdate(person);
             }
             String xml;
@@ -67,14 +127,14 @@ public class AnnouncementPost extends ActionSupport implements ServletRequestAwa
 
                 //get range in km against string
                 RangeService rangeService = getRangeService();
-                int radius = rangeService.findByName(request.getParameter("range")).get(0).getValuee();
+                int radius = rangeService.findByName(range).get(0).getValuee();
 
                 //get currunt timestamp to inseert in DB
                 java.util.Date date = new java.util.Date();
                 Timestamp time = new Timestamp(date.getTime());
 
                 //normal announcement with 0 ranking
-                Announcement announcement = new Announcement(0, Double.parseDouble(request.getParameter("latitude")), Double.parseDouble(request.getParameter("longitude")), request.getParameter("announce"), radius, time, false, username, 0);
+                Announcement announcement = new Announcement(0, Double.parseDouble(latitude), Double.parseDouble(longitude), announce, radius, time, false, username, 0);
 
                 Integer newId = service.addNew(announcement);
 
@@ -87,7 +147,7 @@ public class AnnouncementPost extends ActionSupport implements ServletRequestAwa
                 xml += "</announce>";
             }
 
-            request.setAttribute("responsexml", xml);
+            xmlResponse=xml;
             return "MOBILE";
         }
         else{

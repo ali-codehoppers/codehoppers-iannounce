@@ -22,6 +22,29 @@ public class Logout extends ActionSupport implements ServletRequestAware {
 
     private HttpServletRequest request;
 
+    private String xmlResponse;
+
+    private String sessionId;
+
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
+    }
+
+    public String getXmlResponse() {
+        return xmlResponse;
+    }
+
+    public void setXmlResponse(String xmlResponse) {
+        this.xmlResponse = xmlResponse;
+    }
+
+    
+    
+
     public void setServletRequest(HttpServletRequest hsr) {
         this.request=hsr;
     }
@@ -31,7 +54,7 @@ public class Logout extends ActionSupport implements ServletRequestAware {
         if (request.getHeader("User-Agent").contains("UNAVAILABLE")) {
             // if(true){
             UserSessionService service = getService();
-            List<UserSession> userSessionList = service.findByName(request.getParameter("sessionId"));
+            List<UserSession> userSessionList = service.findByName(sessionId);
             Boolean validSession = false;
             //check if valid session
             if (!userSessionList.isEmpty() && userSessionList.get(0).getStatuss()) {
@@ -49,7 +72,7 @@ public class Logout extends ActionSupport implements ServletRequestAware {
                 service.addOrUpdate(userSession);
                 xml = "<Logout>Logged out</Logout>";
             }
-            request.setAttribute("responsexml", xml);
+            xmlResponse=xml;
             return "MOBILE";
         }
         else{

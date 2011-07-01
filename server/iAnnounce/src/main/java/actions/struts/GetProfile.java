@@ -30,7 +30,43 @@ import services.UserSessionService;
  * @author Awais
  */
 public class GetProfile extends ActionSupport implements ServletRequestAware{
+   
     private HttpServletRequest request;
+
+    private String xmlResponse;
+
+    private String sessionId;
+    private String username;
+
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getXmlResponse() {
+        return xmlResponse;
+    }
+
+    public void setXmlResponse(String xmlResponse) {
+        this.xmlResponse = xmlResponse;
+    }
+
+    
+
+    
+
+
 
     public void setServletRequest(HttpServletRequest hsr) {
         this.request=hsr;
@@ -44,7 +80,7 @@ public class GetProfile extends ActionSupport implements ServletRequestAware{
 
             // check valid session
             UserSessionService userSessionService = getUserSessionService();
-            List<UserSession> userSessionList = userSessionService.findByName(request.getParameter("sessionId"));
+            List<UserSession> userSessionList = userSessionService.findByName(sessionId);
             Boolean validSession = false;
 
             if (!userSessionList.isEmpty() && userSessionList.get(0).getStatuss()) {
@@ -59,7 +95,7 @@ public class GetProfile extends ActionSupport implements ServletRequestAware{
                 xml = "<forceLogin/>";
             } else {
                 xml = "<Profile>\n";
-                String username = request.getParameter("username");
+//                String username = request.getParameter("username");
                 List<Person> personList = service.findByName(username);
                 if (personList.size() > 0) {
                     Person person = personList.get(0);
@@ -86,7 +122,7 @@ public class GetProfile extends ActionSupport implements ServletRequestAware{
 
                 xml += "</Profile>";
             }
-            request.setAttribute("responsexml", xml);
+            xmlResponse=xml;
             return "MOBILE";
         } else {
             return "PC";
