@@ -1,0 +1,1 @@
+<xml><register><isRegistered>true</isRegistered><description>User is registered Successfully</description></register></xml>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/ScrollView01" 
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content" 
+	android:scrollbars="vertical">
+	
+<LinearLayout 
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+    
+<TextView
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:textSize="22sp" 
+    android:textStyle="bold"
+    android:text="ME">
+</TextView>
+<TextView
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:textSize="18sp" 
+    android:text="The announcment will be diplayed here and will constitute at max 100 characters.">
+</TextView>
+<TextView
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:textSize="15sp" 
+    android:text="23:50 10/10/2010">
+</TextView>
+<TextView
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:textSize="15sp" 
+    android:text="N 58° 53' 5.3'', E 25 ° 34' 6.1'' Louder">
+</TextView>
+<TextView
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:textSize="15sp" 
+    android:text="Rating: 5">
+</TextView>
+
+<TextView
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:textSize="22sp" 
+    android:textStyle="bold"
+    android:text="ME">
+</TextView>
+<TextView
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:textSize="18sp" 
+    android:text="The announcment will be diplayed here and will constitute at max 100 characters.">
+</TextView>
+<TextView
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:textSize="15sp" 
+    android:text="12:50 10/11/2010">
+</TextView>
+<TextView
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:textSize="15sp" 
+    android:text="N 58° 44' 5.3'', E 25 ° 16' 6.1'' Loudest">
+</TextView>
+<TextView
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:textSize="15sp" 
+    android:text="Rating: 7">
+</TextView>
+
+<TextView
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:textSize="22sp" 
+    android:textStyle="bold"
+    android:text="ME">
+</TextView>
+<TextView
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:textSize="18sp" 
+    android:text="The announcment will be diplayed here and will constitute at max 100 characters.">
+</TextView>
+<TextView
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:textSize="15sp" 
+    android:text="23:50 10/10/2010">
+</TextView>
+<TextView
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:textSize="15sp" 
+    android:text="N 58° 53' 5.3'', E 25 ° 34' 6.1'' Louder">
+</TextView>
+<TextView
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:textSize="15sp" 
+    android:text="Rating: 5">
+</TextView>
+</LinearLayout>
+</ScrollView>

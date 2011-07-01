@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent" android:layout_height="wrap_content">
+
+	<RelativeLayout android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+		<TextView android:id="@+id/editProfileTextviewHeading"
+			android:layout_width="match_parent" android:layout_height="wrap_content"
+			android:text="Edit Profile" android:gravity="center_horizontal"
+			android:paddingTop="5sp" android:layout_marginBottom="10sp"
+
+			android:textSize="30sp" />
+		<TextView android:id="@+id/editProfileTextviewName"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:layout_marginRight="23px" android:layout_below="@+id/editProfileTextviewHeading"
+			android:text="First Name:" android:layout_marginTop="10sp"
+			android:paddingRight="25px" android:textSize="20sp" />
+		<EditText android:id="@+id/editProfileEdittextName"
+			android:layout_width="150sp" android:layout_height="40sp"
+			android:layout_toRightOf="@+id/editProfileTextviewName"
+			android:layout_below="@+id/editProfileTextviewHeading"
+			android:layout_marginLeft="0sp"
+			android:layout_marginTop="7sp" android:text="temp" />
+
+		<TextView android:id="@+id/editProfileTextviewLastName"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:layout_marginRight="23px" android:layout_below="@+id/editProfileTextviewName"
+			android:text="Last Name:" android:layout_marginTop="15sp"
+			android:paddingRight="25px" android:textSize="20sp" 
+			/>
+		<EditText android:id="@+id/editProfileEdittextLastName"
+			android:layout_width="150sp" android:layout_height="40sp"
+			android:layout_toRightOf="@+id/editProfileTextviewLastName"
+			android:layout_below="@+id/editProfileEdittextName"
+			android:layout_alignLeft="@id/editProfileEdittextName"
+			android:text="lastname" />
+
+		<TextView android:id="@+id/editProfileTextviewPassword"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:layout_alignLeft="@+id/editProfileTextviewName"
+			android:layout_below="@+id/editProfileTextviewLastName" android:text="Old Password:"
+			android:textSize="20sp" android:layout_marginTop="20sp" />
+		<EditText android:id="@+id/editProfileEdittextPassword"
+			android:layout_width="150sp" android:layout_height="40sp"
+			android:layout_toRightOf="@+id/editProfileTextviewPassword"
+			android:layout_below="@+id/editProfileEdittextLastName"
+			android:layout_alignLeft="@id/editProfileEdittextName"
+			android:layout_marginTop="7sp" 
+			 />
+
+		<TextView android:id="@+id/editProfileTextviewNewPassword"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:layout_alignLeft="@+id/editProfileTextviewName"
+			android:layout_below="@+id/editProfileTextviewPassword" android:text="New
+Password:"
+			android:paddingTop="10sp" android:textSize="20sp" 
+			android:layout_marginTop="10sp"/>
+		<EditText android:id="@+id/editProfileEdittextNewPassword"
+			android:layout_width="150sp" android:layout_height="40sp"
+			android:layout_toRightOf="@+id/editProfileTextviewPassword"
+			android:layout_below="@+id/editProfileEdittextPassword"
+			android:layout_alignLeft="@id/editProfileEdittextName"
+			android:layout_marginTop="5sp"  />
+
+		<TextView android:id="@+id/editProfileTextviewGender"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:layout_alignLeft="@+id/editProfileTextviewName"
+			android:layout_below="@+id/editProfileTextviewNewPassword"
+			android:text="Gender:" android:paddingTop="13sp" android:textSize="20sp" 
+			android:layout_marginTop="10sp"/>
+		<RadioGroup android:id="@+id/editProfileRadiogroupGender"
+			android:layout_width="fill_parent" android:layout_height="wrap_content"
+			android:orientation="horizontal" android:paddingTop="7sp"
+			android:layout_toRightOf="@+id/editProfileTextviewGender"
+			android:layout_below="@+id/editProfileEdittextNewPassword"
+			android:layout_alignLeft="@+id/editProfileTextviewDOB2">
+			<RadioButton android:id="@+id/radio_male"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:text="Male" />
+			<RadioButton android:id="@+id/radio_female"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:text="Female" />
+		</RadioGroup>
+		<TextView android:id="@+id/editProfileTextviewDOB1"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:layout_alignLeft="@+id/editProfileTextviewName"
+			android:layout_below="@+id/editProfileTextviewGender" android:text="Date of Birth:"
+			android:paddingTop="22sp" android:paddingRight="5sp"
+			android:textSize="20sp" />
+		<TextView android:id="@+id/editProfileTextviewDOB2"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:layout_toRightOf="@+id/editProfileTextviewDOB1"
+			android:layout_below="@+id/editProfileRadiogroupGender"
+			android:layout_marginTop="15sp"
+			android:text="1/1/1980" android:textSize="16sp" />
+		<Button android:id="@+id/pickDate" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:layout_below="@id/editProfileRadiogroupGender"
+			android:layout_toRightOf="@+id/editProfileTextviewDOB2" android:text="Change" />
+
+		<Button android:id="@+id/editProfileButtonRegister"
+			android:layout_width="200sp" android:layout_height="wrap_content"
+			android:layout_below="@+id/pickDate" android:layout_marginTop="30sp"
+			android:layout_marginLeft="100sp" android:text="Update" />
+
+	</RelativeLayout>
+</ScrollView>
