@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="app_name">iAnnounce</string>
+<string name="loginColon">Username:</string>
+<string name="passwordColon">Password:</string>
+<string name="rememberMe">Remember Me</string>
+<string name="login">Sign in</string>
+<string name="registerClick"><u>Not a user? Click here to Sign Up</u></string>
+<string name="like">Like</string>
+<string name="dislike">Dislike</string>
+</resources>

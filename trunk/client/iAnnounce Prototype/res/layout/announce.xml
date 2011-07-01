@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent">
+
+
+	<LinearLayout android:orientation="vertical"
+		android:layout_width="fill_parent" android:layout_height="fill_parent">
+		<TextView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:text="Announcment:"
+			android:textSize="20sp" />
+		<EditText android:id="@+id/et_announcement"
+			android:layout_width="fill_parent" android:layout_height="100sp"
+			/>
+		<LinearLayout android:orientation="horizontal"
+			android:layout_width="fill_parent" android:layout_height="wrap_content">
+			<TextView android:id="@+id/announcement_length"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:text="320" android:textSize="15sp" />
+		</LinearLayout>
+
+		<TextView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:text="Range:"
+			android:textSize="20sp" />
+		<RadioGroup android:id="@+id/RG_range"
+			android:layout_width="fill_parent" android:layout_height="wrap_content"
+			android:orientation="vertical">
+			<RadioButton android:id="@+id/radio_loud"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:text="Loud" />
+			<RadioButton android:id="@+id/radio_louder"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:text="Louder" />
+			<RadioButton android:id="@+id/radio_loudest"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:text="Loudest" />
+		</RadioGroup>
+		<Button android:id="@+id/bt_announce_submit"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:paddingRight="15sp" android:paddingLeft="15sp" android:text="Announce" />
+	</LinearLayout>
+</ScrollView>
