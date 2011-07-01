@@ -30,6 +30,54 @@ public class AnnouncementGet extends ActionSupport implements ServletRequestAwar
 
     private HttpServletRequest request;
 
+    private String xmlResponse;
+
+    private String sessionId;
+    private String latitude;
+    private String longitude;
+    private String pageNum;
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getPageNum() {
+        return pageNum;
+    }
+
+    public void setPageNum(String pageNum) {
+        this.pageNum = pageNum;
+    }
+
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
+    }
+
+    public String getXmlResponse() {
+        return xmlResponse;
+    }
+
+    public void setXmlResponse(String xmlResponse) {
+        this.xmlResponse = xmlResponse;
+    }
+
+
     public void setServletRequest(HttpServletRequest hsr) {
         this.request = hsr;
     }
@@ -41,7 +89,7 @@ public class AnnouncementGet extends ActionSupport implements ServletRequestAwar
         RatingService ratingService = getRatingService();
         UserSessionService userSessionService = getUserSessionService();
 
-        List<UserSession> userSessionList = userSessionService.findByName(request.getParameter("sessionId"));
+        List<UserSession> userSessionList = userSessionService.findByName(sessionId);
         Boolean validSession = false;
         String username = "";
 
@@ -53,8 +101,8 @@ public class AnnouncementGet extends ActionSupport implements ServletRequestAwar
             //update currunt location of person
             PersonService personService = getPersonService();
             Person person = personService.findByName(username).get(0);
-            person.setLatitude(Double.parseDouble(request.getParameter("latitude")));
-            person.setLongitude(Double.parseDouble(request.getParameter("longitude")));
+            person.setLatitude(Double.parseDouble(latitude));
+            person.setLongitude(Double.parseDouble(longitude));
             personService.addOrUpdate(person);
         }
 
@@ -66,7 +114,7 @@ public class AnnouncementGet extends ActionSupport implements ServletRequestAwar
                 xml = "<forceLogin/>";
             } else {
                 xml = "<announcements>";
-                int page = Integer.valueOf(request.getParameter("pageNum"));
+                int page = Integer.valueOf(pageNum);
                 int counter = 0;
 
                 List<Announcement> announcementList = service.getAll();
@@ -79,7 +127,7 @@ public class AnnouncementGet extends ActionSupport implements ServletRequestAwar
                     Announcement announcement = announcementList.get(index);
 
                     //test if in range
-                    if (distFrom(Double.parseDouble(request.getParameter("latitude")), Double.parseDouble(request.getParameter("longitude")), announcement.getLatitude(), announcement.getLongitude()) <= announcement.getRadius()) {
+                    if (distFrom(Double.parseDouble(latitude), Double.parseDouble(longitude), announcement.getLatitude(), announcement.getLongitude()) <= announcement.getRadius()) {
                         ++counter;
 
                         //select announcement of the given page number
@@ -127,7 +175,9 @@ public class AnnouncementGet extends ActionSupport implements ServletRequestAwar
                 xml += "</announcements>";
             }
 
-            request.setAttribute("responsexml", xml);
+            xmlResponse=xml;
+
+            
             return "MOBILE";
         } else {
             return "PC";

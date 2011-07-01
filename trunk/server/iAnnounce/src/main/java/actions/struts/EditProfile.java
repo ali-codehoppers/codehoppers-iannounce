@@ -22,7 +22,84 @@ import services.UserSessionService;
  * @author Awais
  */
 public class EditProfile extends ActionSupport implements ServletRequestAware{
+    
     private HttpServletRequest request;
+
+    private String xmlResponse;
+
+    private String sessionId;
+    private String oldPassword;
+    private String newPassword;
+    private String gender;
+    private String firstName;
+    private String lastName;
+    private String dateOfBirth;
+
+    public String getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(String dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
+    }
+
+    public String getOldPassword() {
+        return oldPassword;
+    }
+
+    public void setOldPassword(String oldPassword) {
+        this.oldPassword = oldPassword;
+    }
+
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
+    }
+
+    public String getXmlResponse() {
+        return xmlResponse;
+    }
+
+    public void setXmlResponse(String xmlResponse) {
+        this.xmlResponse = xmlResponse;
+    }
+
+    
 
     public void setServletRequest(HttpServletRequest hsr) {
         this.request=hsr;
@@ -35,7 +112,7 @@ public class EditProfile extends ActionSupport implements ServletRequestAware{
         if (request.getHeader("User-Agent").contains("UNAVAILABLE")) {
             //if(true){
             UserSessionService userSessionService = getUserSessionService();
-            List<UserSession> userSessionList = userSessionService.findByName(request.getParameter("sessionId"));
+            List<UserSession> userSessionList = userSessionService.findByName(sessionId);
             Boolean validSession = false;
             String username = "";
             boolean sendMail = true;
@@ -56,34 +133,34 @@ public class EditProfile extends ActionSupport implements ServletRequestAware{
                 Person person = service.findByName(username).get(0);
 
                 // get details
-                person.setFirstName(request.getParameter("firstName"));
-                person.setLastName(request.getParameter("lastName"));
+                person.setFirstName(firstName);
+                person.setLastName(lastName);
 
                 //split date of birth to day month year
-                String[] inputdate = request.getParameter("dateOfBirth").split("/");
+                String[] inputdate = dateOfBirth.split("/");
                 Date dob = new Date(Integer.parseInt(inputdate[0]) - 1900, Integer.parseInt(inputdate[1]) - 1, Integer.parseInt(inputdate[2]));
                 person.setDateOfBirth(dob);
 
                 //change male to true female to 0
-                Boolean gender = true;
-                if (request.getParameter("gender").compareTo("0") == 0) {
-                    gender = false;
+                Boolean fl_gender = true;
+                if (gender.compareTo("0") == 0) {
+                    fl_gender = false;
                 }
-                person.setGender(gender);
+                person.setGender(fl_gender);
                
-//                System.out.println("oldpas="+(request.getParameter("oldPassword")).length());
+
 
                 //if password change request
-                if ((request.getParameter("oldPassword")).length() != 0) {
+                if ((oldPassword).length() != 0) {
                     //check if old password given matches the record
 
-                    if ((person.getPassword()).compareTo(request.getParameter("oldPassword")) == 0) {
-                        person.setPassword(request.getParameter("newPassword"));
+                    if ((person.getPassword()).compareTo(oldPassword) == 0) {
+                        person.setPassword(newPassword);
                         service.addOrUpdate(person);
 
                         xml += "Information updated. The updated information has been sent on your email id " + person.getEmail();
                     } else {
-                        xml += "Old password did not match.";
+                        xml += "Incorrect Old Password.";
                         sendMail = false;
                     }
                 } else {
@@ -99,7 +176,7 @@ public class EditProfile extends ActionSupport implements ServletRequestAware{
                     String emailBody = generateEmailBody(person);
                     //SendEmail verificationmail = new SendEmail(person.getEmail(), emailBody, "iAnnounce::Account information updated");
                 }
-                request.setAttribute("responsexml", xml);
+                xmlResponse=xml;
                 
             }
             return "MOBILE";

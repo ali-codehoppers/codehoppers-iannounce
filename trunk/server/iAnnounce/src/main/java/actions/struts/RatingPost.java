@@ -27,6 +27,47 @@ public class RatingPost extends ActionSupport implements ServletRequestAware {
 
     private HttpServletRequest request;
 
+    private String xmlResponse;
+
+    private String sessionId;
+    private String announcementId;
+    private String status;
+
+    public String getAnnouncementId() {
+        return announcementId;
+    }
+
+    public void setAnnouncementId(String announcementId) {
+        this.announcementId = announcementId;
+    }
+
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getXmlResponse() {
+        return xmlResponse;
+    }
+
+    public void setXmlResponse(String xmlResponse) {
+        this.xmlResponse = xmlResponse;
+    }
+
+    
+    
+
     public void setServletRequest(HttpServletRequest hsr) {
         this.request = hsr;
     }
@@ -41,7 +82,7 @@ public class RatingPost extends ActionSupport implements ServletRequestAware {
             //if(true){
 
             UserSessionService userSessionService = getUserSessionService();
-            List<UserSession> userSessionList = userSessionService.findByName(request.getParameter("sessionId"));
+            List<UserSession> userSessionList = userSessionService.findByName(sessionId);
             Boolean validSession = false;
             String username = "";
             //check valid session and get username
@@ -58,12 +99,12 @@ public class RatingPost extends ActionSupport implements ServletRequestAware {
             {
                 xml = "<forceLogin/>";
             } else {
-                Announcement announcement = announcementService.getById(Integer.parseInt(request.getParameter("announcementId")));
+                Announcement announcement = announcementService.getById(Integer.parseInt(announcementId));
 
-                Boolean status = true;
+                Boolean fl_status = true;
                 //get user rating
-                if (request.getParameter("status").compareTo("0") == 0) { //rate down
-                    status = false;
+                if (status.compareTo("0") == 0) { //rate down
+                    fl_status = false;
                     announcement.setTotalRating(announcement.getTotalRating() - 1);
                 } else {    //rate up
                     announcement.setTotalRating(announcement.getTotalRating() + 1);
@@ -87,7 +128,7 @@ public class RatingPost extends ActionSupport implements ServletRequestAware {
                 personService.addOrUpdate(person);
 
                 //record currunt rating in DB
-                Rating rating = new Rating(0, username, Integer.parseInt(request.getParameter("announcementId")), status);
+                Rating rating = new Rating(0, username, Integer.parseInt(announcementId), fl_status);
                 Integer newId = service.addNew(rating);
                 if (newId != 0) {
                     xml += "Successfully rated.";
@@ -98,7 +139,8 @@ public class RatingPost extends ActionSupport implements ServletRequestAware {
                 xml += "</Rate>";
             }
 
-            request.setAttribute("responsexml", xml);
+            xmlResponse=xml;
+
             return "MOBILE";
         } else {
 

@@ -21,7 +21,39 @@ import services.UserSessionService;
  * @author Awais
  */
 public class DeleteAccount extends ActionSupport implements ServletRequestAware{
+    
     private HttpServletRequest request;
+
+    private String xmlResponse;
+
+    private String sessionId;
+    private String password;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
+    }
+
+    public String getXmlResponse() {
+        return xmlResponse;
+    }
+
+    public void setXmlResponse(String xmlResponse) {
+        this.xmlResponse = xmlResponse;
+    }
+
+    
 
     public void setServletRequest(HttpServletRequest hsr) {
         this.request=hsr;
@@ -35,7 +67,7 @@ public class DeleteAccount extends ActionSupport implements ServletRequestAware{
         if (request.getHeader("User-Agent").contains("UNAVAILABLE")) {
             //if(true){
             UserSessionService service = getService();
-            List<UserSession> userSessionList = service.findByName(request.getParameter("sessionId"));
+            List<UserSession> userSessionList = service.findByName(sessionId);
             Boolean validSession = false;
             String username = "";
 
@@ -54,7 +86,7 @@ public class DeleteAccount extends ActionSupport implements ServletRequestAware{
                 Person person = personService.findByName(username).get(0);
 
                 //confirm password
-                if (person.getPassword().compareTo(request.getParameter("password")) == 0) {
+                if (person.getPassword().compareTo(password) == 0) {
 
                     //deactivate account
                     person.setActive(false);
@@ -73,7 +105,7 @@ public class DeleteAccount extends ActionSupport implements ServletRequestAware{
                     xml = "<DeleteAccount>Invalid Password</DeleteAccount>";
                 }
             }
-            request.setAttribute("responsexml", xml);
+            xmlResponse=xml;
             return "MOBILE";
         }
         else{

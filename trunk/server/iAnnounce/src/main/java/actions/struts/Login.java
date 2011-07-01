@@ -23,7 +23,39 @@ import services.UserSessionService;
  * @author Awais
  */
 public class Login extends ActionSupport implements ServletRequestAware{
+    
     private HttpServletRequest request;
+
+    private String xmlResponse;
+    private String username;
+    private String password;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getXmlResponse() {
+        return xmlResponse;
+    }
+
+    public void setXmlResponse(String xmlResponse) {
+        this.xmlResponse = xmlResponse;
+    }
+
+    
+    
 
     public void setServletRequest(HttpServletRequest hsr) {
         this.request=hsr;
@@ -39,7 +71,7 @@ public class Login extends ActionSupport implements ServletRequestAware{
             String xml = "<login><isLoggedIn>";
 
             //check if username exists
-            List<Person> personList = service.findByName(request.getParameter("username"));
+            List<Person> personList = service.findByName(username);
             if (personList.isEmpty()) {
                 xml += "false</isLoggedIn><description>No such user exists</description>";
             } else {
@@ -55,12 +87,12 @@ public class Login extends ActionSupport implements ServletRequestAware{
                         {
                             xml += "false</isLoggedIn><description>Please verify account before logging in.</description>";
                         } else {   //if password is incorrect
-                            if (person.getPassword().compareTo(request.getParameter("password")) != 0) {
+                            if (person.getPassword().compareTo(password) != 0) {
                                 xml += "false</isLoggedIn><description>Incorrect password.</description>";
                             } else {
                                 //generate session ID
                                 String sessionCode = UUID.randomUUID().toString();
-                                UserSession userSession = new UserSession(0, sessionCode, request.getParameter("username"), true);
+                                UserSession userSession = new UserSession(0, sessionCode, username, true);
                                 UserSessionService sessionService = getUserSessionService();
 
                                 //insert session in Db
@@ -80,7 +112,7 @@ public class Login extends ActionSupport implements ServletRequestAware{
             xml += "</login>";
 
 
-            request.setAttribute("responsexml", xml);
+            xmlResponse=xml;
 //            System.out.println(xml);
 
 

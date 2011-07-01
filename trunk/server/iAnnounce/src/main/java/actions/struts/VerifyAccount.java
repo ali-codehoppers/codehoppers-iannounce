@@ -18,19 +18,40 @@ import xtras.SendEmail;
  *
  * @author Awais
  */
-public class VerifyAccount  extends ActionSupport implements ServletRequestAware{
-    private HttpServletRequest request;
+public class VerifyAccount  extends ActionSupport {
+    
 
-    public void setServletRequest(HttpServletRequest hsr) {
-        this.request=hsr;
+
+    private String username;
+    private String verificationCode;
+
+    public String getUsername() {
+        return username;
     }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
+    }
+
+    
+
+
+
 
     @Override
     public String execute() throws Exception {
         PersonService service = getService();
-        Person person = service.findByName(request.getParameter("username")).get(0);
+        Person person = service.findByName(username).get(0);
 
-        if (person.getVerificationcode().compareTo(request.getParameter("verificationCode")) == 0) {
+        if (person.getVerificationcode().compareTo(verificationCode) == 0) {
             person.setVerified(true);   //change verified bit
             service.addOrUpdate(person);
 

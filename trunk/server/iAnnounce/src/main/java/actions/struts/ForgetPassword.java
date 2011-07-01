@@ -20,7 +20,41 @@ import services.PersonService;
  * @author Awais
  */
 public class ForgetPassword extends ActionSupport implements ServletRequestAware{
+
     private HttpServletRequest request;
+
+
+    private String xmlResponse;
+
+    private String sessionId;
+    private String username;
+
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getXmlResponse() {
+        return xmlResponse;
+    }
+
+    public void setXmlResponse(String xmlResponse) {
+        this.xmlResponse = xmlResponse;
+    }
+
+    
+    
 
     public void setServletRequest(HttpServletRequest hsr) {
         this.request=hsr;
@@ -35,7 +69,7 @@ public class ForgetPassword extends ActionSupport implements ServletRequestAware
             //if(true){
             String xml = "<forgotPassword>";
 
-            List<Person> personList = service.findByName(request.getParameter("username"));
+            List<Person> personList = service.findByName(username);
 
             //check if username exists
             if (personList.isEmpty()) {
@@ -57,7 +91,7 @@ public class ForgetPassword extends ActionSupport implements ServletRequestAware
 
             xml += "</forgotPassword>";
 
-            request.setAttribute("responsexml", xml);
+            xmlResponse=xml;
             return "MOBILE";
         } else {
             return "PC";
