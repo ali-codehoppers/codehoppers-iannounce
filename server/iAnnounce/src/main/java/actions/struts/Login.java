@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package actions.struts;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -22,10 +21,9 @@ import services.UserSessionService;
  *
  * @author Awais
  */
-public class Login extends ActionSupport implements ServletRequestAware{
-    
-    private HttpServletRequest request;
+public class Login extends ActionSupport implements ServletRequestAware {
 
+    private HttpServletRequest request;
     private String xmlResponse;
     private String username;
     private String password;
@@ -54,17 +52,14 @@ public class Login extends ActionSupport implements ServletRequestAware{
         this.xmlResponse = xmlResponse;
     }
 
-    
-    
-
     public void setServletRequest(HttpServletRequest hsr) {
-        this.request=hsr;
+        this.request = hsr;
     }
 
     @Override
-     public String execute() throws Exception {
+    public String execute() throws Exception {
 
-          if (request.getHeader("User-Agent").contains("UNAVAILABLE")) {
+        if (request.getHeader("User-Agent").contains("UNAVAILABLE")) {
             // if(true){
             boolean userExists = false;
             PersonService service = getService();
@@ -112,20 +107,17 @@ public class Login extends ActionSupport implements ServletRequestAware{
             xml += "</login>";
 
 
-            xmlResponse=xml;
-//            System.out.println(xml);
-
-
+            xmlResponse = xml;
             return "MOBILE";
         } else {
             return "PC";
         }
 
 
-         
-     }
 
-     private PersonService getService() {
+    }
+
+    private PersonService getService() {
         ApplicationContext ap = WebApplicationContextUtils.getRequiredWebApplicationContext(org.apache.struts2.ServletActionContext.getServletContext());
         PersonService service = (PersonService) ap.getBean("personService");
         return service;
@@ -136,6 +128,4 @@ public class Login extends ActionSupport implements ServletRequestAware{
         UserSessionService service = (UserSessionService) ap.getBean("usersessionService");
         return service;
     }
-
-
 }

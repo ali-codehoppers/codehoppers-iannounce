@@ -1,1 +1,1 @@
-{$xmlResponse}
+${xmlResponse}
