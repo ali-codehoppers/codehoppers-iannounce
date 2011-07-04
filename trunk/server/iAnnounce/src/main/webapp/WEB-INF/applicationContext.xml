@@ -200,11 +200,13 @@
     <bean id="announcementService" class="services.AnnouncementService">
         <constructor-arg ref="ADao" />
     </bean>
+
 <!--
 	<bean id="paidannouncementService" class="com.testapp.sample.PaidAnnouncementService">
 		<constructor-arg ref="PADao" />
 	</bean>
 -->
+
     <bean id="ratingService" class="services.RatingService">
         <constructor-arg ref="ratingDao" />
     </bean>
@@ -212,6 +214,7 @@
     <bean id="RangeService" class="services.RangeService">
         <constructor-arg ref="RangeDao" />
     </bean>
+    
 	<!--
 	<bean id="paidannouncementareaService" class="com.testapp.sample.PaidAnnouncementAreaService">
 		<constructor-arg ref="PAADao" />
@@ -236,6 +239,11 @@
           p:location="/WEB-INF/jdbc.properties" />
 
     -->
-    <!-- ADD PERSISTENCE SUPPORT HERE (jpa, hibernate, etc) -->
+
+
+
+<!--    dependcy injection for service layer-->
+
+
 
 </beans>

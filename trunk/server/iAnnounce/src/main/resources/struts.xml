@@ -6,7 +6,6 @@
     <package name="default" extends="struts-default">
 
 
-
         <global-results>
           <result name="MOBILE">/results/ResponseXml.jsp</result>
           <result name="PC">/results/request_pc.jsp</result>
@@ -21,7 +20,6 @@
 		<!-- Actions  :D-->
 		
         <action name="register" class="actions.struts.Register">
-            
         </action>
 		
         <action name="login" class="actions.struts.Login">
