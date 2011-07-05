@@ -48,15 +48,8 @@ public class AnnouncementGet extends BaseActionClass
     @Override
     public String execute() throws Exception
       {
-        List<UserSession> userSessionList = userSessionService.findByName(sessionId);
-        Boolean validSession = false;
-        String username = "";
-
-        //get username from session
-        if (!userSessionList.isEmpty() && userSessionList.get(0).getStatuss())
-          {
-            validSession = true;
-            username = userSessionList.get(0).getUsername();
+        
+ 
 
             //update currunt location of person
 
@@ -64,18 +57,18 @@ public class AnnouncementGet extends BaseActionClass
             person.setLatitude(Double.parseDouble(latitude));
             person.setLongitude(Double.parseDouble(longitude));
             personService.addOrUpdate(person);
-          }
+         
 
         if (request.getHeader("User-Agent").contains("UNAVAILABLE"))
           {
             //if(true){
             String xml;
 
-            if (!validSession)
-              {   //no session registered
-                xml = "<forceLogin/>";
-              } else
-              {
+//            if (!validSession)
+//              {   //no session registered
+//                xml = "<forceLogin/>";
+//              } else
+//              {
                 xml = "<announcements>";
                 int page = Integer.valueOf(pageNum);
                 int counter = 0;
@@ -146,7 +139,7 @@ public class AnnouncementGet extends BaseActionClass
 
                   }
                 xml += "</announcements>";
-              }
+//              }
 
             xmlResponse = xml;
 
