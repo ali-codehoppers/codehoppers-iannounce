@@ -8,6 +8,7 @@ import hibernate.entities.Person;
 import hibernate.entities.UserSession;
 import java.util.List;
 import java.util.UUID;
+import org.apache.log4j.Logger;
 
 
 /**
@@ -39,7 +40,7 @@ public class Login extends BaseActionClass
     @Override
     public String execute() throws Exception
       {
-
+ 
         if (request.getHeader("User-Agent").contains("UNAVAILABLE"))
           {
             // if(true){
