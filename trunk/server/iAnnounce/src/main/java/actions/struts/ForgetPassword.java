@@ -2,121 +2,95 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package actions.struts;
 
-import com.opensymphony.xwork2.ActionSupport;
 import hibernate.entities.Person;
 import java.util.List;
 import java.util.UUID;
-import javax.servlet.http.HttpServletRequest;
-import org.apache.struts2.interceptor.ServletRequestAware;
-import org.springframework.context.ApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
-import services.PersonService;
 
 /**
  *
  * @author Awais
  */
-public class ForgetPassword extends ActionSupport implements ServletRequestAware{
-
-    private HttpServletRequest request;
-
+public class ForgetPassword extends BaseActionClass
+  {
 
     private String xmlResponse;
-
     private String sessionId;
     private String username;
 
-    public String getSessionId() {
-        return sessionId;
-    }
-
-    public void setSessionId(String sessionId) {
+    public void setSessionId(String sessionId)
+      {
         this.sessionId = sessionId;
-    }
+      }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
+    public void setUsername(String username)
+      {
         this.username = username;
-    }
-
-    public String getXmlResponse() {
-        return xmlResponse;
-    }
-
-    public void setXmlResponse(String xmlResponse) {
-        this.xmlResponse = xmlResponse;
-    }
-
-    
-    
-
-    public void setServletRequest(HttpServletRequest hsr) {
-        this.request=hsr;
-    }
+      }
 
     @Override
-    public String execute() throws Exception {
+    public String execute() throws Exception
+      {
 
-        PersonService service = getService();
-
-        if (request.getHeader("User-Agent").contains("UNAVAILABLE")) {
+        if (request.getHeader("User-Agent").contains("UNAVAILABLE"))
+          {
             //if(true){
             String xml = "<forgotPassword>";
 
-            List<Person> personList = service.findByName(username);
+            List<Person> personList = personService.findByName(username);
 
             //check if username exists
-            if (personList.isEmpty()) {
+            if (personList.isEmpty())
+              {
                 xml += "No such user exists";
-            } else {
+              } else
+              {
                 Person person = personList.get(0);
 
                 //generate new password
                 String newPassword = UUID.randomUUID().toString().substring(0, 10).replaceAll("-", "");
                 person.setPassword(newPassword);
-                service.addOrUpdate(person);
+                personService.addOrUpdate(person);
 
                 //email new password to the person
                 String emailId = person.getEmail();
                 String emailBody = generateEmailBody(person);
                 //SendEmail passwordmail = new SendEmail(emailId, emailBody, "iAnnounce::Your password");
                 xml += "An email with your password has been sent to " + emailId + " Please check your email to get your password.";
-            }
+              }
 
             xml += "</forgotPassword>";
 
-            xmlResponse=xml;
+            xmlResponse = xml;
             return "MOBILE";
-        } else {
+          } else
+          {
             return "PC";
-        }
-    }
+          }
+      }
 
-    private PersonService getService() {
-        ApplicationContext ap = WebApplicationContextUtils.getRequiredWebApplicationContext(org.apache.struts2.ServletActionContext.getServletContext());
-        PersonService service = (PersonService) ap.getBean("personService");
-        return service;
-    }
+    public String getXmlResponse()
+      {
+        return xmlResponse;
+      }
 
-    private String generateEmailBody(Person person) {
+    private String generateEmailBody(Person person)
+      {
         String retval;
         retval = "Dear ";
-        if (person.isGender()) {
+        if (person.isGender())
+          {
             retval += "Mr.";
-        } else {
+          } else
+          {
             retval += "Ms.";
-        }
+          }
         retval += person.getFirstName() + " " + person.getLastName() + ",\n";
         retval += "Username:" + person.getUsername() + "\n";
 //        retval += "Password:" + person.getPassword() + "\n";
         retval += "Please change your password as soon as you login.";
         retval += "\n\nRegards\nTeam iAnnounce";
         return retval;
-    }
-}
+      }
+  }
