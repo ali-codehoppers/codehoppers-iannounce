@@ -193,7 +193,7 @@
         <constructor-arg ref="CDao" />
     </bean>
 
-    <bean id="usersessionService" class="services.UserSessionService">
+    <bean id="userSessionService" class="services.UserSessionService">
         <constructor-arg ref="USDao" />
     </bean>
 
@@ -211,7 +211,7 @@
         <constructor-arg ref="ratingDao" />
     </bean>
 
-    <bean id="RangeService" class="services.RangeService">
+    <bean id="rangeService" class="services.RangeService">
         <constructor-arg ref="RangeDao" />
     </bean>
     

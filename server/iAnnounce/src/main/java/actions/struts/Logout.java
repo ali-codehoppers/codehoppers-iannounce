@@ -2,88 +2,66 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package actions.struts;
 
-import com.opensymphony.xwork2.ActionSupport;
 import hibernate.entities.UserSession;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
-import org.apache.struts2.interceptor.ServletRequestAware;
-import org.springframework.context.ApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
-import services.UserSessionService;
 
 /**
  *
  * @author Awais
  */
-public class Logout extends ActionSupport implements ServletRequestAware {
-
-    private HttpServletRequest request;
+public class Logout extends BaseActionClass
+  {
 
     private String xmlResponse;
-
     private String sessionId;
 
-    public String getSessionId() {
-        return sessionId;
-    }
-
-    public void setSessionId(String sessionId) {
+    public void setSessionId(String sessionId)
+      {
         this.sessionId = sessionId;
-    }
-
-    public String getXmlResponse() {
-        return xmlResponse;
-    }
-
-    public void setXmlResponse(String xmlResponse) {
-        this.xmlResponse = xmlResponse;
-    }
-
-    
-    
-
-    public void setServletRequest(HttpServletRequest hsr) {
-        this.request=hsr;
-    }
+      }
 
     @Override
-    public String execute() throws Exception {
-        if (request.getHeader("User-Agent").contains("UNAVAILABLE")) {
+    public String execute() throws Exception
+      {
+
+        if (request.getHeader("User-Agent").contains("UNAVAILABLE"))
+          {
             // if(true){
-            UserSessionService service = getService();
-            List<UserSession> userSessionList = service.findByName(sessionId);
+
+            List<UserSession> userSessionList = userSessionService.findByName(sessionId);
             Boolean validSession = false;
             //check if valid session
-            if (!userSessionList.isEmpty() && userSessionList.get(0).getStatuss()) {
+            if (!userSessionList.isEmpty() && userSessionList.get(0).getStatuss())
+              {
                 validSession = true;
-            }
+              }
 
 
             String xml;
 
-            if (!validSession) {   //no session registered
+            if (!validSession)
+              {   //no session registered
                 xml = "<forceLogin/>";
-            } else {
+              } else
+              {
                 UserSession userSession = userSessionList.get(0);
                 userSession.setStatuss(false);
-                service.addOrUpdate(userSession);
+                userSessionService.addOrUpdate(userSession);
                 xml = "<Logout>Logged out</Logout>";
-            }
-            xmlResponse=xml;
+              }
+            xmlResponse = xml;
             return "MOBILE";
-        }
-        else{
+          } else
+          {
 
-        return "PC";
-        }
-    }
+            return "PC";
+          }
+      }
 
-    private UserSessionService getService() {
-        ApplicationContext ap = WebApplicationContextUtils.getRequiredWebApplicationContext(org.apache.struts2.ServletActionContext.getServletContext());
-        UserSessionService service = (UserSessionService) ap.getBean("usersessionService");
-        return service;
-    }
-}
+    public String getXmlResponse()
+      {
+        return xmlResponse;
+      }
+  }

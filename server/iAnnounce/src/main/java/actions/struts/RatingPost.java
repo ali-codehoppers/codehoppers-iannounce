@@ -4,111 +4,78 @@
  */
 package actions.struts;
 
-import com.opensymphony.xwork2.ActionSupport;
 import hibernate.entities.Announcement;
 import hibernate.entities.Person;
 import hibernate.entities.Rating;
 import hibernate.entities.UserSession;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
-import org.apache.struts2.interceptor.ServletRequestAware;
-import org.springframework.context.ApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
-import services.AnnouncementService;
-import services.PersonService;
-import services.RatingService;
-import services.UserSessionService;
 
 /**
  *
  * @author Awais
  */
-public class RatingPost extends ActionSupport implements ServletRequestAware {
-
-    private HttpServletRequest request;
+public class RatingPost extends BaseActionClass
+  {
 
     private String xmlResponse;
-
     private String sessionId;
     private String announcementId;
     private String status;
 
-    public String getAnnouncementId() {
-        return announcementId;
-    }
-
-    public void setAnnouncementId(String announcementId) {
+    public void setAnnouncementId(String announcementId)
+      {
         this.announcementId = announcementId;
-    }
+      }
 
-    public String getSessionId() {
-        return sessionId;
-    }
-
-    public void setSessionId(String sessionId) {
+    public void setSessionId(String sessionId)
+      {
         this.sessionId = sessionId;
-    }
+      }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
+    public void setStatus(String status)
+      {
         this.status = status;
-    }
-
-    public String getXmlResponse() {
-        return xmlResponse;
-    }
-
-    public void setXmlResponse(String xmlResponse) {
-        this.xmlResponse = xmlResponse;
-    }
-
-    
-    
-
-    public void setServletRequest(HttpServletRequest hsr) {
-        this.request = hsr;
-    }
+      }
 
     @Override
-    public String execute() throws Exception {
-
-
-        RatingService service = getService();
-
-        if (request.getHeader("User-Agent").contains("UNAVAILABLE")) {
+    public String execute() throws Exception
+      {
+        if (request.getHeader("User-Agent").contains("UNAVAILABLE"))
+          {
             //if(true){
 
-            UserSessionService userSessionService = getUserSessionService();
+
             List<UserSession> userSessionList = userSessionService.findByName(sessionId);
             Boolean validSession = false;
             String username = "";
             //check valid session and get username
-            if (!userSessionList.isEmpty() && userSessionList.get(0).getStatuss()) {
+            if (!userSessionList.isEmpty() && userSessionList.get(0).getStatuss())
+              {
                 validSession = true;
                 username = userSessionList.get(0).getUsername();
-            }
+              }
 
-            AnnouncementService announcementService = getAnnouncementService();
-            PersonService personService = getPersonService();
+
+
             String xml = "<Rate>";
 
             if (!validSession) //no session registered
-            {
+              {
                 xml = "<forceLogin/>";
-            } else {
+              } else
+              {
                 Announcement announcement = announcementService.getById(Integer.parseInt(announcementId));
 
                 Boolean fl_status = true;
                 //get user rating
-                if (status.compareTo("0") == 0) { //rate down
+                if (status.compareTo("0") == 0)
+                  { //rate down
                     fl_status = false;
                     announcement.setTotalRating(announcement.getTotalRating() - 1);
-                } else {    //rate up
+                  } else
+                  {    //rate up
                     announcement.setTotalRating(announcement.getTotalRating() + 1);
-                }
+                  }
                 announcementService.addOrUpdate(announcement);
 
                 //get all announcements of the ranked user
@@ -116,10 +83,11 @@ public class RatingPost extends ActionSupport implements ServletRequestAware {
 
                 //calculate average rating
                 float userAvgRating = 0;
-                for (int i = 0; i < announcementList.size(); ++i) {
+                for (int i = 0; i < announcementList.size(); ++i)
+                  {
                     Announcement ann = announcementList.get(i);
                     userAvgRating = userAvgRating + ann.getTotalRating();
-                }
+                  }
                 userAvgRating = userAvgRating / (float) announcementList.size();
 
                 //update new average rating in DB
@@ -129,49 +97,30 @@ public class RatingPost extends ActionSupport implements ServletRequestAware {
 
                 //record currunt rating in DB
                 Rating rating = new Rating(0, username, Integer.parseInt(announcementId), fl_status);
-                Integer newId = service.addNew(rating);
-                if (newId != 0) {
+                Integer newId = ratingService.addNew(rating);
+                if (newId != 0)
+                  {
                     xml += "Successfully rated.";
-                } else {
+                  } else
+                  {
                     xml += "Error occured. Please try again.";
-                }
+                  }
 
                 xml += "</Rate>";
-            }
+              }
 
-            xmlResponse=xml;
+            xmlResponse = xml;
 
             return "MOBILE";
-        } else {
-
-//            RatingForm pForm = (RatingForm) form;
-//            service.addNew(pForm.getRating());
+          } else
+          {
 
             return "PC";
-        }
-    }
+          }
+      }
 
-    private RatingService getService() {
-        ApplicationContext ap = WebApplicationContextUtils.getRequiredWebApplicationContext(org.apache.struts2.ServletActionContext.getServletContext());
-        RatingService service = (RatingService) ap.getBean("ratingService");
-        return service;
-    }
-
-    private UserSessionService getUserSessionService() {
-        ApplicationContext ap = WebApplicationContextUtils.getRequiredWebApplicationContext(org.apache.struts2.ServletActionContext.getServletContext());
-        UserSessionService service = (UserSessionService) ap.getBean("usersessionService");
-        return service;
-    }
-
-    private AnnouncementService getAnnouncementService() {
-        ApplicationContext ap = WebApplicationContextUtils.getRequiredWebApplicationContext(org.apache.struts2.ServletActionContext.getServletContext());
-        AnnouncementService service = (AnnouncementService) ap.getBean("announcementService");
-        return service;
-    }
-
-    private PersonService getPersonService() {
-        ApplicationContext ap = WebApplicationContextUtils.getRequiredWebApplicationContext(org.apache.struts2.ServletActionContext.getServletContext());
-        PersonService service = (PersonService) ap.getBean("personService");
-        return service;
-    }
-}
+    public String getXmlResponse()
+      {
+        return xmlResponse;
+      }
+  }
