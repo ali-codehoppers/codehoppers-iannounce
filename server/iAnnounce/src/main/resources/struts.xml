@@ -4,16 +4,29 @@
 
 <struts>
     <package name="default" extends="struts-default">
+        
+        <interceptors>
+            <interceptor name="verifySession" class="actions.struts.VerifySession"/>
+            
+            <interceptor-stack name="basic">
+                <interceptor-ref name="defaultStack"/>
+                <interceptor-ref name="verifySession"/>
+            </interceptor-stack>
+        </interceptors>
 
+
+        
 
         <global-results>
-          <result name="MOBILE">/results/ResponseXml.jsp</result>
-          <result name="PC">/results/request_pc.jsp</result>
+            <result name="MOBILE">/results/ResponseXml.jsp</result>
+            <result name="PC">/results/request_pc.jsp</result>
+            <result name="INVALIDSESSIONID">/results/request_pc.jsp</result>
         </global-results>
 		
 		<!--for redirection -->
 		
         <action name="">
+            <interceptor-ref name="basic"/>
             <result>index.jsp</result>
         </action>
 		
@@ -31,7 +44,7 @@
         </action>
 		
         <action name="getannouncements" class="actions.struts.AnnouncementGet">
-            
+          <interceptor-ref name="basic"/>
         </action>
         <action name="getmyannouncements" class="actions.struts.AnnouncementGetMy">
             

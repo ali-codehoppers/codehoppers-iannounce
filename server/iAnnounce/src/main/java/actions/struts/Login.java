@@ -8,7 +8,6 @@ import hibernate.entities.Person;
 import hibernate.entities.UserSession;
 import java.util.List;
 import java.util.UUID;
-import org.apache.log4j.Logger;
 
 
 /**
