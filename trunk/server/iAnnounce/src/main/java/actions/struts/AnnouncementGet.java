@@ -7,7 +7,6 @@ package actions.struts;
 import hibernate.entities.Announcement;
 import hibernate.entities.Person;
 import hibernate.entities.Rating;
-import hibernate.entities.UserSession;
 import java.util.Collections;
 import java.util.List;
 import xtras.insertionSortAnnouncementDate;
@@ -20,7 +19,6 @@ public class AnnouncementGet extends BaseActionClass
   {
 
     private String xmlResponse;
-    private String sessionId;
     private String latitude;
     private String longitude;
     private String pageNum;
@@ -40,105 +38,92 @@ public class AnnouncementGet extends BaseActionClass
         this.pageNum = pageNum;
       }
 
-    public void setSessionId(String sessionId)
-      {
-        this.sessionId = sessionId;
-      }
-
     @Override
     public String execute() throws Exception
       {
-        
- 
 
-            //update currunt location of person
+        //update currunt location of person
 
-            Person person = personService.findByName(username).get(0);
-            person.setLatitude(Double.parseDouble(latitude));
-            person.setLongitude(Double.parseDouble(longitude));
-            personService.addOrUpdate(person);
-         
+        Person person = personService.findByName(username).get(0);
+        person.setLatitude(Double.parseDouble(latitude));
+        person.setLongitude(Double.parseDouble(longitude));
+        personService.addOrUpdate(person);
+
 
         if (request.getHeader("User-Agent").contains("UNAVAILABLE"))
           {
-            //if(true){
+
             String xml;
+            xml = "<announcements>";
+            int page = Integer.valueOf(pageNum);
+            int counter = 0;
 
-//            if (!validSession)
-//              {   //no session registered
-//                xml = "<forceLogin/>";
-//              } else
-//              {
-                xml = "<announcements>";
-                int page = Integer.valueOf(pageNum);
-                int counter = 0;
+            List<Announcement> announcementList = announcementService.getAll();
 
-                List<Announcement> announcementList = announcementService.getAll();
+            //sorts the list in decesnding order by date ttime
+            announcementList = (new insertionSortAnnouncementDate(announcementList)).mySort();
+            Collections.reverse(announcementList);
 
-                //sorts the list in decesnding order by date ttime
-                announcementList = (new insertionSortAnnouncementDate(announcementList)).mySort();
-                Collections.reverse(announcementList);
+            for (int index = 0; index < announcementList.size(); index++)
+              {  //traverse list
+                Announcement announcement = announcementList.get(index);
 
-                for (int index = 0; index < announcementList.size(); index++)
-                  {  //traverse list
-                    Announcement announcement = announcementList.get(index);
+                //test if in range
+                if (distFrom(Double.parseDouble(latitude), Double.parseDouble(longitude), announcement.getLatitude(), announcement.getLongitude()) <= announcement.getRadius())
+                  {
+                    ++counter;
 
-                    //test if in range
-                    if (distFrom(Double.parseDouble(latitude), Double.parseDouble(longitude), announcement.getLatitude(), announcement.getLongitude()) <= announcement.getRadius())
+                    //select announcement of the given page number
+                    if (counter > (page - 1) * 10 && counter <= page * 10)
                       {
-                        ++counter;
+                        int curruntRating = 0;
+                        int noOfComments = 0;
 
-                        //select announcement of the given page number
-                        if (counter > (page - 1) * 10 && counter <= page * 10)
+                        //get number of comments on that announcement
+                        noOfComments = commentService.findByName(announcement.getA_id()).size();
+
+                        List<Rating> ratingList = ratingService.findByName(announcement.getA_id());
+
+                        //rating by the currunt user
+                        for (int indexr = 0; indexr < ratingList.size(); indexr++)
                           {
-                            int curruntRating = 0;
-                            int noOfComments = 0;
-
-                            //get number of comments on that announcement
-                            noOfComments = commentService.findByName(announcement.getA_id()).size();
-
-                            List<Rating> ratingList = ratingService.findByName(announcement.getA_id());
-
-                            //rating by the currunt user
-                            for (int indexr = 0; indexr < ratingList.size(); indexr++)
+                            Rating rating = ratingList.get(indexr);
+                            if (rating.getUsername().compareTo(username) == 0)
                               {
-                                Rating rating = ratingList.get(indexr);
-                                if (rating.getUsername().compareTo(username) == 0)
+                                if (rating.isStatus())
                                   {
-                                    if (rating.isStatus())
-                                      {
-                                        curruntRating = 1;
-                                      } else
-                                      {
-                                        curruntRating = -1;
-                                      }
+                                    curruntRating = 1;
+                                  } else
+                                  {
+                                    curruntRating = -1;
                                   }
                               }
-
-                            if (announcement.getTotalRating() > -10)
-                              {  //hiding a bad rated announcement
-                                xml += "<announcement>\n<id>" + announcement.getA_id() + "</id>\n";
-                                xml += "<announcer>" + announcement.getUsername_FK() + "</announcer>\n";
-                                xml += "<Description>" + announcement.getAnnouncement() + "</Description>\n";
-                                xml += "<timestamp>" + announcement.getTtime() + "</timestamp>\n";
-                                xml += "<noOfComments>" + noOfComments + "</noOfComments>\n";
-                                xml += "<averageRating>" + announcement.getTotalRating() + "</averageRating>\n";
-                                xml += "<currentUserRating>" + curruntRating + "</currentUserRating>\n";
-                                xml += "<longitude>" + announcement.getLongitude() + "</longitude>\n";
-                                xml += "<latitude>" + announcement.getLatitude() + "</latitude>\n";
-                                xml += "</announcement>\n";
-                              } else
-                              {
-                                --counter;  //if bad rated
-                              }
-                          } else if (counter > page * 10)
-                          {
-                            break;
                           }
-                      }
 
+                        if (announcement.getTotalRating() > -10)
+                          {  //hiding a bad rated announcement
+                            xml += "<announcement>\n<id>" + announcement.getA_id() + "</id>\n";
+                            xml += "<announcer>" + announcement.getUsername_FK() + "</announcer>\n";
+                            xml += "<Description>" + announcement.getAnnouncement() + "</Description>\n";
+                            xml += "<timestamp>" + announcement.getTtime() + "</timestamp>\n";
+                            xml += "<noOfComments>" + noOfComments + "</noOfComments>\n";
+                            xml += "<averageRating>" + announcement.getTotalRating() + "</averageRating>\n";
+                            xml += "<currentUserRating>" + curruntRating + "</currentUserRating>\n";
+                            xml += "<longitude>" + announcement.getLongitude() + "</longitude>\n";
+                            xml += "<latitude>" + announcement.getLatitude() + "</latitude>\n";
+                            xml += "</announcement>\n";
+                          } else
+                          {
+                            --counter;  //if bad rated
+                          }
+                      } else if (counter > page * 10)
+                      {
+                        break;
+                      }
                   }
-                xml += "</announcements>";
+
+              }
+            xml += "</announcements>";
 //              }
 
             xmlResponse = xml;

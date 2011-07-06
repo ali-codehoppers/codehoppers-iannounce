@@ -6,7 +6,7 @@
     <package name="default" extends="struts-default">
         
         <interceptors>
-            <interceptor name="verifySession" class="actions.struts.VerifySession"/>
+            <interceptor name="verifySession" class="interceptor.VerifySession"/>
             
             <interceptor-stack name="basic">
                 <interceptor-ref name="defaultStack"/>
@@ -47,22 +47,22 @@
           <interceptor-ref name="basic"/>
         </action>
         <action name="getmyannouncements" class="actions.struts.AnnouncementGetMy">
-            
+            <interceptor-ref name="basic"/>
         </action>
         <action name="postannouncement" class="actions.struts.AnnouncementPost">
-            
+            <interceptor-ref name="basic"/>
         </action>
         <action name="getcomments" class="actions.struts.CommentGet">
-            
+          <interceptor-ref name="basic"/>
         </action>
         <action name="postcomment" class="actions.struts.CommentPost">
-            
+            <interceptor-ref name="basic"/>
         </action>
         <action name="deleteaccount" class="actions.struts.DeleteAccount">
-            
+          <interceptor-ref name="basic"/>
         </action>
         <action name="editprofile" class="actions.struts.EditProfile">
-            
+          <interceptor-ref name="basic"/>
         </action>
         <action name="forgetpassword" class="actions.struts.ForgetPassword">
             
@@ -71,7 +71,7 @@
             
         </action>
         <action name="rate" class="actions.struts.RatingPost">
-            
+            <interceptor-ref name="basic"/>
         </action>
         <action name="verifyaccount" class="actions.struts.VerifyAccount">
             

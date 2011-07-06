@@ -11,34 +11,28 @@ import hibernate.entities.Person;
  * @author Awais
  */
 public class VerifyAccount extends BaseActionClass
-  {
+{
 
-    private String username;
     private String verificationCode;
 
     public String getUsername()
-      {
+    {
         return username;
-      }
-
-    public void setUsername(String username)
-      {
-        this.username = username;
-      }
+    }
 
     public String getVerificationCode()
-      {
+    {
         return verificationCode;
-      }
+    }
 
     public void setVerificationCode(String verificationCode)
-      {
+    {
         this.verificationCode = verificationCode;
-      }
+    }
 
     @Override
     public String execute() throws Exception
-      {
+    {
 
         Person person = personService.findByName(username).get(0);
 
@@ -55,10 +49,10 @@ public class VerifyAccount extends BaseActionClass
           {
             return ERROR;
           }
-      }
+    }
 
     private String generateEmailBody(Person person)
-      {
+    {
         String retval;
         retval = "Dear User,\n";
 
@@ -79,5 +73,5 @@ public class VerifyAccount extends BaseActionClass
         retval += "Date of Birth: " + person.getDateOfBirth() + "\n";
         retval += "\n\nRegards\nTeam iAnnounce";
         return retval;
-      }
-  }
+    }
+}

@@ -13,55 +13,49 @@ import java.util.UUID;
  * @author Awais
  */
 public class Register extends BaseActionClass
-  {
+{
 
     private String xmlResponse;
     private String firstName;
     private String lastName;
     private String email;
-    private String username;
     private String password;
     private String gender;
     private String dob;
 
     public void setDob(String dob)
-      {
+    {
         this.dob = dob;
-      }
+    }
 
     public void setEmail(String email)
-      {
+    {
         this.email = email;
-      }
+    }
 
     public void setFirstName(String firstName)
-      {
+    {
         this.firstName = firstName;
-      }
+    }
 
     public void setGender(String gender)
-      {
+    {
         this.gender = gender;
-      }
+    }
 
     public void setLastName(String lastName)
-      {
+    {
         this.lastName = lastName;
-      }
+    }
 
     public void setPassword(String password)
-      {
+    {
         this.password = password;
-      }
-
-    public void setUsername(String username)
-      {
-        this.username = username;
-      }
+    }
 
     @Override
     public String execute() throws Exception
-      {
+    {
         if (request.getHeader("User-Agent").contains("UNAVAILABLE"))
           {
             //if(true){
@@ -99,13 +93,16 @@ public class Register extends BaseActionClass
                     xml += "false</isRegistered><description>Error, please try again";
                   }
               } //on duplicate username that has been deleted
-            else if (!personService.findByName(username).get(0).isActive())
-              {
-                xml += "false</isRegistered><description>Account with this username has been deleted. Please try another one.";
-              } //on simple duplicate username
             else
               {
-                xml += "false</isRegistered><description>This username is not available. Please try another one.";
+                if (!personService.findByName(username).get(0).isActive())
+                  {
+                    xml += "false</isRegistered><description>Account with this username has been deleted. Please try another one.";
+                  } //on simple duplicate username
+                else
+                  {
+                    xml += "false</isRegistered><description>This username is not available. Please try another one.";
+                  }
               }
 
             xml += "</description></register>";
@@ -121,20 +118,20 @@ public class Register extends BaseActionClass
             return "PC";
 
           }
-      }
+    }
 
     public String getXmlResponse()
-      {
+    {
         return xmlResponse;
-      }
+    }
 
     private String generateEmailBody(Person person)
-      {
+    {
         String retval;
         retval = "Dear User,\n";
         retval += "Thank you for registering to iAnnounce with username '" + person.getUsername() + "'. To verify your account please click on the link below or paste in on your browser.\n";
         retval += "http://localhost:8080/sample/do/PersonVerification?username=" + person.getUsername() + "&verificationCode=" + person.getVerificationcode();
         retval += "\n\nRegards\nTeam iAnnounce";
         return retval;
-      }
-  }
+    }
+}
