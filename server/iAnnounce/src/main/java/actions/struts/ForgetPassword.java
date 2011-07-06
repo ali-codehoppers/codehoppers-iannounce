@@ -16,19 +16,7 @@ public class ForgetPassword extends BaseActionClass
   {
 
     private String xmlResponse;
-    private String sessionId;
-    private String username;
-
-    public void setSessionId(String sessionId)
-      {
-        this.sessionId = sessionId;
-      }
-
-    public void setUsername(String username)
-      {
-        this.username = username;
-      }
-
+   
     @Override
     public String execute() throws Exception
       {

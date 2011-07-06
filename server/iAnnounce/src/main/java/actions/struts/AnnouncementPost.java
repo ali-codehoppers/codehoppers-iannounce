@@ -2,9 +2,7 @@ package actions.struts;
 
 import hibernate.entities.Announcement;
 import hibernate.entities.Person;
-import hibernate.entities.UserSession;
 import java.sql.Timestamp;
-import java.util.List;
 
 /**
  *
@@ -14,7 +12,7 @@ public class AnnouncementPost extends BaseActionClass
   {
 
     private String xmlResponse;
-    private String sessionId;
+    
     private String range;
     private String announce;
     private String longitude;
@@ -40,44 +38,25 @@ public class AnnouncementPost extends BaseActionClass
         this.range = range;
       }
 
-    public void setSessionId(String sessionId)
-      {
-        this.sessionId = sessionId;
-      }
 
     @Override
     public String execute() throws Exception
       {
-        System.out.println("In execute");
+        
 
         if (request.getHeader("User-Agent").contains("UNAVAILABLE"))
           {
-            //if (true) {
-
-            List<UserSession> userSessionList = userSessionService.findByName(sessionId);
-            Boolean validSession = false;
-            String username = "";
-
-            //get username from session
-            if (!userSessionList.isEmpty() && userSessionList.get(0).getStatuss())
-              {
-                validSession = true;
-                username = userSessionList.get(0).getUsername();
-
+        
                 //update currunt location of person
 
                 Person person = personService.findByName(username).get(0);
                 person.setLatitude(Double.parseDouble(latitude));
                 person.setLongitude(Double.parseDouble(longitude));
                 personService.addOrUpdate(person);
-              }
+        
             String xml;
 
-            if (!validSession) //no session registered
-              {
-                xml = "<forceLogin/>";
-              } else
-              {
+            
                 xml = "<announce>";
 
 
@@ -103,7 +82,7 @@ public class AnnouncementPost extends BaseActionClass
                   }
 
                 xml += "</announce>";
-              }
+              
 
             xmlResponse = xml;
             return "MOBILE";

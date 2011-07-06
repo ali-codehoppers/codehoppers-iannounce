@@ -8,6 +8,7 @@ import org.hibernate.annotations.NamedQuery;
 
 @Entity
 @NamedQuery(name = "UserSession.findByName", query = "select u from UserSession u where u.sessionID like ?")
+
 //get session by sessionId
 public class UserSession implements Serializable {
 
