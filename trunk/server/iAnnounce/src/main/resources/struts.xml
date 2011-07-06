@@ -20,7 +20,7 @@
         <global-results>
             <result name="MOBILE">/results/ResponseXml.jsp</result>
             <result name="PC">/results/request_pc.jsp</result>
-            <result name="INVALIDSESSIONID">/results/request_pc.jsp</result>
+            <result name="INVALIDSESSIONID">/results/invalid_session.jsp</result>
         </global-results>
 		
 		<!--for redirection -->
@@ -73,6 +73,7 @@
         <action name="rate" class="actions.struts.RatingPost">
             <interceptor-ref name="basic"/>
         </action>
+        
         <action name="verifyaccount" class="actions.struts.VerifyAccount">
             
         </action>

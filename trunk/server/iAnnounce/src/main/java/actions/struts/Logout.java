@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package actions.struts;
 
 import hibernate.entities.UserSession;
@@ -55,7 +51,6 @@ public class Logout extends BaseActionClass
             return "MOBILE";
           } else
           {
-
             return "PC";
           }
       }
