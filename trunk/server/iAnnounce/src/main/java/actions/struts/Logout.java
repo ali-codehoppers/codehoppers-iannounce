@@ -36,17 +36,20 @@ public class Logout extends BaseActionClass
 
 
             String xml;
+            //xml="<response><responseCode>"
 
             if (!validSession)
               {   //no session registered
-                xml = "<forceLogin/>";
+                xml = "<forceLogin/>"; //1<responseCode><responseMessage>"+Consts.responseCodes[1]+"</responseMessage>"
               } else
               {
                 UserSession userSession = userSessionList.get(0);
                 userSession.setStatuss(false);
                 userSessionService.addOrUpdate(userSession);
-                xml = "<Logout>Logged out</Logout>";
+                xml = "<Logout>Logged out</Logout>";//0<responseCode><responseMessage>"+Consts.responseCodes[0]+"</responseMessage><logOut>Consts.LOGOUT_SUCCESS</logOut>"
               }
+
+            //xml+="</response>";
             xmlResponse = xml;
             return "MOBILE";
           } else

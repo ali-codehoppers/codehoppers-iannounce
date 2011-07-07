@@ -29,7 +29,7 @@ public class DeleteAccount extends BaseActionClass
 
         if (request.getHeader("User-Agent").contains("UNAVAILABLE"))
           {
-            String xml = "";
+            String xml = ""; //<response><responseCode>
             List<UserSession> userSessionList = userSessionService.getAll();
 
             Person person = personService.findByName(username).get(0);
@@ -51,12 +51,13 @@ public class DeleteAccount extends BaseActionClass
                         userSessionService.addOrUpdate(userSession);
                       }
                   }
-                xml = "<DeleteAccount>true</DeleteAccount>";
+                xml = "<DeleteAccount>true</DeleteAccount>"; //0<responseCode><responseMessage>"+Consts.responseCodes[0]+"</responseMessage><deleteAccount>Const.DELETEACCOUNT_SUCCESS<deleteAccount>"
               } else
               {
-                xml = "<DeleteAccount>Invalid Password</DeleteAccount>";
+                xml = "<DeleteAccount>Invalid Password</DeleteAccount>"; //13<responseCode><responseMessage>"+Consts.responseCodes[13]+"</responseMessage>"
               }
-
+            
+            //xml+=</response>
             xmlResponse = xml;
             return "MOBILE";
           } else

@@ -67,6 +67,7 @@ public class BaseActionClass extends ActionSupport implements ServletRequestAwar
 
     public void setUserSessionService(UserSessionService userSessionService)
       {
-        this.userSessionService = userSessionService;
+        this.userSessionService = userSessionService;        
       }
+
   }

@@ -96,7 +96,7 @@ public class Login extends BaseActionClass
                   }
               }
 
-            xml += "</login>";
+            xml += "</login>"; // </login></response>
             xmlResponse = xml;
             return "MOBILE";
           } else

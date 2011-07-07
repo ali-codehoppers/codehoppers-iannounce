@@ -24,14 +24,14 @@ public class ForgetPassword extends BaseActionClass
         if (request.getHeader("User-Agent").contains("UNAVAILABLE"))
           {
             //if(true){
-            String xml = "<forgotPassword>";
+            String xml = "<forgotPassword>"; // <response><responseCode>
 
             List<Person> personList = personService.findByName(username);
 
             //check if username exists
             if (personList.isEmpty())
               {
-                xml += "No such user exists";
+                xml += "No such user exists"; // 6<responseCode><responseMessage>"+Consts.responseCodes[6]+"</responseMessage>
               } else
               {
                 Person person = personList.get(0);
@@ -45,10 +45,10 @@ public class ForgetPassword extends BaseActionClass
                 String emailId = person.getEmail();
                 String emailBody = generateEmailBody(person);
                 //SendEmail passwordmail = new SendEmail(emailId, emailBody, "iAnnounce::Your password");
-                xml += "An email with your password has been sent to " + emailId + " Please check your email to get your password.";
+                xml += "An email with your password has been sent to " + emailId + " Please check your email to get your password."; //0<responseCode><responseMessage>"+Consts.responseCodes[0]+"</responseMessage><forgotPassword>Const.FORGETPASS</forgotPassword>
               }
 
-            xml += "</forgotPassword>";
+            xml += "</forgotPassword>"; //</response>
 
             xmlResponse = xml;
             return "MOBILE";

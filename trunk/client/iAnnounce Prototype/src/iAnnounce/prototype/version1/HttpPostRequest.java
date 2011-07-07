@@ -97,7 +97,7 @@ public class HttpPostRequest {
 	
 	
 	
-	 private String base_url="http://192.168.0.104:8080/iAnnounce";  
+	 private String base_url="http://192.168.0.103:8080/iAnnounce";  
 //	 private String base_url="http://192.168.1.2:8080/do";
      private String URL_register=base_url+"/register";
      private String URL_forgotPassword=base_url+"/forgetpassword";
