@@ -29,7 +29,7 @@ public class CommentGet extends BaseActionClass
         if (request.getHeader("User-Agent").contains("UNAVAILABLE"))
           {
 
-            String xml = "<GetComments>\n";
+            String xml = "<GetComments>\n"; // <response><responseCode>0<responseCode><responseMessage>"+Consts.responseCodes[0]+"</responseMessage><getComments>
 
 
             //get comments of the announcement
@@ -41,14 +41,14 @@ public class CommentGet extends BaseActionClass
             for (int index = 0; index < commentList.size(); index++)
               {
                 Comment comment = commentList.get(index);
-                xml += "<packet>\n";
+                xml += "<packet>\n"; //<comment>
                 xml += "<username>" + comment.getUsername_FK() + "</username>\n";
-                xml += "<comment>" + comment.getComment() + "</comment>\n";
+                xml += "<comment>" + comment.getComment() + "</comment>\n"; //description
                 xml += "<time>" + comment.getTtime() + "</time>\n";
                 xml += "</packet>\n";
               }
 
-            xml += "</GetComments>";
+            xml += "</GetComments>"; //</getComments></response>
 
             xmlResponse = xml;
             return "MOBILE";

@@ -5,7 +5,6 @@
 package actions.struts;
 
 import hibernate.entities.Announcement;
-import hibernate.entities.UserSession;
 import java.util.Collections;
 import java.util.List;
 import xtras.insertionSortAnnouncementDate;
@@ -35,7 +34,7 @@ public class AnnouncementGetMy extends BaseActionClass
             //if (true) {
             String xml;
 
-            xml = "<myAnnouncements>";
+            xml = "<myAnnouncements>";// <response><responseCode>0</responseCode><responseMessage>"+Consts.responseCodes[0]+"</responseMessage><myAnnouncements>"
             int page = Integer.valueOf(pageNum);
             int counter = 0;
 
@@ -73,7 +72,7 @@ public class AnnouncementGetMy extends BaseActionClass
                   }
 
               }
-            xml += "</myAnnouncements>";
+            xml += "</myAnnouncements>"; // "</myAnnouncements></response>"
 
 
             xmlResponse = xml;

@@ -33,7 +33,7 @@ public class CommentPost extends BaseActionClass
     {
         if (request.getHeader("User-Agent").contains("UNAVAILABLE"))
           {
-            String xml = "<PostComment>";
+            String xml = "<PostComment>"; //<response><responseCode>
 
             //get currunt time stamp for insert in DB
             java.util.Date date = new java.util.Date();
@@ -43,13 +43,13 @@ public class CommentPost extends BaseActionClass
             Integer newId = commentService.addNew(comment);
             if (newId != 0)
               {
-                xml += "Comment successfully posted";
+                xml += "Comment successfully posted"; //0<responseCode><responseMessage>"+Consts.responseCodes[0]+"</responseMessage><postComment>Consts.COMMENTPOST_SUCCESS</postComment>"
               } else
               {
-                xml += "Error occurred. Please try again";
+                xml += "Error occurred. Please try again"; //12<responseCode><responseMessage>"+Consts.responseCodes[12]+"</responseMessage>"
               }
 
-            xml += "</PostComment>";
+            xml += "</PostComment>"; //</response>
 
             xmlResponse = xml;
             return "MOBILE";

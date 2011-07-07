@@ -7,7 +7,6 @@ package actions.struts;
 import hibernate.entities.Announcement;
 import hibernate.entities.Person;
 import hibernate.entities.Rating;
-import hibernate.entities.UserSession;
 import java.util.List;
 
 /**
@@ -36,7 +35,7 @@ public class RatingPost extends BaseActionClass
     {
         if (request.getHeader("User-Agent").contains("UNAVAILABLE"))
           {
-            String xml = "<Rate>";
+            String xml = "<Rate>"; //<response><responseCode>
             Announcement announcement = announcementService.getById(Integer.parseInt(announcementId));
             Boolean fl_status = true;
             //get user rating
@@ -70,13 +69,13 @@ public class RatingPost extends BaseActionClass
             Integer newId = ratingService.addNew(rating);
             if (newId != 0)
               {
-                xml += "Successfully rated.";
+                xml += "Successfully rated."; //0<responseCode><responseMessage>"+Consts.responseCodes[0]+"</responseMessage><rate>Consts.RATING_SUCCESS</rate>"
               } else
               {
-                xml += "Error occured. Please try again.";
+                xml += "Error occured. Please try again."; //15<responseCode><responseMessage>"+Consts.responseCodes[15]+"</responseMessage>"
               }
 
-            xml += "</Rate>";
+            xml += "</Rate>"; //</response>
 
 
             xmlResponse = xml;

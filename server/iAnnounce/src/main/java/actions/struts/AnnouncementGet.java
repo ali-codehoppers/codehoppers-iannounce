@@ -54,7 +54,7 @@ public class AnnouncementGet extends BaseActionClass
           {
 
             String xml;
-            xml = "<announcements>";
+            xml = "<announcements>"; //"<response><responseCode>0</responseCode><responseMessage>"+Consts.responseCodes[0]+"</responseMessage><getAnnouncements>"
             int page = Integer.valueOf(pageNum);
             int counter = 0;
 
@@ -123,8 +123,8 @@ public class AnnouncementGet extends BaseActionClass
                   }
 
               }
-            xml += "</announcements>";
-//              }
+            xml += "</announcements>"; //</getAnnouncements></response>
+
 
             xmlResponse = xml;
 

@@ -4,19 +4,11 @@
  */
 package actions.struts;
 
-import com.opensymphony.xwork2.ActionSupport;
 import hibernate.entities.Person;
 import hibernate.entities.UserSession;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
-import org.apache.struts2.interceptor.ServletRequestAware;
-import org.springframework.context.ApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
-import services.AnnouncementService;
-import services.PersonService;
-import services.UserSessionService;
 
 /**
  *
@@ -34,6 +26,7 @@ public class GetProfile extends BaseActionClass
         this.sessionId = sessionId;
       }
 
+    @Override
     public void setUsername(String username)
       {
         this.username = username;
@@ -60,12 +53,14 @@ public class GetProfile extends BaseActionClass
 
 
             String xml;
+
+            //xml= "<response><responseCode>
             if (!validSession) //no session registered
               {
-                xml = "<forceLogin/>";
+                xml = "<forceLogin/>"; // 1<responseCode><responseMessage>"+Consts.responseCodes[1]+"</responseMessage>"
               } else
               {
-                xml = "<Profile>\n";
+                xml = "<Profile>\n"; //0<responseCode><responseMessage>"+Consts.responseCodes[0]+"</responseMessage><profile>
 //                String username = request.getParameter("username");
                 List<Person> personList = personService.findByName(username);
                 if (personList.size() > 0)
@@ -93,7 +88,7 @@ public class GetProfile extends BaseActionClass
 
                   }
 
-                xml += "</Profile>";
+                xml += "</Profile>"; //</profile></response>
               }
             xmlResponse = xml;
             return "MOBILE";
