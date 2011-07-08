@@ -29,75 +29,21 @@ public class HttpPostRequest {
 	private BufferedReader in = null;
 	private HttpClient client = new DefaultHttpClient();
 	private HttpPost request = new HttpPost();
-	
-	
-	
-//	
-//	/**
-//	 * base url to the server
-//	 */
-//	public String base_url="http://192.168.0.108/ianounce";
-//	
-//	/**
-//	 * url to the registration service
-//	 */
-//	public String URL_register=base_url+"/registration.php";
-//	/**
-//	 * url to the login service
-//	 */
-//	public String URL_login=base_url+"/login.php";	
-//	/**
-//	 * url to the forgot password service
-//	 */
-//	public String URL_forgotPassword=base_url+"/forgotpass.php";
-//	/**
-//	 * url of the service for posting an announcement	
-//	 */
-//	public String URL_PostAnnouncement=base_url+"/announce.php";
-//	/**
-//	 * url of the service for getting profile of a user 
-//	 */
-//	public String URL_getProfile=base_url+"/getProfile.php";
-//	/**
-//	 * url of the service for getting current announcements near user. 
-//	 */
-//	public String URL_getAnnouncements=base_url+"/getAnnouncements.php";
-//	/**
-//	 * url of the service for posting comment on an announcement
-//	 */
-//	public String URL_postComment=base_url+"/postComment.php";
-//	/**
-//	 * url of the service for getting comments of an announcements 
-//	 */
-//	public String URL_getComments=base_url+"/getComments.php";
-//	/**
-//	 * url of the service for rating an announcement 
-//	 */
-//	public String URL_rateAnnouncement=base_url+"/rateAnnouncement.php";
-//	/**
-//	 * url of the service for loging out a user 
-//	 */
-//	public String URL_Logout=base_url+"/logout.php";
-//	/**
-//	 * url of the service for deleting account
-//	 */
-//	public String uRL_deleteProfile=base_url+"/deleteProfile.php";
-//	/**
-//	 * url of the service for updating Profile
-//	 */
-//	public String uRL_editProfile=base_url+"/editProfile.php";
-//	
-//	/**
-//	 * url of the service for getting user's announcements.
-//	 */
-//	public String uRL_myannouncements=base_url+"/myannouncements.php";
-//	
+	public boolean isError;
+	public String xception;
+	public String xmlStringResponse;
 	
 	
 	
 	
 	
-	 private String base_url="http://192.168.0.103:8080/iAnnounce";  
+	
+	
+	 public HttpPostRequest() {		 		 
+		super();
+		isError=false;
+	}
+	private String base_url="http://192.168.0.106:8080/iAnnounce";  
 //	 private String base_url="http://192.168.1.2:8080/do";
      private String URL_register=base_url+"/register";
      private String URL_forgotPassword=base_url+"/forgetpassword";
@@ -153,13 +99,15 @@ public class HttpPostRequest {
 				sb.append(line + NL);
 			}
 			in.close();
-			String result = sb.toString();
-//			Log.e("gaga", result);
-			return result;	
+			xmlStringResponse = sb.toString();
+			
+				
 
 		} catch (Exception e) {
-			return e.toString();
+			isError=true;
+			xception=e.toString();
 		}	
+		return "abcd";
 
 	}
 		
@@ -195,13 +143,14 @@ public class HttpPostRequest {
 				sb.append(line + NL);
 			}
 			in.close();
-			String result = sb.toString();
-			
-			return result;	
+			xmlStringResponse = sb.toString();	
 
 		} catch (Exception e) {
-			return e.toString();
-		}
+			isError=true;
+			xception=e.toString();
+		}	
+		return "";
+
 		
 	}
 	
@@ -211,7 +160,7 @@ public class HttpPostRequest {
 	 * @param Password
 	 * @return  xml string returned by server
 	 */
-	public String login(String username,String Password){
+	public void login(String username,String Password){
 		try{
 			request.setURI(new URI(URL_login));
 
@@ -232,13 +181,15 @@ public class HttpPostRequest {
 				sb.append(line + NL);
 			}
 			in.close();
-			String result = sb.toString();
-			return result;	
+			xmlStringResponse = sb.toString();
+			
+				
 
 		} catch (Exception e) {
-			
-			return e.toString();
-		}
+			isError=true;
+			xception=e.toString();
+		}	
+
 	}
 	
 	/**
@@ -266,12 +217,13 @@ public class HttpPostRequest {
 				sb.append(line + NL);
 			}
 			in.close();
-			String result = sb.toString();
-			return result;	
-
+			xmlStringResponse = sb.toString();	
 		} catch (Exception e) {
-			return e.toString();
+			isError=true;
+			xception=e.toString();
 		}	
+		return "";
+
 	}
 		
 	/**
@@ -307,13 +259,12 @@ public class HttpPostRequest {
 				sb.append(line + NL);
 			}
 			in.close();
-			String result = sb.toString();
-			return result;	
-
+			xmlStringResponse = sb.toString();	
 		} catch (Exception e) {
-			return e.toString();
+			isError=true;
+			xception=e.toString();
 		}	
-
+		return "";
 
 
 	}
@@ -345,12 +296,13 @@ public class HttpPostRequest {
 				sb.append(line + NL);
 			}
 			in.close();
-			String result = sb.toString();
-			return result;	
-
+			xmlStringResponse = sb.toString();	
 		} catch (Exception e) {
-			return e.toString();
+			isError=true;
+			xception=e.toString();
 		}	
+		
+		return "";
 
 
 
@@ -385,12 +337,12 @@ public class HttpPostRequest {
 				sb.append(line + NL);
 			}
 			in.close();
-			String result = sb.toString();
-			return result;	
-
+			xmlStringResponse = sb.toString();	
 		} catch (Exception e) {
-			return e.toString();
+			isError=true;
+			xception=e.toString();
 		}	
+		return "";
 	}
 	/**
 	 * Method to get the comments of a specified announcements
@@ -420,12 +372,12 @@ public class HttpPostRequest {
 				sb.append(line + NL);
 			}
 			in.close();
-			String result = sb.toString();
-			return result;	
-
+			xmlStringResponse = sb.toString();	
 		} catch (Exception e) {
-			return e.toString();
+			isError=true;
+			xception=e.toString();
 		}	
+		return "";
 	}
 	
 	/**
@@ -457,12 +409,12 @@ public class HttpPostRequest {
 				sb.append(line + NL);
 			}
 			in.close();
-			String result = sb.toString();
-			return result;	
-
+			xmlStringResponse = sb.toString();	
 		} catch (Exception e) {
-			return e.toString();
+			isError=true;
+			xception=e.toString();
 		}	
+		return "";
 	}
 	
 	/**
@@ -490,12 +442,12 @@ public class HttpPostRequest {
 				sb.append(line + NL);
 			}
 			in.close();
-			String result = sb.toString();
-			return result;	
-
+			xmlStringResponse = sb.toString();	
 		} catch (Exception e) {
-			return e.toString();
-		}
+			isError=true;
+			xception=e.toString();
+		}	
+		return "";
 	}
 	
 	/**
@@ -527,12 +479,12 @@ public class HttpPostRequest {
 				sb.append(line + NL);
 			}
 			in.close();
-			String result = sb.toString();
-			return result;	
-
+			xmlStringResponse = sb.toString();	
 		} catch (Exception e) {
-			return e.toString();
-		}
+			isError=true;
+			xception=e.toString();
+		}	
+		return "";
 		
 	}
 	/**
@@ -580,12 +532,12 @@ public class HttpPostRequest {
 				sb.append(line + NL);
 			}
 			in.close();
-			String result = sb.toString();
-			return result;	
-
+			xmlStringResponse = sb.toString();	
 		} catch (Exception e) {
-			return e.toString();
-		}
+			isError=true;
+			xception=e.toString();
+		}	
+		return "";
 	}
 	/**
 	 * Method for the getting user's announcements only
@@ -615,13 +567,12 @@ public class HttpPostRequest {
 				sb.append(line + NL);
 			}
 			in.close();
-			String result = sb.toString();
-			
-			return result;	
-
+			xmlStringResponse = sb.toString();	
 		} catch (Exception e) {
-			return e.toString();
-		}
+			isError=true;
+			xception=e.toString();
+		}	
+		return "";
 	}
 }
 

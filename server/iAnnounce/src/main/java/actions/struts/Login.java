@@ -46,34 +46,40 @@ public class Login extends BaseActionClass
             // if(true){
             
 
-            String xml = "<login><isLoggedIn>"; //<response><responseCode>
+//            String xml = "<login><isLoggedIn>"; //<response><responseCode>
+            String xml="<response><responseCode>";
 
             //check if username exists
             List<Person> personList = personService.findByName(username);
             if (personList.isEmpty())
               {
-                xml += "false</isLoggedIn><description>No such user exists</description>"; //+"6"+"</responseCode><responseMessage>"+Consts.responseCodes[6]+"</responseMessage>"                
+//                xml += "false</isLoggedIn><description>No such user exists</description>"; //+"6"+"</responseCode><responseMessage>"+Consts.responseCodes[6]+"</responseMessage>"
+                xml+="6"+"</responseCode><responseMessage>"+Consts.responseCodes[6]+"</responseMessage>";
               } else
               {
                 Person person = personList.get(0);
                 if (person.isType())
                   {
-                    xml += "false</isLoggedIn><description>This is a premiuim account and cannot be accessed from here</description>"; //+"7"+"</responseCode><responseMessage>"+Consts.responseCodes[7]+"</responseMessage>"
+//                    xml += "false</isLoggedIn><description>This is a premiuim account and cannot be accessed from here</description>"; //+"7"+"</responseCode><responseMessage>"+Consts.responseCodes[7]+"</responseMessage>"
+                    xml+="7"+"</responseCode><responseMessage>"+Consts.responseCodes[7]+"</responseMessage>";
                   } else
                   {
                     if (!person.isActive()) //if account has been deleted
                       {
-                        xml += "false</isLoggedIn><description>This account has been deactivated.</description>"; // +"8"+"</responseCode><responseMessage>"+Consts.responseCodes[8]+"</responseMessage>"
+//                        xml += "false</isLoggedIn><description>This account has been deactivated.</description>"; // +"8"+"</responseCode><responseMessage>"+Consts.responseCodes[8]+"</responseMessage>"
+                        xml+="8"+"</responseCode><responseMessage>"+Consts.responseCodes[8]+"</responseMessage>";
                       } else
                       {
                         if (!person.isVerified()) //if account has not yet been verified
                           {
-                            xml += "false</isLoggedIn><description>Please verify account before logging in.</description>"; // +"9"+"</responseCode><responseMessage>"+Consts.responseCodes[9]+"</responseMessage>"
+//                            xml += "false</isLoggedIn><description>Please verify account before logging in.</description>"; // +"9"+"</responseCode><responseMessage>"+Consts.responseCodes[9]+"</responseMessage>"
+                            xml+="9"+"</responseCode><responseMessage>"+Consts.responseCodes[9]+"</responseMessage>";
                           } else
                           {   //if password is incorrect
                             if (person.getPassword().compareTo(password) != 0)
                               {
-                                xml += "false</isLoggedIn><description>Incorrect password.</description>";// +"2"+"</responseCode><responseMessage>"+Consts.responseCodes[2]+"</responseMessage>"
+//                                xml += "false</isLoggedIn><description>Incorrect password.</description>";// +"2"+"</responseCode><responseMessage>"+Consts.responseCodes[2]+"</responseMessage>"
+                                xml+="2"+"</responseCode><responseMessage>"+Consts.responseCodes[2]+"</responseMessage>";
                               } else
                               {
                                 //generate session ID
@@ -85,10 +91,12 @@ public class Login extends BaseActionClass
 
                                 if (newId != 0)
                                   {
-                                    xml += "true</isLoggedIn><sessionId>" + sessionCode + "</sessionId>"; // +"0"+"</responseCode><responseMessage>"+Consts.responseCodes[0]+"</responseMessage><sessionId>"+sessionCode+</sessionId>
+//                                    xml += "true</isLoggedIn><sessionId>" + sessionCode + "</sessionId>"; // +"0"+"</responseCode><responseMessage>"+Consts.responseCodes[0]+"</responseMessage><login><sessionId>"+sessionCode+</sessionId></login>
+                                    xml+="0"+"</responseCode><responseMessage>"+Consts.responseCodes[0]+"</responseMessage><login><sessionId>"+sessionCode+"</sessionId></login>";
                                   } else
                                   {
-                                    xml += "false</isLoggedIn><description>Error, please try again.</description>"; // +"10"+"</responseCode><responseMessage>"+Consts.responseCodes[10]+"</responseMessage>
+//                                    xml += "false</isLoggedIn><description>Error, please try again.</description>"; // +"10"+"</responseCode><responseMessage>"+Consts.responseCodes[10]+"</responseMessage>
+                                    xml+="10"+"</responseCode><responseMessage>"+Consts.responseCodes[10]+"</responseMessage>";
                                   }
                               }
                           }
@@ -96,7 +104,8 @@ public class Login extends BaseActionClass
                   }
               }
 
-            xml += "</login>"; // </login></response>
+//            xml += "</login>"; // </login></response>
+            xml+="</response>";
             xmlResponse = xml;
             return "MOBILE";
           } else

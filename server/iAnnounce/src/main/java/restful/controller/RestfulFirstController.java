@@ -10,15 +10,16 @@ import com.opensymphony.xwork2.ModelDriven;
 import hibernate.entities.Person;
 
 import java.util.Collection;
-import org.apache.struts2.rest.DefaultHttpHeaders;
-import org.apache.struts2.rest.HttpHeaders;
+
 import services.PersonService;
 
 /**
  *
  * @author CodeHopper
  */
-public class RestfulFirstController extends BaseActionClass implements ModelDriven<Object>{
+
+//public class RestfulFirstController extends BaseActionClass implements ModelDriven<Object>{
+public class RestfulFirstController{
 
     private Person p=new Person();
 
@@ -30,13 +31,13 @@ public class RestfulFirstController extends BaseActionClass implements ModelDriv
         return (list != null ? list : p);
     }
 
-    public HttpHeaders show() {
-		return new DefaultHttpHeaders("show").disableCaching();
-	}
-    public HttpHeaders index(){
-        list=personService.getAll();
-        return new DefaultHttpHeaders("index").disableCaching();
-    }
+//    public HttpHeaders show() {
+//		return new DefaultHttpHeaders("show").disableCaching();
+//	}
+//    public HttpHeaders index(){
+//        list=personService.getAll();
+//        return new DefaultHttpHeaders("index").disableCaching();
+//    }
     
     
 

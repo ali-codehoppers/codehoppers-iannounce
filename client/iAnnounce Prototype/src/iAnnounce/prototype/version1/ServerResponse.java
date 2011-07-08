@@ -69,14 +69,24 @@ public class ServerResponse {
 	public String editProResponse;
 	
 	
-	
-	
-	
 	User userProfile;
+	
+	
 	ArrayList<Classcomment> comments;
 	
 	
 	public ArrayList<Announcements> feed;
+	
+	
+	public String responseCode;
+	public String responseMessage;
+	
+	
+	
+	
+	
+	
+	
 
 	public ServerResponse() {
 		super();

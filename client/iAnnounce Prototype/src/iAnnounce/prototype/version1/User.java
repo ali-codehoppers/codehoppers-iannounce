@@ -139,8 +139,8 @@ public class User {
 		HttpPostRequest httpRe=new HttpPostRequest();
 		
 		String response1="";
-		response1=httpRe.login(this.userName,this.password);
-//		Log.e("gaga",response1);
+		httpRe.login(this.userName,this.password);
+
 		
 		MyXmlHandler myhandler=new MyXmlHandler();
 		

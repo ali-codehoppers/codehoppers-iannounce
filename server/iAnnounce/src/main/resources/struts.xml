@@ -78,9 +78,9 @@
             
         </action>
 
-        <action name="persons" class="restful.controller.RestfulFirstController">
+<!--   <action name="persons" class="restful.controller.RestfulFirstController">
             
-        </action>
+        </action> -->
 		
     </package>
 	
