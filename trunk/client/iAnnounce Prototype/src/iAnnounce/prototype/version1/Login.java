@@ -1,5 +1,7 @@
 package iAnnounce.prototype.version1;
 
+import org.xml.sax.SAXException;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -14,6 +16,8 @@ import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
+import android.util.Xml;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -27,7 +31,7 @@ import android.widget.Toast;
  */
 
 public class Login extends Activity {
-	
+
 	private CheckBox rem;
 	private ProgressDialog pdialog1;
 
@@ -37,14 +41,14 @@ public class Login extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		
-		
+
+
 		SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
 		final SharedPreferences.Editor editor = settings.edit();
-		
+
 		rem=(CheckBox)findViewById(R.id.mainCheckboxRememberme);
 		String doremember=settings.getString("remember", "-1");
-		
+
 		if(doremember.equalsIgnoreCase("1")){
 			rem.setChecked(true);
 			String us=settings.getString("userName", "-1");
@@ -53,7 +57,7 @@ public class Login extends Activity {
 				((EditText)findViewById(R.id.mainEdittextLogin)).setText(us);
 				((EditText)findViewById(R.id.mainEdittextPassword)).setText(pas);
 			}
-			
+
 		}
 
 
@@ -62,14 +66,14 @@ public class Login extends Activity {
 		final Button searchButton = (Button) findViewById(R.id.mainButtonLogin);
 		searchButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				
-				
+
+
 				User user1=new User();
 				user1.userName=(((EditText)findViewById(R.id.mainEdittextLogin)).getText()).toString();
 				if(user1.userName.length()<1 || user1.userName.length()>15 || user1.userName.contains(" ") || user1.userName.contains("/")){
 					Toast.makeText(getApplicationContext(),"Invalid username, must be between 5 to 15 characters and cannot contain blanck space", Toast.LENGTH_LONG).show();
 					((EditText)findViewById(R.id.mainEdittextLogin)).requestFocus();
-					
+
 					return;
 				}
 				user1.setPassword((((EditText)findViewById(R.id.mainEdittextPassword)).getText()).toString());
@@ -82,51 +86,80 @@ public class Login extends Activity {
 				ConnectivityManager manager = (ConnectivityManager)getSystemService(Login.CONNECTIVITY_SERVICE);
 				Boolean isMobile = manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).isConnectedOrConnecting();
 				Boolean isWifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnectedOrConnecting();
-				
+
 				if(!(isMobile || isWifi)){
 					showDialog(3);
 				}
 				else{
-					pdialog1 = ProgressDialog.show(Login.this,"", 
-							"Loading. Please wait...", true);
-					String s=user1.Login();
-					if(user1.getSessionId()==null){
-						Toast.makeText(getApplicationContext(),s, Toast.LENGTH_LONG).show();
+					
+
+
+					/*addition starts here :D*/
+
+					HttpPostRequest ht1=new HttpPostRequest();
+					
+					pdialog1 = ProgressDialog.show(Login.this,"","Loading. Please wait...", false);
+					
+					
+					ht1.login(user1.userName,user1.getPassword());					
+					if(!ht1.isError){
+						Log.e("grrrrrrrrrr", ht1.xmlStringResponse);
+						MyXmlHandler myhandler=new MyXmlHandler();
+
+						try {
+							Xml.parse(ht1.xmlStringResponse, myhandler);
+						} catch (SAXException e) {
+							e.printStackTrace();
+						}												
+						if(myhandler.obj_serverResp1.responseCode.equalsIgnoreCase("0")){
+							
+							
+
+							Intent myIntent = new Intent(v.getContext(), HomePage.class);
+							String context = Context.LOCATION_SERVICE;
+							LocationManager locationManager;
+							locationManager = (LocationManager)getSystemService(context);
+							Criteria criteria = new Criteria();
+							criteria.setAccuracy(Criteria.ACCURACY_FINE);
+							criteria.setAltitudeRequired(false);
+							criteria.setBearingRequired(false);
+							criteria.setCostAllowed(true);
+							criteria.setPowerRequirement(Criteria.POWER_LOW);
+							String provider = locationManager.getBestProvider(criteria, true);
+							
+							pdialog1.cancel();
+							
+							if(provider==null){
+								showDialog(2);
+							}else{
+								if(rem.isChecked()){
+									editor.putString("remember", "1");
+									editor.putString("passWord", user1.getPassword());								
+								}
+								else{
+									editor.putString("remember", "0");
+									editor.putString("passWord","-1");	
+								}
+								editor.putString("sessionId", myhandler.obj_serverResp1.session_id);
+								editor.putString("userName", user1.userName);
+								editor.commit();								
+								startActivity(myIntent);
+							}
+						}
+						else{
+							//toast error message
+							pdialog1.cancel();
+							mess=myhandler.obj_serverResp1.responseMessage;
+							showDialog(1);
+						}
 					}
 					else{
+						//communication error.
 						
-						Intent myIntent = new Intent(v.getContext(), HomePage.class);
-						String context = Context.LOCATION_SERVICE;
-						LocationManager locationManager;
-						locationManager = (LocationManager)getSystemService(context);
-						Criteria criteria = new Criteria();
-						criteria.setAccuracy(Criteria.ACCURACY_FINE);
-						criteria.setAltitudeRequired(false);
-						criteria.setBearingRequired(false);
-						criteria.setCostAllowed(true);
-						criteria.setPowerRequirement(Criteria.POWER_LOW);
-						String provider = locationManager.getBestProvider(criteria, true);
-						if(provider==null){
-							showDialog(2);
-						}else{
-							
-							if(rem.isChecked()){
-								editor.putString("remember", "1");
-								editor.putString("passWord", user1.getPassword());								
-							}
-							else{
-								editor.putString("remember", "0");
-								editor.putString("passWord","-1");	
-							}
-							editor.putString("sessionId", s);
-							editor.putString("userName", user1.userName);
-							editor.commit();
-							startActivity(myIntent);
-						}
-
+						Toast.makeText(getApplicationContext(), ht1.xception, Toast.LENGTH_LONG).show();
+						pdialog1.cancel();
 					}
-					pdialog1.cancel();
-				}
+				}//else of is mobilenetwork or wifi :D
 
 			}// of onclick function
 		});
@@ -138,22 +171,12 @@ public class Login extends Activity {
 			}
 		});
 
-
-
-
-
-
-
-
-
 		final TextView forgoTextView = (TextView) findViewById(R.id.forgo);
 		forgoTextView.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {		
 				showDialog(0);
 			}
 		});
-
-
 	}
 	String mess;
 
@@ -162,7 +185,7 @@ public class Login extends Activity {
 
 		AlertDialog.Builder b= new AlertDialog.Builder(Login.this);
 		switch(id){
-		case 0:
+		case 0: //for forget password?
 			final EditText input = new EditText(this);
 
 			b.setMessage("Enter username");
@@ -191,7 +214,7 @@ public class Login extends Activity {
 			});
 			b.show();
 			break;
-		case 1:			  
+		case 1:			  //for showing up messsage
 			b.setMessage(mess);  
 			b.setTitle("Notification");  
 			b.setCancelable(true)  ;
