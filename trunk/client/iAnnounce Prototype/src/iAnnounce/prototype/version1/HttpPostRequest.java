@@ -43,7 +43,7 @@ public class HttpPostRequest {
 		super();
 		isError=false;
 	}
-	private String base_url="http://192.168.0.106:8080/iAnnounce";  
+	private String base_url="http://192.168.0.100:8080/iAnnounce";  
 //	 private String base_url="http://192.168.1.2:8080/do";
      private String URL_register=base_url+"/register";
      private String URL_forgotPassword=base_url+"/forgetpassword";
@@ -119,7 +119,7 @@ public class HttpPostRequest {
 	 * @param pagenum	each page shows 10 announcements, all announcements divided into pages, Pages starts from 1
 	 * @return response from server as string (xml) 
 	 */
-	public String getAnnoucnements(String sessionID,String latitude,String longitude,String pagenum){
+	public void getAnnoucnements(String sessionID,String latitude,String longitude,String pagenum){
 		try{
 			request.setURI(new URI(URL_getAnnouncements));
 
@@ -144,12 +144,13 @@ public class HttpPostRequest {
 			}
 			in.close();
 			xmlStringResponse = sb.toString();	
+			
 
 		} catch (Exception e) {
 			isError=true;
-			xception=e.toString();
+			xception=e.getMessage();
 		}	
-		return "";
+		
 
 		
 	}
@@ -187,7 +188,7 @@ public class HttpPostRequest {
 
 		} catch (Exception e) {
 			isError=true;
-			xception=e.toString();
+			xception=e.getMessage();
 		}	
 
 	}
@@ -546,7 +547,7 @@ public class HttpPostRequest {
 	 * @return server response xml string
 	 */
 	
-	public String getMyAnnouncements(String sessionId,String pagenum){
+	public void getMyAnnouncements(String sessionId,String pagenum){
 		try{
 			request.setURI(new URI(uRL_myannouncements));
 
@@ -570,9 +571,9 @@ public class HttpPostRequest {
 			xmlStringResponse = sb.toString();	
 		} catch (Exception e) {
 			isError=true;
-			xception=e.toString();
+			xception=e.getMessage();
 		}	
-		return "";
+		
 	}
 }
 

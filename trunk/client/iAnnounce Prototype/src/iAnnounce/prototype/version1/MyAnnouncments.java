@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.util.Xml;
 import android.view.Gravity;
 import android.view.Menu;
@@ -29,7 +30,7 @@ import android.widget.Toast;
  */
 public class MyAnnouncments extends Activity {
 	private int pageNum_int=1;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -37,13 +38,13 @@ public class MyAnnouncments extends Activity {
 		getAnnouncementText(1);
 
 	}
-	
+
 	@Override
 	protected void onResume() {
 		getAnnouncementText(pageNum_int);
 		super.onResume();
 	}
-	
+
 	/**
 	 * For getting announcement of a page number and populating the screen
 	 * @param pg Pagenumber of type int
@@ -55,11 +56,15 @@ public class MyAnnouncments extends Activity {
 				"Loading. Please wait...", true);
 		HttpPostRequest htreq=new HttpPostRequest();
 		SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
-		String resp=htreq.getMyAnnouncements(settings.getString("sessionId", "0"),Integer.toString(pg));
-		generateGUI(resp);
-		pdialog1.cancel();
+		htreq.getMyAnnouncements(settings.getString("sessionId", "0"),Integer.toString(pg));
+		if(htreq.isError){
+			Toast.makeText(getApplicationContext(), htreq.xception, Toast.LENGTH_LONG).show();
+		}else{
+			generateGUI(htreq.xmlStringResponse);
+			pdialog1.cancel();
+		}
 	}
-	
+
 	/**
 	 * Function for populating the GUI when xml parseable string is passed in parameters.
 	 * @param resp resp is parseable string from the server
@@ -126,6 +131,17 @@ public class MyAnnouncments extends Activity {
 		}
 
 		final ServerResponse obj_serRes=myhandler.obj_serverResp1;
+		
+		if(obj_serRes.responseCode.equalsIgnoreCase("0")){
+						
+		}
+		else{
+			Toast.makeText(getApplicationContext(), obj_serRes.responseMessage, Toast.LENGTH_LONG).show();
+			if(obj_serRes.responseCode.equalsIgnoreCase("1")){
+				finish();
+			}			
+		}
+		
 		LinearLayout l1=new LinearLayout(getBaseContext());
 		v.addView(l1);
 		l1.setOrientation(LinearLayout.VERTICAL);
@@ -162,11 +178,11 @@ public class MyAnnouncments extends Activity {
 			LinearLayout l3=new LinearLayout(getBaseContext());
 
 			Button bt_locate=new Button(getBaseContext());
-			
+
 			final String longi=obj_serRes.feed.get(i).longitude;
 			final String lati=obj_serRes.feed.get(i).latitude;
 			final String mapDesc=obj_serRes.feed.get(i).announcer+" :  "+obj_serRes.feed.get(i).description+"("+(obj_serRes.feed.get(i).timestamp).substring(0,(obj_serRes.feed.get(i).timestamp).length())+")";
-			
+
 			bt_locate.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.locate));
 			bt_locate.setOnClickListener(new OnClickListener() {
 

@@ -82,11 +82,6 @@ public class ServerResponse {
 	public String responseMessage;
 	
 	
-	
-	
-	
-	
-	
 
 	public ServerResponse() {
 		super();

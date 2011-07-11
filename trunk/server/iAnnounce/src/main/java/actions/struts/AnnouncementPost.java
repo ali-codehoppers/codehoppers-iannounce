@@ -3,6 +3,7 @@ package actions.struts;
 import hibernate.entities.Announcement;
 import hibernate.entities.Person;
 import java.sql.Timestamp;
+import xtras.Consts;
 
 /**
  *
@@ -55,7 +56,8 @@ public class AnnouncementPost extends BaseActionClass
             String xml;
 
 
-            xml = "<announce>"; // <response><responseCode>
+//            xml = "<announce>"; // <response><responseCode>
+            xml = "<response><responseCode>";
 
 
             //get range in km against string
@@ -73,13 +75,16 @@ public class AnnouncementPost extends BaseActionClass
 
             if (newId != 0)
               {
-                xml += "Announcement successfully posted. Will be shortly available";// 0<responseCode><responseMessage>"+Consts.responseCodes[0]+"</responseMessage><announcementPost>Consts.ANNOUNCEMENTPOST_SUCCESS</announcementPost>"
+//                xml += "Announcement successfully posted. Will be shortly available";// 0<responseCode><responseMessage>"+Consts.responseCodes[0]+"</responseMessage><announcementPost>Consts.ANNOUNCEMENTPOST_SUCCESS</announcementPost>"
+                xml += "0</responseCode><responseMessage>" + Consts.responseCodes[0] + "</responseMessage><announcementPost>Consts.ANNOUNCEMENTPOST_SUCCESS</announcementPost>";
               } else
               {
-                xml += "Error. Please try again"; //11<responseCode><responseMessage>"+Consts.responseCodes[11]+"</responseMessage>
+//                xml += "Error. Please try again"; //11<responseCode><responseMessage>"+Consts.responseCodes[11]+"</responseMessage>
+                xml += "11</responseCode><responseMessage>" + Consts.responseCodes[11] + "</responseMessage>";
               }
 
-            xml += "</announce>"; // </response>
+//            xml += "</announce>"; // </response>
+            xml += "</response>";
 
 
             xmlResponse = xml;

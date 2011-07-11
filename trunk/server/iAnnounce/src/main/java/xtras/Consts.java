@@ -20,7 +20,7 @@ public class Consts {
       /*4*/  "Your account is disabled, contact support.",
       /*5*/  "Your account is removed, you can't login.",                  //if account with that username has been removed.
       /*6*/  "No such user exists.",
-      /*7*/  "Premium accounts are not accessible from stand-alone device application",
+      /*7*/  "Premium accounts are not accessible from device application",
       /*8*/  "This account has been deactivated.",
       /*9*/  "Please verify account before logging in.",
      /*10*/  "Unable to generate session",
@@ -30,6 +30,7 @@ public class Consts {
      /*14*/  "Invalid old password. Unable to comeplete the request",
      /*15*/  "Error occured while rating. Please try again.",
      /*16*/  "Some Error occured while registering please try again",
+     /*17*/  "No announcements to display"
              
 
               
