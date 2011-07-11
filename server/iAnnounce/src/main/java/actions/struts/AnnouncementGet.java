@@ -9,6 +9,8 @@ import hibernate.entities.Person;
 import hibernate.entities.Rating;
 import java.util.Collections;
 import java.util.List;
+
+import xtras.Consts;
 import xtras.insertionSortAnnouncementDate;
 
 /**
@@ -16,7 +18,7 @@ import xtras.insertionSortAnnouncementDate;
  * @author Awais
  */
 public class AnnouncementGet extends BaseActionClass
-  {
+{
 
     private String xmlResponse;
     private String latitude;
@@ -24,23 +26,23 @@ public class AnnouncementGet extends BaseActionClass
     private String pageNum;
 
     public void setLatitude(String latitude)
-      {
+    {
         this.latitude = latitude;
-      }
+    }
 
     public void setLongitude(String longitude)
-      {
+    {
         this.longitude = longitude;
-      }
+    }
 
     public void setPageNum(String pageNum)
-      {
+    {
         this.pageNum = pageNum;
-      }
+    }
 
     @Override
     public String execute() throws Exception
-      {
+    {
 
         //update currunt location of person
 
@@ -54,7 +56,9 @@ public class AnnouncementGet extends BaseActionClass
           {
 
             String xml;
-            xml = "<announcements>"; //"<response><responseCode>0</responseCode><responseMessage>"+Consts.responseCodes[0]+"</responseMessage><getAnnouncements>"
+//            xml = "<announcements>"; //"<response><responseCode>0</responseCode><responseMessage>"+Consts.responseCodes[0]+"</responseMessage><getAnnouncements>"
+//            xml = "<response><responseCode>";
+            xml="";
             int page = Integer.valueOf(pageNum);
             int counter = 0;
 
@@ -64,6 +68,8 @@ public class AnnouncementGet extends BaseActionClass
             announcementList = (new insertionSortAnnouncementDate(announcementList)).mySort();
             Collections.reverse(announcementList);
 
+            int numAnnouncements=0;
+
             for (int index = 0; index < announcementList.size(); index++)
               {  //traverse list
                 Announcement announcement = announcementList.get(index);
@@ -72,7 +78,6 @@ public class AnnouncementGet extends BaseActionClass
                 if (distFrom(Double.parseDouble(latitude), Double.parseDouble(longitude), announcement.getLatitude(), announcement.getLongitude()) <= announcement.getRadius())
                   {
                     ++counter;
-
                     //select announcement of the given page number
                     if (counter > (page - 1) * 10 && counter <= page * 10)
                       {
@@ -112,18 +117,33 @@ public class AnnouncementGet extends BaseActionClass
                             xml += "<longitude>" + announcement.getLongitude() + "</longitude>\n";
                             xml += "<latitude>" + announcement.getLatitude() + "</latitude>\n";
                             xml += "</announcement>\n";
+                            numAnnouncements++;
                           } else
                           {
                             --counter;  //if bad rated
                           }
-                      } else if (counter > page * 10)
+                      } else
                       {
-                        break;
+                        if (counter > page * 10)
+                          {
+                            break;
+                          }
                       }
                   }
 
               }
-            xml += "</announcements>"; //</getAnnouncements></response>
+            
+
+            if (numAnnouncements != 0)
+              {
+                xml = "<response><responseCode>0</responseCode><responseMessage>" + Consts.responseCodes[0] + "</responseMessage><getAnnouncements>" + xml + "</getAnnouncements>";
+              } else
+              {
+                xml += "<response><responseCode>17</responseCode><responseMessage>" + Consts.responseCodes[17] + "</responseMessage>";
+              }
+
+//            xml += "</announcements>"; //</getAnnouncements></response>
+            xml += "</response>";
 
 
             xmlResponse = xml;
@@ -134,16 +154,16 @@ public class AnnouncementGet extends BaseActionClass
           {
             return "PC";
           }
-      }
+    }
 
     public String getXmlResponse()
-      {
+    {
         return xmlResponse;
-      }
+    }
 
     //source of code with some modifications http://stackoverflow.com/questions/120283/working-with-latitude-longitude-values-in-java
     public static float distFrom(double lat1, double lng1, double lat2, double lng2)
-      {
+    {
         double earthRadius = 6371;
         double dLat = Math.toRadians(lat2 - lat1);
         double dLng = Math.toRadians(lng2 - lng1);
@@ -154,5 +174,5 @@ public class AnnouncementGet extends BaseActionClass
         double dist = earthRadius * c;
 
         return new Float(dist).floatValue();
-      }
-  }
+    }
+}

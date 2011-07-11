@@ -103,7 +103,7 @@ public class Login extends Activity {
 					
 					ht1.login(user1.userName,user1.getPassword());					
 					if(!ht1.isError){
-						Log.e("grrrrrrrrrr", ht1.xmlStringResponse);
+						
 						MyXmlHandler myhandler=new MyXmlHandler();
 
 						try {
@@ -112,9 +112,6 @@ public class Login extends Activity {
 							e.printStackTrace();
 						}												
 						if(myhandler.obj_serverResp1.responseCode.equalsIgnoreCase("0")){
-							
-							
-
 							Intent myIntent = new Intent(v.getContext(), HomePage.class);
 							String context = Context.LOCATION_SERVICE;
 							LocationManager locationManager;

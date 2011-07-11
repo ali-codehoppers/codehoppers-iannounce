@@ -36,7 +36,7 @@ public class HomePage extends TabActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.home_page);
-		
+
 		/*Location work*/
 
 		/*Location location =
@@ -86,7 +86,7 @@ public class HomePage extends TabActivity {
 		criteria.setAltitudeRequired(false);
 		criteria.setBearingRequired(false);
 		criteria.setCostAllowed(true);
-		
+
 
 		String provider = locationManager.getBestProvider(criteria, true);
 
@@ -99,17 +99,17 @@ public class HomePage extends TabActivity {
 		else{
 			locationManager.requestLocationUpdates(provider, 1*60*1000, distFreq,
 					locationListener);
-			
+
 			/* ifcrash*/
-			
+
 			Location location =
 				locationManager.getLastKnownLocation(provider);
 
 			if(location!=null){
-			updateLocation(location);
+				updateLocation(location);
 			}
 			/*----*/
-			
+
 			TabHost tabHost = getTabHost();  // The activity TabHost
 			TabHost.TabSpec spec;  // Reusable TabSpec for each tab
 			Intent intent;  // Reusable Intent for each tab
@@ -186,33 +186,58 @@ public class HomePage extends TabActivity {
 	final Messenger mMessenger = new Messenger(new IncomingHandler());
 
 	class IncomingHandler extends Handler {
+		Messenger NewsFeed_messenger=NewsFeed.myMess;
+		Message m;
+
 		@Override
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case iAnnounceService.RECIEVE_ANNOUNCEMENTS:
-
-
-
+				
 				break;
 
 			case iAnnounceService.RECIEVE_TASK_RESPONSE:
-
-
-				Messenger NewsFeed_messenger=NewsFeed.myMess;
-
-				Message m=Message.obtain(null,iAnnounceService.RECIEVE_ANNOUNCEMENTS);
+				m=Message.obtain(null,iAnnounceService.RECIEVE_ANNOUNCEMENTS);
 				m.replyTo = mMessenger;
 				m.obj=msg.obj;
-
-
 				try {
 					NewsFeed_messenger.send(m);
 				} catch (RemoteException e) {			
 					e.printStackTrace();
 				}			
-
 				break;
 
+			case iAnnounceService.RESPONSE_NETWORK_ERROR:
+				m=Message.obtain(null,iAnnounceService.RESPONSE_NETWORK_ERROR);
+				m.replyTo = mMessenger;
+				m.obj=msg.obj;
+				try {
+					NewsFeed_messenger.send(m);
+				} catch (RemoteException e) {			
+					e.printStackTrace();
+				}			
+				break;
+			case  iAnnounceService.RESPONSE_ERROR_FROM_SERVER:
+				m=Message.obtain(null,iAnnounceService.RESPONSE_ERROR_FROM_SERVER);
+				m.replyTo = mMessenger;
+				m.obj=msg.obj;
+				try {
+					NewsFeed_messenger.send(m);
+				} catch (RemoteException e) {			
+					e.printStackTrace();
+				}							
+				break;
+			case iAnnounceService.RESPONSE_ERROR_SESSION:
+				m=Message.obtain(null,iAnnounceService.RESPONSE_ERROR_FROM_SERVER);
+				m.replyTo = mMessenger;
+				m.obj=msg.obj;
+				try {
+					NewsFeed_messenger.send(m);
+				} catch (RemoteException e) {			
+					e.printStackTrace();
+				}							
+				break;
+				
 			default:
 
 			}
@@ -248,27 +273,27 @@ public class HomePage extends TabActivity {
 
 	protected void onResume() {
 		super.onResume();
-//		Message m=Message.obtain(null,iAnnounceService.GET_ANNOUNCEMENTS);
-//		m.replyTo = NewsFeed.myMess;
-//		if(mService!=null){
-//			try {
-//				mService.send(m);
-//			} catch (RemoteException e) {			
-//				e.printStackTrace();
-//			}
-//		}
+		//		Message m=Message.obtain(null,iAnnounceService.GET_ANNOUNCEMENTS);
+		//		m.replyTo = NewsFeed.myMess;
+		//		if(mService!=null){
+		//			try {
+		//				mService.send(m);
+		//			} catch (RemoteException e) {			
+		//				e.printStackTrace();
+		//			}
+		//		}
 		if(mService!=null){
-		Message m1=Message.obtain(null,iAnnounceService.STOP_TIMERTASK);
-		m1.replyTo = mMessenger;
+			Message m1=Message.obtain(null,iAnnounceService.STOP_TIMERTASK);
+			m1.replyTo = mMessenger;
 
-		try {
-			mService.send(m1);
-		} catch (RemoteException e) {			
-			e.printStackTrace();
+			try {
+				mService.send(m1);
+			} catch (RemoteException e) {			
+				e.printStackTrace();
+			}
+
 		}
-		
-		}
-		
+
 		Message m=Message.obtain(null,iAnnounceService.START_TIMERTASK);	
 		m.replyTo = mMessenger;
 		if(mService!=null){
@@ -305,37 +330,37 @@ public class HomePage extends TabActivity {
 		super.onStop();
 
 	}
-	
+
 	@Override
 	protected Dialog onCreateDialog(int id) {
-		
-//		Toast.makeText(getApplicationContext(), id, Toast.LENGTH_LONG);
+
+		//		Toast.makeText(getApplicationContext(), id, Toast.LENGTH_LONG);
 		AlertDialog.Builder b= new AlertDialog.Builder(HomePage.this);
 		switch(id){
-					
+
 		case 2:			  
 			b.setMessage("Please enable your GPS");  
 			b.setTitle("Notification");  
 			b.setCancelable(true);
-			
+
 			b.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {
 					Intent intent = new Intent(Settings.ACTION_SECURITY_SETTINGS);
-			           startActivity(intent);
+					startActivity(intent);
 				}
 			});
 			b.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int whichButton) {			
 					finish();
 					dialog.cancel();
-					
+
 				}
 			});
-			
+
 			b.show();
 			break;
-			
-			
+
+
 		default:
 			break;		
 		}

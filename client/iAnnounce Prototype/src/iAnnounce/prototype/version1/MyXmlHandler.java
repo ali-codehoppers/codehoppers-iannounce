@@ -20,7 +20,7 @@ public class MyXmlHandler extends DefaultHandler{
 	 */
 
 	ServerResponse obj_serverResp1;
-	private boolean fl_register;
+	/*private boolean fl_register;
 	private boolean fl_registerCode;
 	private boolean fl_registerText;
 
@@ -66,10 +66,11 @@ public class MyXmlHandler extends DefaultHandler{
 	private boolean fl_myAnn_avgRating;
 	private boolean fl_myAnn_numOfComments;
 	private boolean fl_myAnn_announcement;
+	*/
 
 
 	private Announcements a;
-	private Classcomment com;
+//	private Classcomment com;
 
 
 	/*---modifications--*/
@@ -92,6 +93,17 @@ public class MyXmlHandler extends DefaultHandler{
 	private boolean fl_announcement_avgRating;
 	private boolean fl_announcement_currenUserRating;
 	private boolean fl_announcement_numOfComments;
+	
+	
+	private boolean fl_myAnn;
+	private boolean fl_myAnn_id;
+	private boolean fl_myAnn_desc;
+	private boolean fl_myAnn_longi;
+	private boolean fl_myAnn_lati;
+	private boolean fl_myAnn_timestamp;	
+	private boolean fl_myAnn_avgRating;
+	private boolean fl_myAnn_numOfComments;
+	private boolean fl_myAnn_announcement;
 
 
 
@@ -130,42 +142,42 @@ public class MyXmlHandler extends DefaultHandler{
 
 		obj_serverResp1 = new ServerResponse();
 
-		fl_register = false;
-		fl_registerCode = false;
-		fl_registerText = false;
+//		fl_register = false;
+//		fl_registerCode = false;
+//		fl_registerText = false;
 		fl_login=false;
-		fl_isLoggedin=false;
-		fl_LoginDesc=false;
+//		fl_isLoggedin=false;
+//		fl_LoginDesc=false;
 		fl_sessionId=false;
-		fl_forgotPass=false;
-		fl_postAnnouncement=false;
+//		fl_forgotPass=false;
+//		fl_postAnnouncement=false;
+//
+//		fl_profile=false;
+//		fl_firstName=false;
+//		fl_lastName=false;
+//		fl_gender=false;
+//		fl_age=false;
+//		fl_avgRating=false;
+//		fl_numposts=false;
 
-		fl_profile=false;
-		fl_firstName=false;
-		fl_lastName=false;
-		fl_gender=false;
-		fl_age=false;
-		fl_avgRating=false;
-		fl_numposts=false;
 
 
-
-		fl_getcomment=false;
-		fl_com_packet=false;
-		fl_com_time=false;
-		fl_com_user=false;
-		fl_com_txt=false;
-
-		fl_post_comResponse=false;
-
-		fl_logout_resp=false;
-
-		fl_rate_resp=false;
-
-		fl_delAcc_resp=false;
-
-		fl_editProfile_resp=false;
-
+//		fl_getcomment=false;
+//		fl_com_packet=false;
+//		fl_com_time=false;
+//		fl_com_user=false;
+//		fl_com_txt=false;
+//
+//		fl_post_comResponse=false;
+//
+//		fl_logout_resp=false;
+//
+//		fl_rate_resp=false;
+//
+//		fl_delAcc_resp=false;
+//
+//		fl_editProfile_resp=false;
+//
 		fl_myAnn=false;
 		fl_myAnn_announcement=false;
 		fl_myAnn_id=false;
@@ -177,7 +189,7 @@ public class MyXmlHandler extends DefaultHandler{
 		fl_myAnn_numOfComments=false;
 
 		a=new Announcements();
-		com=new Classcomment();
+//		com=new Classcomment();
 
 		obj_serverResp1=new ServerResponse();
 
@@ -396,6 +408,39 @@ public class MyXmlHandler extends DefaultHandler{
 					}
 				}				
 			}//get announcement
+			
+			if(localName.equalsIgnoreCase("myAnnouncements")){
+				fl_myAnn=true;
+			}
+			if(fl_myAnn){
+				if(localName.equalsIgnoreCase("announcement")){
+					fl_myAnn_announcement=true;
+				}
+				if(fl_myAnn_announcement){
+					if(localName.equalsIgnoreCase("id")){
+						fl_myAnn_id=true;
+					}
+					else if(localName.equalsIgnoreCase("averageRating")){
+						fl_myAnn_avgRating=true;
+					}
+					else if(localName.equalsIgnoreCase("description")){
+						fl_myAnn_desc=true;
+					}
+					else if(localName.equalsIgnoreCase("latitude")){
+						fl_myAnn_lati=true;
+					}
+					else if(localName.equalsIgnoreCase("longitude")){
+						fl_myAnn_longi=true;
+					}
+					else if(localName.equalsIgnoreCase("noOfComments")){
+						fl_myAnn_numOfComments=true;
+					}
+					else if(localName.equalsIgnoreCase("timestamp")){
+						fl_myAnn_timestamp=true;
+					}
+				}
+
+			}
 
 
 
@@ -622,11 +667,40 @@ public class MyXmlHandler extends DefaultHandler{
 				}//fl_announcement
 
 			}//fl_getAnnouncements
-
-
-
-
-
+			
+			if(fl_myAnn){
+				if(localName.equalsIgnoreCase("myAnnouncements")){
+					fl_myAnn=false;
+				}
+				else if(fl_myAnn_announcement){
+					if(localName.equalsIgnoreCase("announcement")){
+						fl_myAnn_announcement=false;
+						obj_serverResp1.feed.add(a);
+						a=new Announcements();
+					}
+					else if(localName.equalsIgnoreCase("id")){
+						fl_myAnn_id=false;
+					}
+					else if(localName.equalsIgnoreCase("averageRating")){
+						fl_myAnn_avgRating=false;
+					}
+					else if(localName.equalsIgnoreCase("description")){
+						fl_myAnn_desc=false;
+					}
+					else if(localName.equalsIgnoreCase("latitude")){
+						fl_myAnn_lati=false;
+					}
+					else if(localName.equalsIgnoreCase("longitude")){
+						fl_myAnn_longi=false;
+					}
+					else if(localName.equalsIgnoreCase("noOfComments")){
+						fl_myAnn_numOfComments=false;
+					}
+					else if(localName.equalsIgnoreCase("timestamp")){
+						fl_myAnn_timestamp=false;
+					}						
+				}
+			}//fl_myAnn
 
 		}//fl_response
 
@@ -798,7 +872,7 @@ public class MyXmlHandler extends DefaultHandler{
 					obj_serverResp1.session_id=x;	
 				}				
 			}
-			else if(fl_announcements){
+			else if(fl_getAnnouncements){
 				if(fl_announcement){
 					if(fl_announcement_id){
 						a.announcement_id=x;
@@ -829,6 +903,32 @@ public class MyXmlHandler extends DefaultHandler{
 					}     			
 				}	    		
 			}//ann end
+			
+			if(fl_myAnn){
+	    		if(fl_myAnn_announcement){
+	    			if(fl_myAnn_id){
+	    				a.announcement_id=x;
+	    			}
+	    			else if(fl_myAnn_avgRating){
+	    				a.averageRating=x;
+	    			}
+	    			else if(fl_myAnn_desc){
+	    				a.description=x;
+	    			} 
+	    			else if(fl_myAnn_lati){
+	    				a.latitude=x;
+	    			} 
+	    			else if(fl_myAnn_longi){
+	    				a.longitude=x;
+	    			} 
+	    			else if(fl_myAnn_numOfComments){
+	    				a.noOfComments=x;
+	    			} 
+	    			else if(fl_myAnn_timestamp){
+	    				a.timestamp=x;
+	    			} 
+	    		}
+	    	}//fl_myAnnouncements
 			
 		}		
 

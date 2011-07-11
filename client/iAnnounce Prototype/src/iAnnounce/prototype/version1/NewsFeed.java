@@ -130,17 +130,30 @@ public class NewsFeed extends Activity {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case iAnnounceService.RECIEVE_ANNOUNCEMENTS:
-				pdialog1.cancel();
-//				Log.e("gaga", (String)msg.obj);
-				generateGUI((String)msg.obj,Integer.toString(pageNum_int));
+				pdialog1.cancel();				
+				generateGUI((ServerResponse)msg.obj,Integer.toString(pageNum_int));
 				break;
-
+			case iAnnounceService.RESPONSE_NETWORK_ERROR:
+				pdialog1.cancel();
+				Toast.makeText(getApplicationContext(), (String)msg.obj, Toast.LENGTH_LONG).show();
+				break;
+			case iAnnounceService.RESPONSE_ERROR_FROM_SERVER:
+				pdialog1.cancel();				
+				Toast.makeText(getApplicationContext(), (String)msg.obj, Toast.LENGTH_LONG).show();
+				break;
+			case iAnnounceService.RESPONSE_ERROR_SESSION:
+				Toast.makeText(getApplicationContext(), (String)msg.obj, Toast.LENGTH_LONG).show();
+				finish();
+				break;
 			default:
 
 			}
 			super.handleMessage(msg);
 		}
 	}
+	
+	Button bt_Next;
+	Button bt_Prev;
 
 /**
  * Function for populating the screen
@@ -148,10 +161,8 @@ public class NewsFeed extends Activity {
  * @param pagenum Page number to tell which page's announcements will be populated
  */
 
-	void generateGUI(String s1,String pagenum){
-
-
-
+	void generateGUI(ServerResponse sr01,String pagenum){
+		
 		LinearLayout mainLayout=new LinearLayout(getBaseContext());
 		mainLayout.setOrientation(LinearLayout.VERTICAL);
 		setContentView(mainLayout);
@@ -163,13 +174,20 @@ public class NewsFeed extends Activity {
 		final TextView tv_pgnum= new TextView(getBaseContext());
 		tv_pgnum.setText("Page : "+pagenum);
 		tv_pgnum.setTextColor(Color.BLACK);
-		Button bt_Next=new Button(getBaseContext());
+		bt_Next=new Button(getBaseContext());
 		bt_Next.setText("Next Page");
 		bt_Next.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View arg0) {
 
 				pageNum_int++;
+				
+				if(pageNum_int<=1){
+					bt_Prev.setEnabled(false);
+				}
+				else{
+					bt_Prev.setEnabled(true);
+				}
 				tv_pgnum.setText("Page : "+Integer.toString(pageNum_int));
 				getAnnouncementText(Integer.toString(pageNum_int));
 
@@ -202,7 +220,7 @@ public class NewsFeed extends Activity {
 			}
 		});
 
-		Button bt_Prev=new Button(getBaseContext());
+		bt_Prev=new Button(getBaseContext());
 		bt_Prev.setText("Prev Page");
 		bt_Prev.setOnClickListener(new OnClickListener() {
 
@@ -246,21 +264,21 @@ public class NewsFeed extends Activity {
 		lbar.addView(bt_Next);
 
 		mainLayout.addView(lbar);
-
-
-
+		
+		
 
 		ScrollView v=new ScrollView(getBaseContext());
 
-		MyXmlHandler myhandler=new MyXmlHandler();
+//		MyXmlHandler myhandler=new MyXmlHandler();
+//
+//		try {
+//			Xml.parse(s1, myhandler);
+//		} catch (SAXException e) {
+//			e.printStackTrace();
+//		}
 
-		try {
-			Xml.parse(s1, myhandler);
-		} catch (SAXException e) {
-			e.printStackTrace();
-		}
-
-		final ServerResponse obj_serRes=myhandler.obj_serverResp1;
+//		final ServerResponse obj_serRes=myhandler.obj_serverResp1;
+		final ServerResponse obj_serRes=sr01;
 		LinearLayout l1=new LinearLayout(getBaseContext());
 		v.addView(l1);
 		l1.setOrientation(LinearLayout.VERTICAL);
@@ -309,7 +327,8 @@ public class NewsFeed extends Activity {
 			l2.addView(Descr);
 
 			TextView date=new TextView(getBaseContext());
-
+			
+			
 			String []tempst=(obj_serRes.feed.get(i).timestamp).split(" ");
 			String date_txt=tempst[0];
 			String time=tempst[1];
