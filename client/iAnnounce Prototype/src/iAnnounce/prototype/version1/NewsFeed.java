@@ -550,21 +550,22 @@ public class NewsFeed extends Activity {
 		if(requestCode==3){
 			if (resultCode == Activity.RESULT_OK) {
 				SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
-				HttpPostRequest ht=new HttpPostRequest();
-				String x=ht.logout(settings.getString("sessionId", "0"));
-				MyXmlHandler myhand=new MyXmlHandler();
-				try {
-					Xml.parse(x, myhand);
-				} catch (SAXException e) {
-					e.printStackTrace();
-				}
+//				HttpPostRequest ht=new HttpPostRequest();
+//				String x=ht.logout(settings.getString("sessionId", "0"));
+//				MyXmlHandler myhand=new MyXmlHandler();
+//				try {
+//					Xml.parse(x, myhand);
+//				} catch (SAXException e) {
+//					e.printStackTrace();
+//				}
 
 				SharedPreferences.Editor editor = settings.edit();
 				editor.putString("sessionId", "0");
 				editor.commit();
-				Toast.makeText(getApplicationContext(),myhand.obj_serverResp1.logoutResponse, Toast.LENGTH_LONG).show();				
+//				Toast.makeText(getApplicationContext(),myhand.obj_serverResp1.logoutResponse, Toast.LENGTH_LONG).show();				
 				finish();				               
 			}
+			
 		}
 
 	}

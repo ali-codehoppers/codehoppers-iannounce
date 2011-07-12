@@ -6,6 +6,7 @@ package actions.struts;
 
 import hibernate.entities.Comment;
 import java.sql.Timestamp;
+import xtras.Consts;
 
 /**
  *
@@ -33,7 +34,10 @@ public class CommentPost extends BaseActionClass
     {
         if (request.getHeader("User-Agent").contains("UNAVAILABLE"))
           {
-            String xml = "<PostComment>"; //<response><responseCode>
+//            String xml = "<PostComment>"; //<response><responseCode>
+            String xml="<response><responseCode>";
+
+            
 
             //get currunt time stamp for insert in DB
             java.util.Date date = new java.util.Date();
@@ -43,13 +47,16 @@ public class CommentPost extends BaseActionClass
             Integer newId = commentService.addNew(comment);
             if (newId != 0)
               {
-                xml += "Comment successfully posted"; //0<responseCode><responseMessage>"+Consts.responseCodes[0]+"</responseMessage><postComment>Consts.COMMENTPOST_SUCCESS</postComment>"
+//                xml += "Comment successfully posted"; //0<responseCode><responseMessage>"+Consts.responseCodes[0]+"</responseMessage><postComment>Consts.COMMENTPOST_SUCCESS</postComment>"
+                xml += "0</responseCode><responseMessage>"+Consts.responseCodes[0]+"</responseMessage><postComment>"+Consts.COMMENTPOST_SUCCESS+"</postComment>";
               } else
               {
-                xml += "Error occurred. Please try again"; //12<responseCode><responseMessage>"+Consts.responseCodes[12]+"</responseMessage>"
+//                xml += "Error occurred. Please try again"; //12<responseCode><responseMessage>"+Consts.responseCodes[12]+"</responseMessage>"
+                xml += "12</responseCode><responseMessage>"+Consts.responseCodes[12]+"</responseMessage>";
               }
 
-            xml += "</PostComment>"; //</response>
+//            xml += "</PostComment>"; //</response>
+            xml += "</response>";
 
             xmlResponse = xml;
             return "MOBILE";

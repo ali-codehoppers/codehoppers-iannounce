@@ -20,6 +20,11 @@ public class MyXmlHandler extends DefaultHandler{
 	 */
 
 	ServerResponse obj_serverResp1;
+	private Announcements a;
+	private Classcomment com;
+
+
+
 	/*private boolean fl_register;
 	private boolean fl_registerCode;
 	private boolean fl_registerText;
@@ -47,6 +52,7 @@ public class MyXmlHandler extends DefaultHandler{
 	private boolean fl_com_time;
 	private boolean fl_com_user;
 	private boolean fl_com_txt;
+
 	private boolean fl_post_comResponse;
 
 	private boolean fl_logout_resp;
@@ -66,11 +72,9 @@ public class MyXmlHandler extends DefaultHandler{
 	private boolean fl_myAnn_avgRating;
 	private boolean fl_myAnn_numOfComments;
 	private boolean fl_myAnn_announcement;
-	*/
+	 */
 
 
-	private Announcements a;
-//	private Classcomment com;
 
 
 	/*---modifications--*/
@@ -93,8 +97,8 @@ public class MyXmlHandler extends DefaultHandler{
 	private boolean fl_announcement_avgRating;
 	private boolean fl_announcement_currenUserRating;
 	private boolean fl_announcement_numOfComments;
-	
-	
+
+
 	private boolean fl_myAnn;
 	private boolean fl_myAnn_id;
 	private boolean fl_myAnn_desc;
@@ -105,11 +109,38 @@ public class MyXmlHandler extends DefaultHandler{
 	private boolean fl_myAnn_numOfComments;
 	private boolean fl_myAnn_announcement;
 
+	private boolean fl_postAnnouncement;
+
+	private boolean fl_getcomments;
+	private boolean fl_com_comment;
+	private boolean fl_com_time;
+	private boolean fl_com_user;
+	private boolean fl_com_txt;
+
+
+	private boolean fl_comment_post;
+
+	private boolean fl_deleteAccount;
+
+	private boolean fl_profile;
+	private boolean fl_firstName;
+	private boolean fl_lastName;
+	private boolean fl_age;
+	private boolean fl_gender;
+	private boolean fl_avgRating;
+	private boolean fl_numposts;
+
+
+
 
 
 
 	public MyXmlHandler() {
 		super();
+
+		obj_serverResp1=new ServerResponse();
+		a=new Announcements();
+		com=new Classcomment();
 
 		fl_response=false;
 		fl_responseCode=false;
@@ -130,54 +161,6 @@ public class MyXmlHandler extends DefaultHandler{
 		fl_announcement_currenUserRating=false;
 		fl_announcement_numOfComments=false;
 
-
-
-
-
-
-		/* --old leftovers-- */
-
-
-
-
-		obj_serverResp1 = new ServerResponse();
-
-//		fl_register = false;
-//		fl_registerCode = false;
-//		fl_registerText = false;
-		fl_login=false;
-//		fl_isLoggedin=false;
-//		fl_LoginDesc=false;
-		fl_sessionId=false;
-//		fl_forgotPass=false;
-//		fl_postAnnouncement=false;
-//
-//		fl_profile=false;
-//		fl_firstName=false;
-//		fl_lastName=false;
-//		fl_gender=false;
-//		fl_age=false;
-//		fl_avgRating=false;
-//		fl_numposts=false;
-
-
-
-//		fl_getcomment=false;
-//		fl_com_packet=false;
-//		fl_com_time=false;
-//		fl_com_user=false;
-//		fl_com_txt=false;
-//
-//		fl_post_comResponse=false;
-//
-//		fl_logout_resp=false;
-//
-//		fl_rate_resp=false;
-//
-//		fl_delAcc_resp=false;
-//
-//		fl_editProfile_resp=false;
-//
 		fl_myAnn=false;
 		fl_myAnn_announcement=false;
 		fl_myAnn_id=false;
@@ -188,10 +171,76 @@ public class MyXmlHandler extends DefaultHandler{
 		fl_myAnn_avgRating=false;
 		fl_myAnn_numOfComments=false;
 
-		a=new Announcements();
-//		com=new Classcomment();
 
-		obj_serverResp1=new ServerResponse();
+
+		fl_postAnnouncement=false;
+
+		fl_getcomments=false;
+		fl_com_comment=false;
+		fl_com_time=false;
+		fl_com_user=false;
+		fl_com_txt=false;
+
+		fl_comment_post=false;
+
+		fl_deleteAccount=false;
+
+		fl_profile=false;
+		fl_firstName=false;
+		fl_lastName=false;
+		fl_gender=false;
+		fl_age=false;
+		fl_avgRating=false;
+		fl_numposts=false;
+
+
+
+
+
+
+
+		/* --old leftovers-- */
+
+
+
+
+
+		//		fl_register = false;
+		//		fl_registerCode = false;
+		//		fl_registerText = false;
+		fl_login=false;
+		//		fl_isLoggedin=false;
+		//		fl_LoginDesc=false;
+		fl_sessionId=false;
+		//		fl_forgotPass=false;
+		//		fl_postAnnouncement=false;
+		//
+		//		fl_profile=false;
+		//		fl_firstName=false;
+		//		fl_lastName=false;
+		//		fl_gender=false;
+		//		fl_age=false;
+		//		fl_avgRating=false;
+		//		fl_numposts=false;
+
+
+
+		//		
+		//
+		//		fl_post_comResponse=false;
+		//
+		//		fl_logout_resp=false;
+		//
+		//		fl_rate_resp=false;
+		//
+		//		fl_delAcc_resp=false;
+		//
+		//		fl_editProfile_resp=false;
+		//
+
+
+
+
 
 
 	}
@@ -408,7 +457,7 @@ public class MyXmlHandler extends DefaultHandler{
 					}
 				}				
 			}//get announcement
-			
+
 			if(localName.equalsIgnoreCase("myAnnouncements")){
 				fl_myAnn=true;
 			}
@@ -440,12 +489,73 @@ public class MyXmlHandler extends DefaultHandler{
 					}
 				}
 
+			} //myAnn
+
+
+			if(localName.equalsIgnoreCase("postAnnouncement")){
+				fl_postAnnouncement=true;				
+			}//postAnnouncement
+
+			if(localName.equalsIgnoreCase("getComments")){
+				fl_getcomments=true;
+			}
+			if(fl_getcomments){
+				if(localName.equalsIgnoreCase("comment")){
+					fl_com_comment=true;
+				}
+				if(fl_com_comment){
+					if(localName.equalsIgnoreCase("username")){
+						fl_com_user=true;
+					}
+					else if(localName.equalsIgnoreCase("time")){
+						fl_com_time=true;
+					}
+					else if(localName.equalsIgnoreCase("description")){
+						fl_com_txt=true;
+					}
+				}				
+			}//fl_getcomments
+
+			if(localName.equals("postComment")){
+				fl_comment_post=true;				
 			}
 
+			if(localName.equalsIgnoreCase("deleteAccount")){
+				fl_deleteAccount=true;
+			}
+			
+			if(localName.equalsIgnoreCase("getProfile")){
+				fl_profile=true;
+			}
+			if(fl_profile){
+				if(localName.equalsIgnoreCase("firstName")){
+					fl_firstName=true;
+				}
+				else if(localName.equalsIgnoreCase("lastName")){
+					fl_lastName=true;
+				}
+				else if(localName.equalsIgnoreCase("gender")){
+					fl_gender=true;
+				}
+				else if(localName.equalsIgnoreCase("age")){
+					fl_age=true;
+				}
+				else if(localName.equalsIgnoreCase("rating")){
+					fl_avgRating=true;
+				}
+				else if(localName.equalsIgnoreCase("numofPosts")){
+					fl_numposts=true;
+				}
+			}//fl_profile
+			
+			
 
 
 
-		}
+
+
+
+		}//fl_response=true
 
 
 
@@ -667,7 +777,7 @@ public class MyXmlHandler extends DefaultHandler{
 				}//fl_announcement
 
 			}//fl_getAnnouncements
-			
+
 			if(fl_myAnn){
 				if(localName.equalsIgnoreCase("myAnnouncements")){
 					fl_myAnn=false;
@@ -701,6 +811,66 @@ public class MyXmlHandler extends DefaultHandler{
 					}						
 				}
 			}//fl_myAnn
+
+			if(localName.equalsIgnoreCase("postAnnouncement")){
+				fl_postAnnouncement=false;
+			}
+
+			if(fl_getcomments){
+				if(localName.equalsIgnoreCase("getComments")){
+					fl_getcomments=false;
+				}
+				else if(fl_com_comment){
+					if(localName.equalsIgnoreCase("comment")){
+						fl_com_comment=false;
+
+						obj_serverResp1.comments.add(com);
+						com=new Classcomment();	
+					}
+					if(localName.equalsIgnoreCase("username")){
+						fl_com_user=false;
+					}
+					else if(localName.equalsIgnoreCase("time")){
+						fl_com_time=false;
+					}
+					else if(localName.equalsIgnoreCase("description")){
+						fl_com_txt=false;
+					}
+				}
+			}//getComments
+
+			if(localName.equalsIgnoreCase("postComment")){
+				fl_comment_post=false;
+			}
+			if(localName.equalsIgnoreCase("deleteAccount")){
+				fl_deleteAccount=false;			
+			}
+			
+			if(fl_profile){
+				if(localName.equalsIgnoreCase("getProfile")){
+					fl_profile=false;
+				}
+				else if(localName.equalsIgnoreCase("firstName")){
+					fl_firstName=false;
+				}
+				else if(localName.equalsIgnoreCase("lastName")){
+					fl_lastName=false;
+				}
+				else if(localName.equalsIgnoreCase("gender")){
+					fl_gender=false;
+				}
+				else if(localName.equalsIgnoreCase("age")){
+					fl_age=false;
+				}
+				else if(localName.equalsIgnoreCase("rating")){
+					fl_avgRating=false;
+				}
+				else if(localName.equalsIgnoreCase("numofPosts")){
+					fl_numposts=false;
+				}
+			}//fl_profile
+
+
 
 		}//fl_response
 
@@ -903,33 +1073,84 @@ public class MyXmlHandler extends DefaultHandler{
 					}     			
 				}	    		
 			}//ann end
-			
+
 			if(fl_myAnn){
-	    		if(fl_myAnn_announcement){
-	    			if(fl_myAnn_id){
-	    				a.announcement_id=x;
-	    			}
-	    			else if(fl_myAnn_avgRating){
-	    				a.averageRating=x;
-	    			}
-	    			else if(fl_myAnn_desc){
-	    				a.description=x;
-	    			} 
-	    			else if(fl_myAnn_lati){
-	    				a.latitude=x;
-	    			} 
-	    			else if(fl_myAnn_longi){
-	    				a.longitude=x;
-	    			} 
-	    			else if(fl_myAnn_numOfComments){
-	    				a.noOfComments=x;
-	    			} 
-	    			else if(fl_myAnn_timestamp){
-	    				a.timestamp=x;
-	    			} 
-	    		}
-	    	}//fl_myAnnouncements
+				if(fl_myAnn_announcement){
+					if(fl_myAnn_id){
+						a.announcement_id=x;
+					}
+					else if(fl_myAnn_avgRating){
+						a.averageRating=x;
+					}
+					else if(fl_myAnn_desc){
+						a.description=x;
+					} 
+					else if(fl_myAnn_lati){
+						a.latitude=x;
+					} 
+					else if(fl_myAnn_longi){
+						a.longitude=x;
+					} 
+					else if(fl_myAnn_numOfComments){
+						a.noOfComments=x;
+					} 
+					else if(fl_myAnn_timestamp){
+						a.timestamp=x;
+					} 
+				}
+			}//fl_myAnnouncements
+
+			if(fl_postAnnouncement){
+				obj_serverResp1.PostAnnouncementResponse=x;
+			}//postAnnouncement
+
+
+			if(fl_getcomments){
+				if(fl_com_comment){
+					if(fl_com_time){
+						com.ctime=x;
+					}
+					else if(fl_com_txt){
+						com.ctxt=x;
+					}
+					else if(fl_com_user){
+						com.cuser=x;
+					}
+				}
+			}//end comments
+
+
+			if(fl_comment_post){
+				obj_serverResp1.postComResponse=x;				
+			}
+
+			if(fl_deleteAccount){
+				obj_serverResp1.delAccResponse=x;
+			}
 			
+			if(fl_profile){
+	    		if(fl_firstName){
+	    			obj_serverResp1.userProfile.firstName=x;
+	    		}
+	    		else if(fl_lastName){
+	    			obj_serverResp1.userProfile.lastName=x;
+	    		}
+	    		else if(fl_age){
+	    			obj_serverResp1.userProfile.age=x;
+	    		}
+	    		else if(fl_avgRating){
+	    			obj_serverResp1.userProfile.averageRating=x;
+	    		}
+	    		else if(fl_numposts){
+	    			obj_serverResp1.userProfile.numofPost=x;
+	    		}
+	    		else if(fl_gender){
+	    			obj_serverResp1.userProfile.gender=x;
+	    		}	    		
+	    	}//fl_profile
+
+
+
 		}		
 
 	}

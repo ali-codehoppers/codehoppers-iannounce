@@ -9,32 +9,33 @@ import hibernate.entities.UserSession;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import xtras.Consts;
 
 /**
  *
  * @author Awais
  */
 public class GetProfile extends BaseActionClass
-  {
+{
 
     private String xmlResponse;
     private String sessionId;
     private String username;
 
     public void setSessionId(String sessionId)
-      {
+    {
         this.sessionId = sessionId;
-      }
+    }
 
     @Override
     public void setUsername(String username)
-      {
+    {
         this.username = username;
-      }
+    }
 
     @Override
     public String execute() throws Exception
-      {
+    {
 
         if (request.getHeader("User-Agent").contains("UNAVAILABLE"))
           {
@@ -54,20 +55,22 @@ public class GetProfile extends BaseActionClass
 
             String xml;
 
-            //xml= "<response><responseCode>
+            xml = "<response><responseCode>";
             if (!validSession) //no session registered
               {
-                xml = "<forceLogin/>"; // 1<responseCode><responseMessage>"+Consts.responseCodes[1]+"</responseMessage>"
+//                xml = "<forceLogin/>"; // "1<responseCode><responseMessage>"+Consts.responseCodes[1]+"</responseMessage>"
+                xml += "1</responseCode><responseMessage>" + Consts.responseCodes[1] + "</responseMessage>";
               } else
               {
-                xml = "<Profile>\n"; //0<responseCode><responseMessage>"+Consts.responseCodes[0]+"</responseMessage><profile>
-//                String username = request.getParameter("username");
+//                xml = "<Profile>\n"; //"0<responseCode><responseMessage>"+Consts.responseCodes[0]+"</responseMessage><profile>
+
                 List<Person> personList = personService.findByName(username);
                 if (personList.size() > 0)
                   {
+                    xml += "0</responseCode><responseMessage>"+Consts.responseCodes[0]+"</responseMessage><getProfile>";
+
                     Person person = personList.get(0);
                     int age = calculateAge(person.getDateOfBirth());
-
 
                     int numOfPosts = announcementService.findByName(username).size();
 
@@ -81,14 +84,28 @@ public class GetProfile extends BaseActionClass
                     xml += "<firstName>" + person.getFirstName() + "</firstName>\n";
                     xml += "<lastName>" + person.getLastName() + "</lastName>\n";
                     xml += "<username>" + username + "</username>\n";
-                    xml += "<rating>" + person.getAvgrating() + "</rating>\n";
+
+                    String Str_Rating=Float.toString(person.getAvgrating());
+                    if(Str_Rating.length()>8){
+                        Str_Rating=Str_Rating.substring(0,7);
+                    }
+                    
+                    xml += "<rating>" + Str_Rating + "</rating>\n";
                     xml += "<age>" + age + "</age>\n";
                     xml += "<gender>" + gender + "</gender>\n";
                     xml += "<numOfPosts>" + numOfPosts + "</numOfPosts>\n";
 
-                  }
+                    xml+= "</getProfile>";
 
-                xml += "</Profile>"; //</profile></response>
+                  } else
+                  {
+                    //if the person doesn't exits :D
+                    xml+="19<responseCode><responseMessage>"+Consts.responseCodes[19]+"</responseMessage>";
+                  }
+                
+//                xml += "</Profile>"; //</response>
+                xml += "</response>";
+                
               }
             xmlResponse = xml;
             return "MOBILE";
@@ -96,15 +113,15 @@ public class GetProfile extends BaseActionClass
           {
             return "PC";
           }
-      }
+    }
 
     public String getXmlResponse()
-      {
+    {
         return xmlResponse;
-      }
+    }
 
     private int calculateAge(Date dateOfBirth)
-      {  //source http://stackoverflow.com/questions/1116123/how-do-i-calculate-someones-age-in-java
+    {  //source http://stackoverflow.com/questions/1116123/how-do-i-calculate-someones-age-in-java
         Calendar now = Calendar.getInstance();
         Calendar dob = Calendar.getInstance();
         dob.setTime(dateOfBirth);
@@ -127,5 +144,5 @@ public class GetProfile extends BaseActionClass
               }
           }
         return age;
-      }
-  }
+    }
+}

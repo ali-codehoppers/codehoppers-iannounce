@@ -76,7 +76,7 @@ public class AnnouncementPost extends BaseActionClass
             if (newId != 0)
               {
 //                xml += "Announcement successfully posted. Will be shortly available";// 0<responseCode><responseMessage>"+Consts.responseCodes[0]+"</responseMessage><announcementPost>Consts.ANNOUNCEMENTPOST_SUCCESS</announcementPost>"
-                xml += "0</responseCode><responseMessage>" + Consts.responseCodes[0] + "</responseMessage><announcementPost>Consts.ANNOUNCEMENTPOST_SUCCESS</announcementPost>";
+                xml += "0</responseCode><responseMessage>" + Consts.responseCodes[0] + "</responseMessage><postAnnouncement>"+Consts.ANNOUNCEMENTPOST_SUCCESS+"</postAnnouncement>";
               } else
               {
 //                xml += "Error. Please try again"; //11<responseCode><responseMessage>"+Consts.responseCodes[11]+"</responseMessage>

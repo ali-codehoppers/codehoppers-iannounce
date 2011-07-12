@@ -6,8 +6,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Xml;
 import android.widget.TextView;
+import android.widget.Toast;
 /**
  * Activity for the displaying the profile of anyother user.
  * @author Awais
@@ -27,31 +29,42 @@ public class UserProfile extends Activity {
 
 		SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
 
-		String resp=ht.getProfile(settings.getString("sessionId", "0"),username);
-		MyXmlHandler mh=new MyXmlHandler();
-		try {
-			Xml.parse(resp, mh);
-		} catch (SAXException e) {
-			e.printStackTrace();
-		}
-		if(!mh.obj_serverResp1.forceLogin){
-			((TextView)findViewById(R.id.pro_name)).setText(mh.obj_serverResp1.userProfile.firstName+" "+mh.obj_serverResp1.userProfile.lastName);
-			((TextView)findViewById(R.id.pro_age)).setText(mh.obj_serverResp1.userProfile.age);
-			((TextView)findViewById(R.id.pro_avg_rate)).setText(mh.obj_serverResp1.userProfile.averageRating);
-			if((mh.obj_serverResp1.userProfile.gender).equalsIgnoreCase("0")){
-				((TextView)findViewById(R.id.pro_gender)).setText("Female");
-			}
-			else{
-				((TextView)findViewById(R.id.pro_gender)).setText("Male");
-			}
-
-			((TextView)findViewById(R.id.pro_noofposts)).setText(mh.obj_serverResp1.userProfile.numofPost);
-			((TextView)findViewById(R.id.pro_uname)).setText(username);
+		ht.getProfile(settings.getString("sessionId", "0"),username);
+		
+		
+		if(ht.isError){
+			Toast.makeText(getApplicationContext(), ht.xception, Toast.LENGTH_LONG).show();
 		}
 		else{
-			Intent resultIntent = new Intent();
-			setResult(Activity.RESULT_OK, resultIntent);
-			finish();
+			MyXmlHandler mh=new MyXmlHandler();
+			try {
+				Xml.parse(ht.xmlStringResponse, mh);
+			} catch (SAXException e) {
+				e.printStackTrace();
+			}
+
+			if(!mh.obj_serverResp1.responseCode.equalsIgnoreCase("0")){
+				Toast.makeText(getApplicationContext(), mh.obj_serverResp1.responseMessage, Toast.LENGTH_LONG).show();
+				if(mh.obj_serverResp1.responseCode.equalsIgnoreCase("1")){
+					Intent resultIntent = new Intent();
+					setResult(Activity.RESULT_OK, resultIntent);
+					finish();
+				}
+			}
+			else{
+				((TextView)findViewById(R.id.pro_name)).setText(mh.obj_serverResp1.userProfile.firstName+" "+mh.obj_serverResp1.userProfile.lastName);
+				((TextView)findViewById(R.id.pro_age)).setText(mh.obj_serverResp1.userProfile.age);
+				((TextView)findViewById(R.id.pro_avg_rate)).setText(mh.obj_serverResp1.userProfile.averageRating);
+				if((mh.obj_serverResp1.userProfile.gender).equalsIgnoreCase("0")){
+					((TextView)findViewById(R.id.pro_gender)).setText("Female");
+				}
+				else{
+					((TextView)findViewById(R.id.pro_gender)).setText("Male");
+				}
+
+				((TextView)findViewById(R.id.pro_noofposts)).setText(mh.obj_serverResp1.userProfile.numofPost);
+				((TextView)findViewById(R.id.pro_uname)).setText(username);
+			}
 		}
 
 	}
