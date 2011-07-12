@@ -85,7 +85,6 @@ public class CommentActivity extends Activity{
 					int count, int after) {
 				int len=et_comment.getText().toString().length();
 				commentLen.setText(CHAR_LIMIT-len+"\t Characters left");
-
 			}
 
 		});
@@ -93,12 +92,10 @@ public class CommentActivity extends Activity{
 
 		combar.addView(commentLen);
 
-
-
 		l1.addView(et_comment);
 
-
 		Button bt_comment=new Button(this);
+
 		bt_comment.setText("Submit");
 
 		bt_comment.setOnClickListener(new OnClickListener() {
@@ -110,22 +107,32 @@ public class CommentActivity extends Activity{
 				else if(et_comment.getText().length()<=CHAR_LIMIT){
 					HttpPostRequest ht=new HttpPostRequest();
 					SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
-					String s=ht.postComment(settings.getString("sessionId","0"), et_comment.getText().toString(), b.getString("aid"));
-					MyXmlHandler mh=new MyXmlHandler();
-					try {
-						Xml.parse(s, mh);
-					} catch (SAXException e) {
-						e.printStackTrace();
-					}
-					if(mh.obj_serverResp1.forceLogin){
-						Intent resultIntent = new Intent();
-						setResult(Activity.RESULT_OK, resultIntent);
-						finish();
+					ht.postComment(settings.getString("sessionId","0"), et_comment.getText().toString(), b.getString("aid"));
+
+					if(ht.isError){
+						Toast.makeText(getApplicationContext(), ht.xception, Toast.LENGTH_LONG).show();
 					}
 					else{
-						Toast.makeText(getApplicationContext(), mh.obj_serverResp1.postComResponse, Toast.LENGTH_LONG).show();
-						genGUI();
+						MyXmlHandler mh=new MyXmlHandler();
+						try {
+							Xml.parse(ht.xmlStringResponse, mh);
+						} catch (SAXException e) {
+							e.printStackTrace();
+						}
+						if(!mh.obj_serverResp1.responseCode.equalsIgnoreCase("0")){
+							Toast.makeText(getApplicationContext(), mh.obj_serverResp1.responseMessage, Toast.LENGTH_LONG).show();
+							if(mh.obj_serverResp1.responseCode.equalsIgnoreCase("1")){
+								Intent resultIntent = new Intent();
+								setResult(Activity.RESULT_OK, resultIntent);
+								finish();
+							}
+						}
+						else{
+							Toast.makeText(getApplicationContext(), mh.obj_serverResp1.postComResponse, Toast.LENGTH_LONG).show();
+							genGUI();
+						}
 					}
+					//if charaacter limit not reached
 				}else{
 					Toast.makeText(getApplicationContext(),"Character Limit Reached", Toast.LENGTH_LONG).show();
 					et_comment.requestFocus();
@@ -168,77 +175,76 @@ public class CommentActivity extends Activity{
 		SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
 
 		HttpPostRequest ht=new HttpPostRequest();
-		String resp=ht.getComments(settings.getString("sessionId","0"), aid);
-
-		MyXmlHandler myhandler=new MyXmlHandler();
-		try {
-			Xml.parse(resp, myhandler);
-		} catch (SAXException e) {
-			e.printStackTrace();
-		}
-		ServerResponse obj_serRes=myhandler.obj_serverResp1;
-		if(obj_serRes.forceLogin){
-			Intent resultIntent = new Intent();
-			setResult(Activity.RESULT_OK, resultIntent);
-			finish();
+		ht.getComments(settings.getString("sessionId","0"), aid);
+		if(ht.isError){
+			Toast.makeText(getApplicationContext(), ht.xception, Toast.LENGTH_LONG).show();
 		}
 		else{
-			//		ArrayList<String> data=new ArrayList<String>();
-			for(int i=0;i<obj_serRes.comments.size();i++){
-				String s=obj_serRes.comments.get(i).ctxt+" ("+ (obj_serRes.comments.get(i).ctime).substring(0,(obj_serRes.comments.get(i).ctime).length()-2)+" )";
-				LinearLayout templay=new LinearLayout(this);
-				templay.setOrientation(LinearLayout.HORIZONTAL);
-				templay.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT ));
-
-				TextView tv=new TextView(this);
-
-
-
-				tv.setText(Html.fromHtml("<b>"+obj_serRes.comments.get(i).cuser+"</b>"));
-				tv.setTextSize(20);
-
-				final String userSn=obj_serRes.comments.get(i).cuser;
-
-				tv.setOnClickListener(new OnClickListener() {
-
-					public void onClick(View v) {
-						Intent myIntent = new Intent(v.getContext(), UserProfile.class);
-						Bundle b=new Bundle();
-
-						b.putString("username",userSn);
-						myIntent.putExtras(b);
-						startActivityForResult(myIntent,3);
-
-					}
-				});
-
-
-				TextView tv2=new TextView(this);
-				tv2.setText(s);
-				tv2.setTextSize(18);
-				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-				lp.setMargins(10, 0, 0, 0);
-				tv2.setLayoutParams(lp);
-
-
-				templay.addView(tv);
-				templay.addView(tv2);
-
-				LM.addView(templay);
-
+			MyXmlHandler myhandler=new MyXmlHandler();
+			try {
+				Xml.parse(ht.xmlStringResponse, myhandler);
+			} catch (SAXException e) {
+				e.printStackTrace();
 			}
-			sc.addView(LM);
+
+			if(!myhandler.obj_serverResp1.responseCode.equalsIgnoreCase("0")){
+				Toast.makeText(getApplicationContext(), myhandler.obj_serverResp1.responseMessage, Toast.LENGTH_LONG).show();
+				if(myhandler.obj_serverResp1.responseCode.equalsIgnoreCase("1")){
+					Intent resultIntent = new Intent();
+					setResult(Activity.RESULT_OK, resultIntent);					
+					finish();					
+				}
+			}
+			else{
+
+				//		ArrayList<String> data=new ArrayList<String>();
+				for(int i=0;i<myhandler.obj_serverResp1.comments.size();i++){
+					String s=myhandler.obj_serverResp1.comments.get(i).ctxt+" ("+ (myhandler.obj_serverResp1.comments.get(i).ctime).substring(0,(myhandler.obj_serverResp1.comments.get(i).ctime).length()-2)+" )";
+					LinearLayout templay=new LinearLayout(this);
+					templay.setOrientation(LinearLayout.HORIZONTAL);
+					templay.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT ));
+
+					TextView tv=new TextView(this);
 
 
 
+					tv.setText(Html.fromHtml("<b>"+myhandler.obj_serverResp1.comments.get(i).cuser+"</b>"));
+					tv.setTextSize(20);
+
+					final String userSn=myhandler.obj_serverResp1.comments.get(i).cuser;
+
+					tv.setOnClickListener(new OnClickListener() {
+						public void onClick(View v) {
+							Intent myIntent = new Intent(v.getContext(), UserProfile.class);
+							Bundle b=new Bundle();
+
+							b.putString("username",userSn);
+							myIntent.putExtras(b);
+							startActivityForResult(myIntent,3);
+						}
+					});
+
+
+					TextView tv2=new TextView(this);
+					tv2.setText(s);
+					tv2.setTextSize(18);
+					LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+					lp.setMargins(10, 0, 0, 0);
+					tv2.setLayoutParams(lp);
+
+
+					templay.addView(tv);
+					templay.addView(tv2);
+
+					LM.addView(templay);
+
+				}
+				sc.addView(LM);				
+			}
 		}
-
-
-
 		l1.addView(sc);
-
-
 		pdialog1.cancel();
+
 	}
 
 	@Override

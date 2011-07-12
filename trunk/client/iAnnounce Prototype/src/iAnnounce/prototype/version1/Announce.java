@@ -71,7 +71,7 @@ public class Announce extends Activity {
     		});
     	 taba=(TabActivity) getParent();
     	 Button bt=(Button)findViewById(R.id.bt_announce_submit);
-    	 final Activity c=this;
+    	 
     	 bt.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
@@ -97,30 +97,34 @@ public class Announce extends Activity {
 					return;
 				}
 				
-				String response=http.PostAnnouncement(settings.getString("sessionId","0"), (range.getText()).toString(),announcement , settings.getString("Longitude","0"), settings.getString("Latitude","0"));
-		    	
-		    	MyXmlHandler myhandler=new MyXmlHandler();
 				
-				try {
-					Xml.parse(response, myhandler);
-				} catch (SAXException e) {
-					e.printStackTrace();
-				}
+				http.PostAnnouncement(settings.getString("sessionId","0"), (range.getText()).toString(),announcement , settings.getString("Longitude","0"), settings.getString("Latitude","0"));
 				
-				ServerResponse obj_serRes=myhandler.obj_serverResp1;
-				
-				if(obj_serRes.forceLogin){
-					Toast.makeText(getApplicationContext(),"Please Login Again", Toast.LENGTH_LONG).show();
-					c.finish();
+				if(http.isError){
+					Toast.makeText(getApplicationContext(),http.xception, Toast.LENGTH_LONG).show();
 				}
 				else{
-					Toast.makeText(getApplicationContext(),obj_serRes.PostAnnouncementResponse, Toast.LENGTH_LONG).show();
-					TabHost th= taba.getTabHost();
-					th.setCurrentTab(0);
-				}
-				
-			
-				
+					MyXmlHandler myhandler=new MyXmlHandler();
+					
+					try {
+						Xml.parse(http.xmlStringResponse, myhandler);
+					} catch (SAXException e) {
+						e.printStackTrace();
+					}
+					
+					if(myhandler.obj_serverResp1.responseCode.equalsIgnoreCase("0")){
+						Toast.makeText(getApplicationContext(),myhandler.obj_serverResp1.PostAnnouncementResponse, Toast.LENGTH_LONG).show();
+						((EditText)findViewById(R.id.et_announcement)).setText("");
+						TabHost th= taba.getTabHost();
+						th.setCurrentTab(0);
+					}
+					else{
+						Toast.makeText(getApplicationContext(),myhandler.obj_serverResp1.responseMessage, Toast.LENGTH_LONG).show();
+						if(myhandler.obj_serverResp1.responseCode.equalsIgnoreCase("1")){
+							finish();
+						}
+					}
+				}	
 			}
 		});
     	 

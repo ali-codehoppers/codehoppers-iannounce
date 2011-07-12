@@ -54,7 +54,9 @@ public class EditProfile extends Activity {
 
 		SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
 
-		String resp=ht.getProfile(settings.getString("sessionId", "0"),settings.getString("userName", "0"));
+//		String resp=ht.getProfile(settings.getString("sessionId", "0"),settings.getString("userName", "0"));
+		
+		String resp="";
 		MyXmlHandler mh=new MyXmlHandler();
 		try {
 			Xml.parse(resp, mh);

@@ -7,6 +7,7 @@ package actions.struts;
 import hibernate.entities.Person;
 import hibernate.entities.UserSession;
 import java.util.List;
+import xtras.Consts;
 
 /**
  *
@@ -29,7 +30,8 @@ public class DeleteAccount extends BaseActionClass
 
         if (request.getHeader("User-Agent").contains("UNAVAILABLE"))
           {
-            String xml = ""; //<response><responseCode>
+//            String xml = ""; //<response><responseCode>
+            String xml="<response><responseCode>";
             List<UserSession> userSessionList = userSessionService.getAll();
 
             Person person = personService.findByName(username).get(0);
@@ -49,15 +51,18 @@ public class DeleteAccount extends BaseActionClass
                       {
                         userSession.setStatuss(false);
                         userSessionService.addOrUpdate(userSession);
+                        xml+="0</responseCode><responseMessage>"+Consts.responseCodes[0]+"</responseMessage><deleteAccount>"+Consts.DELETEACCOUNT_SUCCESS+"</deleteAccount>";
                       }
                   }
-                xml = "<DeleteAccount>true</DeleteAccount>"; //0<responseCode><responseMessage>"+Consts.responseCodes[0]+"</responseMessage><deleteAccount>Const.DELETEACCOUNT_SUCCESS<deleteAccount>"
+//                xml = "<DeleteAccount>true</DeleteAccount>"; //0<responseCode><responseMessage>"+Consts.responseCodes[0]+"</responseMessage><deleteAccount>Const.DELETEACCOUNT_SUCCESS<deleteAccount>"
               } else
               {
-                xml = "<DeleteAccount>Invalid Password</DeleteAccount>"; //13<responseCode><responseMessage>"+Consts.responseCodes[13]+"</responseMessage>"
+//                xml = "<DeleteAccount>Invalid Password</DeleteAccount>"; //13<responseCode><responseMessage>"+Consts.responseCodes[13]+"</responseMessage>"
+                xml+="13</responseCode><responseMessage>"+Consts.responseCodes[13]+"</responseMessage>";
               }
             
-            //xml+=</response>
+            xml+="</response>";
+
             xmlResponse = xml;
             return "MOBILE";
           } else

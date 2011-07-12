@@ -223,22 +223,8 @@ public class MyAnnouncments extends Activity {
 			l2.addView(l4);
 			l1.addView(l2);
 		}
-
 		mainLayout.addView(v);
-
-
 	}
-
-
-
-
-
-
-
-
-
-
-
 
 
 	@Override

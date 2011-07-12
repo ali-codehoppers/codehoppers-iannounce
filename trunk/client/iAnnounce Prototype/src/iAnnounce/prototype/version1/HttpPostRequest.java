@@ -25,41 +25,41 @@ import android.util.Log;
  */	
 
 public class HttpPostRequest {
-	
+
 	private BufferedReader in = null;
 	private HttpClient client = new DefaultHttpClient();
 	private HttpPost request = new HttpPost();
 	public boolean isError;
 	public String xception;
 	public String xmlStringResponse;
-	
-	
-	
-	
-	
-	
-	
-	 public HttpPostRequest() {		 		 
+
+
+
+
+
+
+
+	public HttpPostRequest() {		 		 
 		super();
 		isError=false;
 	}
-	private String base_url="http://192.168.0.100:8080/iAnnounce";  
-//	 private String base_url="http://192.168.1.2:8080/do";
-     private String URL_register=base_url+"/register";
-     private String URL_forgotPassword=base_url+"/forgetpassword";
-     private String URL_login=base_url+"/login";
-     private String URL_PostAnnouncement=base_url+"/postannouncement";
-     private String URL_getAnnouncements=base_url+"/getannouncements";
-     public String URL_getProfile=base_url+"/getprofile";
-     public String URL_postComment=base_url+"/postcomment";
-     public String URL_getComments=base_url+"/getcomments";
-     public String URL_rateAnnouncement=base_url+"/rate";
-     public String URL_Logout=base_url+"/logout";
-     public String uRL_deleteProfile=base_url+"/deleteaccount";
-     public String uRL_editProfile=base_url+"/editprofile";
-     public String uRL_myannouncements=base_url+"/getmyannouncements";
-	
-	
+	private String base_url="http://192.168.0.102:8080/iAnnounce";  
+	//	 private String base_url="http://192.168.1.2:8080/do";
+	private String URL_register=base_url+"/register";
+	private String URL_forgotPassword=base_url+"/forgetpassword";
+	private String URL_login=base_url+"/login";
+	private String URL_PostAnnouncement=base_url+"/postannouncement";
+	private String URL_getAnnouncements=base_url+"/getannouncements";
+	public String URL_getProfile=base_url+"/getprofile";
+	public String URL_postComment=base_url+"/postcomment";
+	public String URL_getComments=base_url+"/getcomments";
+	public String URL_rateAnnouncement=base_url+"/rate";
+	public String URL_Logout=base_url+"/logout";
+	public String uRL_deleteProfile=base_url+"/deleteaccount";
+	public String uRL_editProfile=base_url+"/editprofile";
+	public String uRL_myannouncements=base_url+"/getmyannouncements";
+
+
 
 	/**
 	 * To send the httppost request to server on defined url for registering a user
@@ -73,7 +73,7 @@ public class HttpPostRequest {
 	 * @param dob date of birth in DD/MM/YYYY format 
 	 */
 	public String register(String firstName, String lastName,String username, String password,String email,String gender, String DOB) throws ClientProtocolException, IOException {
-		
+
 		try {
 
 			request.setURI(new URI(URL_register));
@@ -100,8 +100,8 @@ public class HttpPostRequest {
 			}
 			in.close();
 			xmlStringResponse = sb.toString();
-			
-				
+
+
 
 		} catch (Exception e) {
 			isError=true;
@@ -110,7 +110,7 @@ public class HttpPostRequest {
 		return "abcd";
 
 	}
-		
+
 	/**
 	 * Method for getting the announcements on the base of  
 	 * @param sessionID sessionid of logged in user.
@@ -128,7 +128,7 @@ public class HttpPostRequest {
 			postParameters.add(new BasicNameValuePair("latitude", latitude));
 			postParameters.add(new BasicNameValuePair("longitude", longitude));
 			postParameters.add(new BasicNameValuePair("pageNum", pagenum));
-			
+
 
 			UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(
 					postParameters);
@@ -144,17 +144,17 @@ public class HttpPostRequest {
 			}
 			in.close();
 			xmlStringResponse = sb.toString();	
-			
+
 
 		} catch (Exception e) {
 			isError=true;
 			xception=e.getMessage();
 		}	
-		
 
-		
+
+
 	}
-	
+
 	/**
 	 * Method for login, session will be generated
 	 * @param username
@@ -183,8 +183,8 @@ public class HttpPostRequest {
 			}
 			in.close();
 			xmlStringResponse = sb.toString();
-			
-				
+
+
 
 		} catch (Exception e) {
 			isError=true;
@@ -192,7 +192,7 @@ public class HttpPostRequest {
 		}	
 
 	}
-	
+
 	/**
 	 * Method if user forgets his password.
 	 * @param username
@@ -226,7 +226,7 @@ public class HttpPostRequest {
 		return "";
 
 	}
-		
+
 	/**
 	 *  Method for posting and announcement based on users current location with a specified range
 	 * @param sessionId
@@ -236,7 +236,7 @@ public class HttpPostRequest {
 	 * @param Latitude
 	 * @return server response as xml string
 	 */
-	public String PostAnnouncement(String sessionId,String range,String Announcement,String Longitude, String Latitude){
+	public void PostAnnouncement(String sessionId,String range,String Announcement,String Longitude, String Latitude){
 		try{
 			request.setURI(new URI(URL_PostAnnouncement));
 
@@ -263,20 +263,20 @@ public class HttpPostRequest {
 			xmlStringResponse = sb.toString();	
 		} catch (Exception e) {
 			isError=true;
-			xception=e.toString();
+			xception=e.getMessage();
 		}	
-		return "";
+
 
 
 	}
-	
+
 	/**
 	 * Method for getting the Profile of user. User must have a session to get hit profile/someone else's profile
 	 * @param sessionId
 	 * @param userName
 	 * @return xml string
 	 */
-	public String getProfile(String sessionId,String userName){
+	public void getProfile(String sessionId,String userName){
 		try{
 			request.setURI(new URI(URL_getProfile));
 
@@ -297,15 +297,12 @@ public class HttpPostRequest {
 				sb.append(line + NL);
 			}
 			in.close();
-			xmlStringResponse = sb.toString();	
+			xmlStringResponse = sb.toString();
+			
 		} catch (Exception e) {
 			isError=true;
-			xception=e.toString();
-		}	
-		
-		return "";
-
-
+			xception=e.getMessage();
+		}
 
 	}
 
@@ -316,7 +313,7 @@ public class HttpPostRequest {
 	 * @param annoucementId
 	 * @return server response as xml string
 	 */
-	public String postComment(String sessionId,String comment, String annoucementId){
+	public void postComment(String sessionId,String comment, String annoucementId){
 		try{
 			request.setURI(new URI(URL_postComment));
 
@@ -339,11 +336,12 @@ public class HttpPostRequest {
 			}
 			in.close();
 			xmlStringResponse = sb.toString();	
+			
 		} catch (Exception e) {
 			isError=true;
-			xception=e.toString();
+			xception=e.getMessage();
 		}	
-		return "";
+
 	}
 	/**
 	 * Method to get the comments of a specified announcements
@@ -351,8 +349,8 @@ public class HttpPostRequest {
 	 * @param annoucementId
 	 * @return server response as xml string
 	 */
-	
-	public String getComments(String sessionId,String annoucementId){
+
+	public void getComments(String sessionId,String annoucementId){
 		try{
 			request.setURI(new URI(URL_getComments));
 
@@ -373,14 +371,15 @@ public class HttpPostRequest {
 				sb.append(line + NL);
 			}
 			in.close();
-			xmlStringResponse = sb.toString();	
+			xmlStringResponse = sb.toString();
+
 		} catch (Exception e) {
 			isError=true;
-			xception=e.toString();
+			xception=e.getMessage();
 		}	
-		return "";
+
 	}
-	
+
 	/**
 	 * Method for rating an announcement
 	 * @param sessionId session id of user logged in
@@ -417,7 +416,7 @@ public class HttpPostRequest {
 		}	
 		return "";
 	}
-	
+
 	/**
 	 * Method for user to logout. Session of user will be destroyed at server side
 	 * @param sessionId
@@ -450,21 +449,21 @@ public class HttpPostRequest {
 		}	
 		return "";
 	}
-	
+
 	/**
 	 * Method for deleting a profile.
 	 * @param sessionId
 	 * @param Password
 	 * @return parsable xml string from server
 	 */
-	
-	public String deleteProfile(String sessionId, String Password){
+
+	public void deleteProfile(String sessionId, String Password){
 		try{
 			request.setURI(new URI(uRL_deleteProfile));
 
 			List<NameValuePair> postParameters = new ArrayList<NameValuePair>();
 			postParameters.add(new BasicNameValuePair("sessionId", sessionId));
-			Log.e("Erorr :D", Password);
+
 			postParameters.add(new BasicNameValuePair("password", AeSimpleMD5.MD5(Password)));
 
 			UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(
@@ -483,10 +482,10 @@ public class HttpPostRequest {
 			xmlStringResponse = sb.toString();	
 		} catch (Exception e) {
 			isError=true;
-			xception=e.toString();
+			xception=e.getMessage();
 		}	
-		return "";
-		
+
+
 	}
 	/**
 	 * Method for updating the profile of user.
@@ -499,7 +498,7 @@ public class HttpPostRequest {
 	 * @param dob
 	 * @return parsable xml string from server
 	 */
-	
+
 	public String editProfile(String sessionId, String oldPassword, String newPassword, String gender,String fname,String lname, String dob){
 		try{
 			request.setURI(new URI(uRL_editProfile));
@@ -546,7 +545,7 @@ public class HttpPostRequest {
 	 * @param pagenum
 	 * @return server response xml string
 	 */
-	
+
 	public void getMyAnnouncements(String sessionId,String pagenum){
 		try{
 			request.setURI(new URI(uRL_myannouncements));
@@ -573,7 +572,7 @@ public class HttpPostRequest {
 			isError=true;
 			xception=e.getMessage();
 		}	
-		
+
 	}
 }
 
