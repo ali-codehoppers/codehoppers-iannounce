@@ -11,6 +11,7 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
+import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -39,9 +40,13 @@ public class optionAct extends Activity{
 
 		final EditText et1=(EditText)findViewById(R.id.et_LocFreq);
 		et1.setText(settings.getString("timeInterval",""));
+		
+		et1.setInputType(InputType.TYPE_CLASS_NUMBER);
 
 		final EditText et_dist=(EditText)findViewById(R.id.et_distance);
 		et_dist.setText(settings.getString("distanceMeter",""));
+		
+		et_dist.setInputType(InputType.TYPE_CLASS_NUMBER);
 
 		Button bt_save= (Button)findViewById(R.id.bt_option_save);
 		Button bt_cancel= (Button)findViewById(R.id.bt_option_cancel);

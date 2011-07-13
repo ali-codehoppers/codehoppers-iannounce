@@ -16,8 +16,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
-import android.util.Log;
-
 /**
  * Class to generate the postrequests to server for communication. Data is returned from methods as string.
  * @author Awais Akhtar
@@ -32,11 +30,6 @@ public class HttpPostRequest {
 	public boolean isError;
 	public String xception;
 	public String xmlStringResponse;
-
-
-
-
-
 
 
 	public HttpPostRequest() {		 		 
@@ -72,12 +65,9 @@ public class HttpPostRequest {
 	 * @param gender String consists of 0 for female 1 for male
 	 * @param dob date of birth in DD/MM/YYYY format 
 	 */
-	public String register(String firstName, String lastName,String username, String password,String email,String gender, String DOB) throws ClientProtocolException, IOException {
-
+	public void register(String firstName, String lastName,String username, String password,String email,String gender, String DOB) throws ClientProtocolException, IOException {
 		try {
-
 			request.setURI(new URI(URL_register));
-
 			List<NameValuePair> postParameters = new ArrayList<NameValuePair>();
 			postParameters.add(new BasicNameValuePair("firstName", firstName));
 			postParameters.add(new BasicNameValuePair("lastName", lastName));
@@ -100,14 +90,11 @@ public class HttpPostRequest {
 			}
 			in.close();
 			xmlStringResponse = sb.toString();
-
-
-
 		} catch (Exception e) {
 			isError=true;
-			xception=e.toString();
+			xception=e.getMessage();
 		}	
-		return "abcd";
+		
 
 	}
 
@@ -198,7 +185,7 @@ public class HttpPostRequest {
 	 * @param username
 	 * @return  server response as xml string 
 	 */
-	public String forgetPassword(String username){
+	public void forgetPassword(String username){
 		try{
 			request.setURI(new URI(URL_forgotPassword));
 
@@ -221,9 +208,9 @@ public class HttpPostRequest {
 			xmlStringResponse = sb.toString();	
 		} catch (Exception e) {
 			isError=true;
-			xception=e.toString();
+			xception = e.getMessage();
 		}	
-		return "";
+		
 
 	}
 
@@ -279,7 +266,7 @@ public class HttpPostRequest {
 	public void getProfile(String sessionId,String userName){
 		try{
 			request.setURI(new URI(URL_getProfile));
-
+			
 			List<NameValuePair> postParameters = new ArrayList<NameValuePair>();
 			postParameters.add(new BasicNameValuePair("sessionId", sessionId));
 			postParameters.add(new BasicNameValuePair("username", userName));
@@ -297,8 +284,7 @@ public class HttpPostRequest {
 				sb.append(line + NL);
 			}
 			in.close();
-			xmlStringResponse = sb.toString();
-			
+			xmlStringResponse = sb.toString();			
 		} catch (Exception e) {
 			isError=true;
 			xception=e.getMessage();
@@ -387,7 +373,7 @@ public class HttpPostRequest {
 	 * @param status 0 for rating up and 1 for rating down
 	 * @return server response as xml string
 	 */
-	public String rateAnnouncement(String sessionId,String annoucementId, String status){
+	public void rateAnnouncement(String sessionId,String annoucementId, String status){
 		try{
 			request.setURI(new URI(URL_rateAnnouncement));
 
@@ -412,9 +398,9 @@ public class HttpPostRequest {
 			xmlStringResponse = sb.toString();	
 		} catch (Exception e) {
 			isError=true;
-			xception=e.toString();
+			xception=e.getMessage();
 		}	
-		return "";
+		
 	}
 
 	/**
@@ -422,7 +408,7 @@ public class HttpPostRequest {
 	 * @param sessionId
 	 * @return server response as xml string
 	 */
-	public String logout(String sessionId){
+	public void logout(String sessionId){
 		try{
 			request.setURI(new URI(URL_Logout));
 
@@ -445,9 +431,9 @@ public class HttpPostRequest {
 			xmlStringResponse = sb.toString();	
 		} catch (Exception e) {
 			isError=true;
-			xception=e.toString();
+			xception=e.getMessage();
 		}	
-		return "";
+		
 	}
 
 	/**
@@ -499,7 +485,7 @@ public class HttpPostRequest {
 	 * @return parsable xml string from server
 	 */
 
-	public String editProfile(String sessionId, String oldPassword, String newPassword, String gender,String fname,String lname, String dob){
+	public void editProfile(String sessionId, String oldPassword, String newPassword, String gender,String fname,String lname, String dob){
 		try{
 			request.setURI(new URI(uRL_editProfile));
 			if(oldPassword.length()!=0){
@@ -535,9 +521,9 @@ public class HttpPostRequest {
 			xmlStringResponse = sb.toString();	
 		} catch (Exception e) {
 			isError=true;
-			xception=e.toString();
+			xception=e.getMessage();
 		}	
-		return "";
+
 	}
 	/**
 	 * Method for the getting user's announcements only

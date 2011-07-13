@@ -8,6 +8,7 @@ import hibernate.entities.Announcement;
 import hibernate.entities.Person;
 import hibernate.entities.Rating;
 import java.util.List;
+import xtras.Consts;
 
 /**
  *
@@ -35,7 +36,8 @@ public class RatingPost extends BaseActionClass
     {
         if (request.getHeader("User-Agent").contains("UNAVAILABLE"))
           {
-            String xml = "<Rate>"; //<response><responseCode>
+//            String xml = "<Rate>"; //<response><responseCode>
+            String xml="<response><responseCode>";
             Announcement announcement = announcementService.getById(Integer.parseInt(announcementId));
             Boolean fl_status = true;
             //get user rating
@@ -69,13 +71,16 @@ public class RatingPost extends BaseActionClass
             Integer newId = ratingService.addNew(rating);
             if (newId != 0)
               {
-                xml += "Successfully rated."; //0<responseCode><responseMessage>"+Consts.responseCodes[0]+"</responseMessage><rate>Consts.RATING_SUCCESS</rate>"
+//                xml += "Successfully rated."; //0<responseCode><responseMessage>"+Consts.responseCodes[0]+"</responseMessage><rate>Consts.RATING_SUCCESS</rate>"
+                xml += "0</responseCode><responseMessage>"+Consts.responseCodes[0]+"</responseMessage><ratingPost>"+Consts.RATING_SUCCESS+"</ratingPost>";
               } else
               {
-                xml += "Error occured. Please try again."; //15<responseCode><responseMessage>"+Consts.responseCodes[15]+"</responseMessage>"
+//                xml += "Error occured. Please try again."; //15<responseCode><responseMessage>"+Consts.responseCodes[15]+"</responseMessage>"
+                xml += "15</responseCode><responseMessage>"+Consts.responseCodes[15]+"</responseMessage>";
               }
 
-            xml += "</Rate>"; //</response>
+//            xml += "</Rate>"; //</response>
+            xml += "</response>";
 
 
             xmlResponse = xml;

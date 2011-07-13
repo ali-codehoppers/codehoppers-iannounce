@@ -91,12 +91,11 @@ public class iAnnounceService extends Service{
 			case START_TIMERTASK:
 				mClient=msg.replyTo;
 				start_timerTask();
-
 				break;
 			case STOP_TIMERTASK:
 				if(tim!=null)
-				{	tim.cancel();
-
+				{	
+					tim.cancel();
 				}
 
 				break;
@@ -174,7 +173,7 @@ public class iAnnounceService extends Service{
 	 */
 	void start_timerTask(){
 
-		TimerTask tTask= new TimerTask() {
+		tTask= new TimerTask() {
 
 			@Override
 			public void run() {

@@ -1,7 +1,11 @@
 package iAnnounce.prototype.version1;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.regex.Pattern;
+
+import org.apache.http.client.ClientProtocolException;
+import org.xml.sax.SAXException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -13,6 +17,8 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.text.InputType;
+import android.util.Xml;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -35,6 +41,13 @@ public class Registeration extends Activity {
 	private int mMonth;
 	private int mDay;
 	private ProgressDialog pdialog1;
+	
+	private EditText et_fname;
+	private EditText et_lname;
+	private EditText et_username;
+	private EditText et_email;
+	private EditText et_password;
+	
 
 	static final int DATE_DIALOG_ID = 0;
 	/** Called when the activity is first created. */
@@ -57,6 +70,15 @@ public class Registeration extends Activity {
 		});
 
 		final User user1=new User();
+		
+		et_fname=(EditText)findViewById(R.id.registrationEdittextName);
+		et_lname=(EditText)findViewById(R.id.registrationEdittextLastName);
+		et_username=(EditText)findViewById(R.id.registrationEdittextUsername);
+		et_password=(EditText)findViewById(R.id.registrationEdittextPassword);
+		et_email=(EditText)findViewById(R.id.registrationEdittextEmail);
+		
+		
+		et_email.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
 
 		Button bt_register=(Button)findViewById(R.id.bt_register);
 
@@ -79,12 +101,12 @@ public class Registeration extends Activity {
 					}
 				}
 				String res="";
-				user1.firstName=(((EditText)findViewById(R.id.registrationEdittextName)).getText()).toString();
-				user1.lastName=(((EditText)findViewById(R.id.registrationEdittextLastName)).getText()).toString();
-				user1.lastName=(((EditText)findViewById(R.id.registrationEdittextLastName)).getText()).toString();
-				user1.userName=(((EditText)findViewById(R.id.registrationEdittextUsername)).getText()).toString();
-				user1.setPassword((((EditText)findViewById(R.id.registrationEdittextPassword)).getText()).toString());
-				user1.email=(((EditText)findViewById(R.id.registrationEdittextEmail)).getText()).toString();
+				user1.firstName=et_fname.getText().toString();
+//				user1.lastName=(((EditText)findViewById(R.id.registrationEdittextLastName)).getText()).toString();
+				user1.lastName=et_lname.getText().toString();
+				user1.userName=et_username.getText().toString();
+				user1.setPassword(et_password.getText().toString());
+				user1.email=et_email.getText().toString();
 				user1.gender=gender;
 				user1.dob=mYear+"/"+mMonth+"/"+mDay;
 				if(validate(user1))
@@ -100,17 +122,39 @@ public class Registeration extends Activity {
 					else{
 						pdialog1 = ProgressDialog.show(Registeration.this,"", 
 								"Loading. Please wait...", true);
-						res=user1.register();
-						pdialog1.cancel();
-						String []bo=res.split(":");
-						if(bo[0].equalsIgnoreCase("true")){
-							Toast.makeText(getApplicationContext(), bo[1], Toast.LENGTH_LONG).show();
-							finish();
+						
+						HttpPostRequest ht=new HttpPostRequest();
+											
+						try {
+							ht.register(user1.firstName, user1.lastName, user1.userName, user1.getPassword(), user1.email,user1.gender, user1.dob);
+						} catch (Exception e1) {							
+							e1.printStackTrace();
+						}
+						
+						
+						if(ht.isError){
+							Toast.makeText(getApplicationContext(), ht.xception, Toast.LENGTH_LONG).show();
 						}
 						else{
-							Toast.makeText(getApplicationContext(), bo[1], Toast.LENGTH_LONG).show();
+							MyXmlHandler myhandler=new MyXmlHandler();
+							try {
+								Xml.parse(ht.xmlStringResponse, myhandler);
+							} catch (SAXException e) {
+								e.printStackTrace();
+							}
+							
+							if(!myhandler.obj_serverResp1.responseCode.equalsIgnoreCase("0")){
+								Toast.makeText(getApplicationContext(),myhandler.obj_serverResp1.responseMessage, Toast.LENGTH_LONG).show();								
+							}
+							else{
+								mess=myhandler.obj_serverResp1.register_response;
+								showDialog(1);
+								
+							}
 							
 						}
+						pdialog1.dismiss();
+					
 
 					}
 				}
@@ -146,13 +190,26 @@ public class Registeration extends Activity {
 
 		}
 	};
-
+	private String mess;
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		AlertDialog.Builder b= new AlertDialog.Builder(Registeration.this);
 		switch (id) {
 		case DATE_DIALOG_ID:
 			return new DatePickerDialog(this,mDateSetListener,mYear, mMonth, mDay);
+			
+		case 1:			  //for showing up messsage
+			b.setMessage(mess);  
+			b.setTitle("Notification");  
+			b.setCancelable(true)  ;
+			b.setNeutralButton(android.R.string.ok,  
+					new DialogInterface.OnClickListener() {  
+				public void onClick(DialogInterface dialog, int whichButton){
+					finish();
+				}  
+			});
+			b.show();
+			break;
 		case 3:			  
 			b.setMessage("Please connect to internet");  
 			b.setTitle("Notification");  

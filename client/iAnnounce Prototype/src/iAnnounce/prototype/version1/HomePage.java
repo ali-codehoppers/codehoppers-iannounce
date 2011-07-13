@@ -63,7 +63,7 @@ public class HomePage extends TabActivity {
 		SharedPreferences.Editor editor = settings.edit();
 
 		if(settings.getString("timeInterval","-1").equalsIgnoreCase("-1")){   	
-			editor.putString("timeInterval", "1");
+			editor.putString("timeInterval", Integer.toString(timeFreq));
 			editor.commit();
 		}
 		else{

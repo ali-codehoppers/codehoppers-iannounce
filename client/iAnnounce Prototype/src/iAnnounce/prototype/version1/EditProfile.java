@@ -7,9 +7,11 @@ import org.xml.sax.SAXException;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Xml;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -33,6 +35,8 @@ public class EditProfile extends Activity {
 	private int mDay;
 
 	static final int DATE_DIALOG_ID = 0;
+	private ProgressDialog pdialog1;
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -50,39 +54,64 @@ public class EditProfile extends Activity {
 				showDialog(DATE_DIALOG_ID);
 			}
 		});
+
+		pdialog1 = ProgressDialog.show(EditProfile.this,"", 
+				"Loading. Please wait...", true);
 		HttpPostRequest ht=new HttpPostRequest();
 
 		SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
 
-//		String resp=ht.getProfile(settings.getString("sessionId", "0"),settings.getString("userName", "0"));
-		
-		String resp="";
-		MyXmlHandler mh=new MyXmlHandler();
-		try {
-			Xml.parse(resp, mh);
-		} catch (SAXException e) {
-			e.printStackTrace();
-		}
-		if(!mh.obj_serverResp1.forceLogin){
-			((TextView)findViewById(R.id.editProfileEdittextName)).setText(mh.obj_serverResp1.userProfile.firstName);
-			((TextView)findViewById(R.id.editProfileEdittextLastName)).setText(mh.obj_serverResp1.userProfile.lastName);
-			if((mh.obj_serverResp1.userProfile.gender).equalsIgnoreCase("0")){
-				((RadioButton)findViewById(R.id.radio_female)).toggle();				
-			}
-			else{
-				((RadioButton)findViewById(R.id.radio_male)).toggle();
-			}
+		ht.getProfile(settings.getString("sessionId", "0"),settings.getString("userName", "0"));
+
+		if(ht.isError){
+			Toast.makeText(getApplicationContext(), ht.xception, Toast.LENGTH_LONG).show();
 		}
 		else{
-			Intent resultIntent = new Intent();
-			setResult(Activity.RESULT_OK, resultIntent);
-			finish();
+			MyXmlHandler mh=new MyXmlHandler();
+			try {
+				Xml.parse(ht.xmlStringResponse, mh);
+			} catch (SAXException e) {
+				e.printStackTrace();
+			}
+
+			if(!mh.obj_serverResp1.responseCode.equalsIgnoreCase("0")){
+				Toast.makeText(getApplicationContext(), mh.obj_serverResp1.responseMessage, Toast.LENGTH_LONG).show();
+				if(mh.obj_serverResp1.responseCode.equalsIgnoreCase("1")){
+					Intent resultIntent = new Intent();
+					setResult(Activity.RESULT_OK, resultIntent);
+					finish();
+				}
+			}
+			else{
+				((TextView)findViewById(R.id.editProfileEdittextName)).setText(mh.obj_serverResp1.userProfile.firstName);
+				((TextView)findViewById(R.id.editProfileEdittextLastName)).setText(mh.obj_serverResp1.userProfile.lastName);
+				if((mh.obj_serverResp1.userProfile.gender).equalsIgnoreCase("0")){
+					((RadioButton)findViewById(R.id.radio_female)).toggle();				
+				}
+				else{
+					((RadioButton)findViewById(R.id.radio_male)).toggle();
+				}
+
+				Log.e("errr", mh.obj_serverResp1.userProfile.dob);
+
+				String []str_dob=mh.obj_serverResp1.userProfile.dob.split("-");
+
+
+
+				mYear= Integer.parseInt(str_dob[0]);
+				mMonth= Integer.parseInt(str_dob[1])-1;
+				mDay= Integer.parseInt(str_dob[2]);
+
+				((TextView)findViewById(R.id.editProfileTextviewDOB2)).setText(mDay+"/"+(mMonth+1)+"/"+mYear);
+				pdialog1.cancel();
+			}			
 		}
+
 
 		Button bt_submit=(Button)findViewById(R.id.editProfileButtonRegister);
 		bt_submit.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
+			
 				int id1;
 				id1=(((RadioGroup)findViewById(R.id.editProfileRadiogroupGender)).getCheckedRadioButtonId());
 				RadioButton gen=(RadioButton)findViewById(id1);
@@ -96,7 +125,7 @@ public class EditProfile extends Activity {
 						gender="false";
 					}
 				}
-				HttpPostRequest ht=new HttpPostRequest();
+				
 
 				((EditText)findViewById(R.id.editProfileEdittextNewPassword)).setTransformationMethod(android.text.method.PasswordTransformationMethod.getInstance());
 				((EditText)findViewById(R.id.editProfileEdittextPassword)).setTransformationMethod(android.text.method.PasswordTransformationMethod.getInstance());
@@ -131,42 +160,12 @@ public class EditProfile extends Activity {
 						((EditText)findViewById(R.id.editProfileEdittextPassword)).requestFocus();					
 					}
 					else{
-						String resp=ht.editProfile(settings.getString("sessionId", "0"),((EditText)findViewById(R.id.editProfileEdittextPassword)).getText().toString(), ((EditText)findViewById(R.id.editProfileEdittextNewPassword)).getText().toString(), gender, ((EditText)findViewById(R.id.editProfileEdittextName)).getText().toString(), ((EditText)findViewById(R.id.editProfileEdittextLastName)).getText().toString(),mYear+"/"+mMonth+"/"+mDay);
-
-						MyXmlHandler mhand=new MyXmlHandler();
-						try {
-							Xml.parse(resp, mhand);
-						} catch (SAXException e) {
-							e.printStackTrace();
-						}
-
-						if(mhand.obj_serverResp1.editProResponse.equalsIgnoreCase("true")){
-							Toast.makeText(getApplicationContext(), "Profile Updated", Toast.LENGTH_LONG).show();
-							finish();
-						}
-						else{
-							Toast.makeText(getApplicationContext(), mhand.obj_serverResp1.editProResponse, Toast.LENGTH_LONG).show();
-						}
+						myFunc(gender);
 					}
 
 				}
 				else{
-					String resp=ht.editProfile(settings.getString("sessionId", "0"),((EditText)findViewById(R.id.editProfileEdittextPassword)).getText().toString(), ((EditText)findViewById(R.id.editProfileEdittextNewPassword)).getText().toString(), gender, ((EditText)findViewById(R.id.editProfileEdittextName)).getText().toString(), ((EditText)findViewById(R.id.editProfileEdittextLastName)).getText().toString(),mYear+"/"+mMonth+"/"+mDay);
-
-					MyXmlHandler mhand=new MyXmlHandler();
-					try {
-						Xml.parse(resp, mhand);
-					} catch (SAXException e) {
-						e.printStackTrace();
-					}
-
-					if(mhand.obj_serverResp1.editProResponse.equalsIgnoreCase("true")){
-						Toast.makeText(getApplicationContext(), "Profile Updated", Toast.LENGTH_LONG).show();
-						finish();
-					}
-					else{
-						Toast.makeText(getApplicationContext(), mhand.obj_serverResp1.editProResponse, Toast.LENGTH_LONG).show();
-					}
+					myFunc(gender);
 				}
 			}
 		});
@@ -174,6 +173,36 @@ public class EditProfile extends Activity {
 
 
 
+	}
+
+	private void myFunc(String gender){
+		HttpPostRequest ht=new HttpPostRequest();
+		SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
+		ht.editProfile(settings.getString("sessionId", "0"),((EditText)findViewById(R.id.editProfileEdittextPassword)).getText().toString(), ((EditText)findViewById(R.id.editProfileEdittextNewPassword)).getText().toString(), gender, ((EditText)findViewById(R.id.editProfileEdittextName)).getText().toString(), ((EditText)findViewById(R.id.editProfileEdittextLastName)).getText().toString(),mYear+"/"+mMonth+"/"+mDay);
+		
+		if(ht.isError){
+			Toast.makeText(getApplicationContext(), ht.xception, Toast.LENGTH_LONG).show();
+		}
+		else{
+			MyXmlHandler mhand=new MyXmlHandler();
+			try {
+				Xml.parse(ht.xmlStringResponse, mhand);
+			} catch (SAXException e) {
+				e.printStackTrace();
+			}
+			if(!mhand.obj_serverResp1.responseCode.equalsIgnoreCase("0")){
+				Toast.makeText(getApplicationContext(), mhand.obj_serverResp1.responseMessage, Toast.LENGTH_LONG).show();
+				if(mhand.obj_serverResp1.responseCode.equalsIgnoreCase("1")){
+					Intent resultIntent = new Intent();
+					setResult(Activity.RESULT_OK, resultIntent);
+					finish();					
+				}
+			}
+			else{
+				Toast.makeText(getApplicationContext(),mhand.obj_serverResp1.editProResponse, Toast.LENGTH_LONG).show();
+				finish();
+			}	
+		}
 	}
 	private DatePickerDialog.OnDateSetListener mDateSetListener =
 		new DatePickerDialog.OnDateSetListener() {

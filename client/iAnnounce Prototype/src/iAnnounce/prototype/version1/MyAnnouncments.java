@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
-import android.util.Log;
 import android.util.Xml;
 import android.view.Gravity;
 import android.view.Menu;
@@ -236,7 +235,8 @@ public class MyAnnouncments extends Activity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle item selection
+		SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
+		// Handle item selection		
 		switch (item.getItemId()) {
 		case R.id.menu_Profile:
 			Intent in= new Intent(this, MyProfile.class);
@@ -247,21 +247,33 @@ public class MyAnnouncments extends Activity {
 			startActivity(intent2);
 			return true;
 		case R.id.menu_Logout:
-			SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
 			HttpPostRequest ht=new HttpPostRequest();
-			String x=ht.logout(settings.getString("sessionId", "0"));
-			MyXmlHandler myhand=new MyXmlHandler();
-			try {
-				Xml.parse(x, myhand);
-			} catch (SAXException e) {
-				e.printStackTrace();
+			ht.logout(settings.getString("sessionId", "0"));
+			
+			if(ht.isError){
+				Toast.makeText(getApplicationContext(), ht.xception, Toast.LENGTH_LONG).show();			
 			}
-
-			SharedPreferences.Editor editor = settings.edit();
-			editor.putString("sessionId", "0");
-			editor.commit();
-			Toast.makeText(getApplicationContext(),myhand.obj_serverResp1.logoutResponse, Toast.LENGTH_LONG).show();				
-			finish();		
+			else{
+				MyXmlHandler myhand=new MyXmlHandler();
+				try {
+					Xml.parse(ht.xmlStringResponse, myhand);
+				} catch (SAXException e) {
+					e.printStackTrace();
+				}
+				
+				if(!myhand.obj_serverResp1.responseCode.equalsIgnoreCase("0")){
+					Toast.makeText(getApplicationContext(), ht.xception, Toast.LENGTH_LONG).show();					
+				}
+				else{
+					SharedPreferences.Editor editor = settings.edit();
+					editor.putString("sessionId", "0");
+					editor.commit();
+					Toast.makeText(getApplicationContext(),myhand.obj_serverResp1.logoutResponse, Toast.LENGTH_LONG).show();				
+										
+				}
+				finish();				
+			}
+					
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

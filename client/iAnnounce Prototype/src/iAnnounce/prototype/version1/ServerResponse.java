@@ -33,7 +33,7 @@ public class ServerResponse {
 	 * Forgot passnotification is text in response of forgot usecase
 	 */
 	
-	public String ForgotPassNotification;
+	public String forgotPassResponse;
 	
 	/**
 	 * Response after posting an announcement

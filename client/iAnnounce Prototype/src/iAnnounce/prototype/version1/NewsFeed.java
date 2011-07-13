@@ -1,7 +1,6 @@
 package iAnnounce.prototype.version1;
 
 
-
 import org.xml.sax.SAXException;
 
 import android.app.Activity;
@@ -19,7 +18,6 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 import android.text.Html;
-import android.util.Log;
 import android.util.Xml;
 import android.view.Gravity;
 import android.view.Menu;
@@ -63,11 +61,12 @@ public class NewsFeed extends Activity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
 		// Handle item selection
 		switch (item.getItemId()) {
 		case R.id.menu_Profile:
 			Intent in= new Intent(this, MyProfile.class);
-			SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);			
+						
 			Bundle b=new Bundle();
 			b.putString("username", settings.getString("userName", "0"));
 			in.putExtras(b);
@@ -79,21 +78,33 @@ public class NewsFeed extends Activity {
 			startActivity(intent2);
 			return true;
 		case R.id.menu_Logout:
-			SharedPreferences settings1 = getSharedPreferences("iAnnounceVars", 0);
 			HttpPostRequest ht=new HttpPostRequest();
-			String x=ht.logout(settings1.getString("sessionId", "0"));
-			MyXmlHandler myhand=new MyXmlHandler();
-			try {
-				Xml.parse(x, myhand);
-			} catch (SAXException e) {
-				e.printStackTrace();
+			ht.logout(settings.getString("sessionId", "0"));
+			
+			if(ht.isError){
+				Toast.makeText(getApplicationContext(), ht.xception, Toast.LENGTH_LONG).show();			
 			}
-
-			SharedPreferences.Editor editor = settings1.edit();
-			editor.putString("sessionId", "0");
-			editor.commit();
-			Toast.makeText(getApplicationContext(),myhand.obj_serverResp1.logoutResponse, Toast.LENGTH_LONG).show();				
-			finish();		
+			else{
+				MyXmlHandler myhand=new MyXmlHandler();
+				try {
+					Xml.parse(ht.xmlStringResponse, myhand);
+				} catch (SAXException e) {
+					e.printStackTrace();
+				}
+				
+				if(!myhand.obj_serverResp1.responseCode.equalsIgnoreCase("0")){
+					Toast.makeText(getApplicationContext(), ht.xception, Toast.LENGTH_LONG).show();					
+				}
+				else{
+					SharedPreferences.Editor editor = settings.edit();
+					editor.putString("sessionId", "0");
+					editor.commit();
+					Toast.makeText(getApplicationContext(),myhand.obj_serverResp1.logoutResponse, Toast.LENGTH_LONG).show();				
+										
+				}
+				finish();				
+			}
+					
 			return true;
 			
 		case R.id.menu_AbtUs:
@@ -441,22 +452,10 @@ public class NewsFeed extends Activity {
 				public void onClick(View v) {
 					HttpPostRequest ht=new HttpPostRequest();
 					SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);					
-					String x=ht.rateAnnouncement(settings.getString("sessionId","0"), obj_serRes.feed.get(k).announcement_id, "0");
+					
+					ht.rateAnnouncement(settings.getString("sessionId","0"), obj_serRes.feed.get(k).announcement_id, "0");
+					myFunc(ht);
 
-					MyXmlHandler myhandler=new MyXmlHandler();
-					try {
-						Xml.parse(x, myhandler);
-					} catch (SAXException e) {
-						e.printStackTrace();
-					}
-					if(myhandler.obj_serverResp1.forceLogin){
-						finish();
-					}
-					else{
-						Toast.makeText(getApplicationContext(), myhandler.obj_serverResp1.rateResponse, Toast.LENGTH_LONG).show();
-
-						getAnnouncementText(Integer.toString(pageNum_int));
-					}
 				}
 			});
 
@@ -465,34 +464,13 @@ public class NewsFeed extends Activity {
 				public void onClick(View v) {
 					HttpPostRequest ht=new HttpPostRequest();
 					SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);					
-					String x=ht.rateAnnouncement(settings.getString("sessionId","0"), obj_serRes.feed.get(k).announcement_id, "1");
-
-					MyXmlHandler myhandler=new MyXmlHandler();
-					try {
-						Xml.parse(x, myhandler);
-					} catch (SAXException e) {
-						e.printStackTrace();
-					}
-					if(myhandler.obj_serverResp1.forceLogin){
-						SharedPreferences.Editor editor = settings.edit();
-						editor.putString("sessionId", "0");
-						editor.commit();
-						finish();
-					}
-					else{
-						Toast.makeText(getApplicationContext(), myhandler.obj_serverResp1.rateResponse, Toast.LENGTH_LONG).show();
-
-						getAnnouncementText(Integer.toString(pageNum_int));
-
-					}
+					ht.rateAnnouncement(settings.getString("sessionId","0"), obj_serRes.feed.get(k).announcement_id, "1");					
+					myFunc(ht);
 				}
 			});
-
-
-
+			
+			
 			l3.addView(bt_comment);
-
-
 
 			l2.addView(l3);
 			//			l2.addView(l4);
@@ -507,6 +485,37 @@ public class NewsFeed extends Activity {
 
 
 	}
+	
+	void myFunc(HttpPostRequest ht){
+
+		if(ht.isError){
+			Toast.makeText(getApplicationContext(), ht.xception, Toast.LENGTH_LONG).show();
+		}
+		else{
+			MyXmlHandler myhandler=new MyXmlHandler();
+			try {
+				Xml.parse(ht.xmlStringResponse, myhandler);
+			} catch (SAXException e) {
+				e.printStackTrace();
+			}
+			
+			if(!myhandler.obj_serverResp1.responseCode.equalsIgnoreCase("0")){
+				Toast.makeText(getApplicationContext(),myhandler.obj_serverResp1.responseCode, Toast.LENGTH_LONG).show();
+				if(myhandler.obj_serverResp1.responseCode.equalsIgnoreCase("1")){
+					finish();
+				}
+			}
+			else{
+				Toast.makeText(getApplicationContext(), myhandler.obj_serverResp1.rateResponse, Toast.LENGTH_LONG).show();
+				getAnnouncementText(Integer.toString(pageNum_int));
+			}
+			
+			
+		}
+	}
+	
+	
+	
 /**
  * For getting the announcement with respect to the page number
  * @param pgnum

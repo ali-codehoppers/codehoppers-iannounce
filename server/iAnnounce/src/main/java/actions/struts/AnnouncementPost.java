@@ -3,6 +3,8 @@ package actions.struts;
 import hibernate.entities.Announcement;
 import hibernate.entities.Person;
 import java.sql.Timestamp;
+import org.apache.log4j.Logger;
+
 import xtras.Consts;
 
 /**
@@ -66,7 +68,12 @@ public class AnnouncementPost extends BaseActionClass
 
             //get currunt timestamp to inseert in DB
             java.util.Date date = new java.util.Date();
+            
             Timestamp time = new Timestamp(date.getTime());
+
+            Logger log=Logger.getLogger(AnnouncementPost.class);
+
+            log.error("errorrr in timestamp=="+time);
 
             //normal announcement with 0 ranking
             Announcement announcement = new Announcement(0, Double.parseDouble(latitude), Double.parseDouble(longitude), announce, radius, time, false, username, 0);
