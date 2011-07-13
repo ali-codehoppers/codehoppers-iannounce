@@ -1,5 +1,6 @@
 package iAnnounce.prototype.version1;
 
+import org.apache.http.protocol.HTTP;
 import org.xml.sax.SAXException;
 
 import android.app.Activity;
@@ -64,6 +65,7 @@ public class Login extends Activity {
 
 
 		final Button searchButton = (Button) findViewById(R.id.mainButtonLogin);
+		
 		searchButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 
@@ -124,7 +126,7 @@ public class Login extends Activity {
 							criteria.setPowerRequirement(Criteria.POWER_LOW);
 							String provider = locationManager.getBestProvider(criteria, true);
 							
-							pdialog1.cancel();
+							pdialog1.dismiss();
 							
 							if(provider==null){
 								showDialog(2);
@@ -197,10 +199,30 @@ public class Login extends Activity {
 						Toast.makeText(getApplicationContext(),"Invalid username, must be between 5 to 15 characters and cannot contain blanck space", Toast.LENGTH_LONG).show();
 					}
 					else{
-						User user1=new User();
-						user1.userName=value;
-						mess=user1.forgetPassword();
-						showDialog(1);
+						String username=value;
+						
+						HttpPostRequest ht=new HttpPostRequest();
+						ht.forgetPassword(username);
+						
+						if(ht.isError){
+							Toast.makeText(getApplicationContext(), ht.xception, Toast.LENGTH_LONG).show();
+						}
+						else{
+							MyXmlHandler myx=new MyXmlHandler();
+							try {
+								Xml.parse(ht.xmlStringResponse, myx);
+							} catch (SAXException e) {
+								e.printStackTrace();								
+							}
+							
+							if(!myx.obj_serverResp1.responseCode.equalsIgnoreCase("0")){
+								Toast.makeText(getApplicationContext(), myx.obj_serverResp1.responseMessage, Toast.LENGTH_LONG).show();								
+							}
+							else{
+								mess=myx.obj_serverResp1.forgotPassResponse;
+								showDialog(1);
+							}
+						}
 					}
 				}
 			});

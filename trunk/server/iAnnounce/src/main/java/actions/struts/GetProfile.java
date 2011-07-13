@@ -70,7 +70,9 @@ public class GetProfile extends BaseActionClass
                     xml += "0</responseCode><responseMessage>"+Consts.responseCodes[0]+"</responseMessage><getProfile>";
 
                     Person person = personList.get(0);
-                    int age = calculateAge(person.getDateOfBirth());
+                    Date dob=person.getDateOfBirth();
+                    int age = calculateAge(dob);
+
 
                     int numOfPosts = announcementService.findByName(username).size();
 
@@ -90,10 +92,11 @@ public class GetProfile extends BaseActionClass
                         Str_Rating=Str_Rating.substring(0,7);
                     }
                     
-                    xml += "<rating>" + Str_Rating + "</rating>\n";
-                    xml += "<age>" + age + "</age>\n";
-                    xml += "<gender>" + gender + "</gender>\n";
-                    xml += "<numOfPosts>" + numOfPosts + "</numOfPosts>\n";
+                    xml += "<rating>" + Str_Rating + "</rating>";
+                    xml += "<age>" + age + "</age>";
+                    xml += "<gender>" + gender + "</gender>";
+                    xml += "<numOfPosts>" + numOfPosts + "</numOfPosts>";
+                    xml += "<dob>"+dob+"</dob>";
 
                     xml+= "</getProfile>";
 

@@ -7,6 +7,7 @@ package actions.struts;
 import hibernate.entities.Person;
 import java.util.Date;
 import java.util.UUID;
+import xtras.Consts;
 
 /**
  *
@@ -59,7 +60,8 @@ public class Register extends BaseActionClass
         if (request.getHeader("User-Agent").contains("UNAVAILABLE"))
           {
             //if(true){
-            String xml = "<register><isRegistered>"; //"<response><responseCode>"
+//            String xml = "<register><isRegistered>"; //"<response><responseCode>"
+            String xml = "<response><responseCode>";
 
             if (personService.findByName(username).isEmpty())
               {
@@ -87,28 +89,32 @@ public class Register extends BaseActionClass
                     String emailBody = generateEmailBody(person);
                     // SendEmail verificationmail = new SendEmail(person.getEmail(), emailBody, "iAnnounce::Welcome to iAnnounce");
 
-                    xml += "true</isRegistered><description>" + "You have been successfully registered. An email has been sent on your ID for verification. Please verify before login"; //0<responseCode><responseMessage>"+Consts.responseCodes[0]+"</responseMessage><register>Conts.Registration_Success</register>"
+//                    xml += "true</isRegistered><description>" + "You have been successfully registered. An email has been sent on your ID for verification. Please verify before login"; //0<responseCode><responseMessage>"+Consts.responseCodes[0]+"</responseMessage><register>Conts.Registration_Success</register>"
+                    xml += "0</responseCode><responseMessage>" + Consts.responseCodes[0] + "</responseMessage><register>" + Consts.REGISTERATION_SUCCESS + "</register>";
                   } else
                   {
-                    xml += "false</isRegistered><description>Error, please try again";  //16<responseCode><responseMessage>"+Consts.responseCodes[16]+"</responseMessage>
+//                    xml += "false</isRegistered><description>Error, please try again";  //16<responseCode><responseMessage>"+Consts.responseCodes[16]+"</responseMessage>
+                    xml += "16</responseCode><responseMessage>" + Consts.responseCodes[16] + "</responseMessage>";
                   }
               } //on duplicate username that has been deleted
             else
               {
                 if (!personService.findByName(username).get(0).isActive())
                   {
-                    xml += "false</isRegistered><description>Account with this username has been deleted. Please try another one."; //3<responseCode><responseMessage>"+Consts.responseCodes[3]+"</responseMessage>
+//                    xml += "false</isRegistered><description>Account with this username has been deleted. Please try another one."; //
+                    xml += "5</responseCode><responseMessage>" + Consts.responseCodes[5] + "</responseMessage>";
                   } //on simple duplicate username
                 else
                   {
-                    xml += "false</isRegistered><description>This username is not available. Please try another one."; //3<responseCode><responseMessage>"+Consts.responseCodes[3]+"</responseMessage>
+//                    xml += "false</isRegistered><description>This username is not available. Please try another one."; //3<responseCode><responseMessage>"+Consts.responseCodes[3]+"</responseMessage>
+                    xml += "3</responseCode><responseMessage>" + Consts.responseCodes[3] + "</responseMessage>";
                   }
               }
 
-            xml += "</description></register>"; //</response>
-            xmlResponse = xml;
+//            xml += "</description></register>"; //</response>
 
-//            System.out.println("xml="+xml);
+            xml += "</response>";
+            xmlResponse = xml;
 
             return "MOBILE";
           } else

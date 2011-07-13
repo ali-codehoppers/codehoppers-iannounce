@@ -5,9 +5,8 @@
 package actions.struts;
 
 import hibernate.entities.Person;
-import hibernate.entities.UserSession;
 import java.util.Date;
-import java.util.List;
+import xtras.Consts;
 
 /**
  *
@@ -64,7 +63,8 @@ public class EditProfile extends BaseActionClass
             boolean sendMail = true;
 
             String xml;
-            xml = "<EditProfile>"; //<response><responseCode>
+//            xml = "<EditProfile>"; //<response><responseCode>
+            xml="<response><responseCode>";
             //get record
             Person person = personService.findByName(username).get(0);
 
@@ -95,19 +95,23 @@ public class EditProfile extends BaseActionClass
                     person.setPassword(newPassword);
                     personService.addOrUpdate(person);
 
-                    xml += "Information updated. The updated information has been sent on your email address" + person.getEmail(); //0<responseCode><responseMessage>"+Consts.responseCodes[0]+"</responseMessage><editProfile>Const.EDITPROFILE_SUCCESS</editProfile>"
+//                    xml += "Information updated. The updated information has been sent on your email address" + person.getEmail(); //0<responseCode><responseMessage>"+Consts.responseCodes[0]+"</responseMessage><editProfile>Const.EDITPROFILE_SUCCESS</editProfile>"
+                    xml += "0</responseCode><responseMessage>"+Consts.responseCodes[0]+"</responseMessage><editProfile>"+Consts.EDITPROFILE_SUCCESS+"</editProfile>";
                   } else
                   {
-                    xml += "Incorrect Old Password.";//14<responseCode><responseMessage>"+Consts.responseCodes[14]+"</responseMessage>
+//                    xml += "Incorrect Old Password.";//14<responseCode><responseMessage>"+Consts.responseCodes[14]+"</responseMessage>
+                    xml += "14</responseCode><responseMessage>"+Consts.responseCodes[14]+"</responseMessage>";
                     sendMail = false;
                   }
               } else
               {
                 personService.addOrUpdate(person);
-                xml += "Information updated. The updated information has been sent on your email id " + person.getEmail(); //0<responseCode><responseMessage>"+Consts.responseCodes[0]+"</responseMessage><editProfile>Const.EDITPROFILE_SUCCESS</editProfile>"
+//                xml += "Information updated. The updated information has been sent on your email id " + person.getEmail(); //0<responseCode><responseMessage>"+Consts.responseCodes[0]+"</responseMessage><editProfile>Const.EDITPROFILE_SUCCESS</editProfile>"
+                xml += "0</responseCode><responseMessage>"+Consts.responseCodes[0]+"</responseMessage><editProfile>"+Consts.EDITPROFILE_SUCCESS+"</editProfile>";
               }
 
-            xml += "</EditProfile>"; //</response>
+//            xml += "</EditProfile>"; //</response>
+            xml += "</response>";
 
             if (sendMail)
               {//email updated information

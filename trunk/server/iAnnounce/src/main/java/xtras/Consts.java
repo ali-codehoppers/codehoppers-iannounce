@@ -19,17 +19,17 @@ public class Consts {
       /*3*/  "Username already exists. Please try another one.",           //while registration if username already exists.
       /*4*/  "Your account is disabled, contact support.",                  
       /*5*/  "Your account is removed, you can't login.",                  //if account with that username has been removed.
-      /*6*/  "No such user exists.",
+      /*6*/  "No such user exists.", //in forgetpassword if username is not found
       /*7*/  "Premium accounts are not accessible from device application", //while login
       /*8*/  "This account has been deactivated.",                          //while login
       /*9*/  "Please verify account before logging in.",    //while login
      /*10*/  "Unable to generate session",  //while login
      /*11*/  "Error posting your announcement. Please try again.", //while posting announcement
      /*12*/  "Error posting you comment, Please try again", //while posting comment
-     /*13*/  "Invalid password. Unable to complete the request",    
+     /*13*/  "Invalid password. Unable to complete the request",    //in edit  profile :D
      /*14*/  "Invalid old password. Unable to comeplete the request",
      /*15*/  "Error occured while rating. Please try again.",
-     /*16*/  "Some Error occured while registering please try again",
+     /*16*/  "Some Error occured while registering please try again", //while registeration
      /*17*/  "No announcements to display", //while getting the announcements :D xD ;)
      /*18*/  "No comment yet on this announcement be the first to comment", //while getting comments, if there are no comments
      /*19*/  "Unable to find the user", // in getProfile

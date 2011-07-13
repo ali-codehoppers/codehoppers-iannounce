@@ -1,13 +1,8 @@
 package iAnnounce.prototype.version1;
 
-import java.io.IOException;
-
-import org.apache.http.client.ClientProtocolException;
 import org.xml.sax.SAXException;
 
-import android.util.Log;
 import android.util.Xml;
-import android.widget.Toast;
 /**
  * User Class for storing information of a user
  * @author Awais
@@ -50,7 +45,7 @@ public class User {
 	public String gender;
 
 
-	private String uid;
+	
 	private String sessionId;
 
 	/**
@@ -103,33 +98,33 @@ public class User {
 	 * For registering the user
 	 */
 
-	public String register(){
-		HttpPostRequest httpRe=new HttpPostRequest();
-		String response1="";
-		try {
-			response1=httpRe.register(this.firstName, this.lastName, this.userName, this.password, this.email,this.gender, this.dob);
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		MyXmlHandler myhandler=new MyXmlHandler();
-
-		try {
-			Xml.parse(response1, myhandler);
-		} catch (SAXException e) {
-			e.printStackTrace();
-		}
-
-
-
-		ServerResponse obj_serRes=myhandler.obj_serverResp1;
-
-		return obj_serRes.isRegistered+":"+obj_serRes.register_response;
-
-
-	}
+//	public String register(){
+//		HttpPostRequest httpRe=new HttpPostRequest();
+//		String response1="";
+//		try {
+//			response1=httpRe.register(this.firstName, this.lastName, this.userName, this.password, this.email,this.gender, this.dob);
+//		} catch (ClientProtocolException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//
+//		MyXmlHandler myhandler=new MyXmlHandler();
+//
+//		try {
+//			Xml.parse(response1, myhandler);
+//		} catch (SAXException e) {
+//			e.printStackTrace();
+//		}
+//
+//
+//
+//		ServerResponse obj_serRes=myhandler.obj_serverResp1;
+//
+//		return obj_serRes.isRegistered+":"+obj_serRes.register_response;
+//
+//
+//	}
 
 	/**
 	 * For login a user
@@ -165,24 +160,24 @@ public class User {
 	 * Function if a user have forgot his password
 	 * @return xml string from the server
 	 */
-	public String forgetPassword(){
-		HttpPostRequest httpRe=new HttpPostRequest();
-
-		String response1="";
-		response1=httpRe.forgetPassword(this.userName);
-
-		MyXmlHandler myhandler=new MyXmlHandler();
-
-		try {
-			Xml.parse(response1, myhandler);
-		} catch (SAXException e) {
-			e.printStackTrace();
-		}
-
-		ServerResponse obj_serRes=myhandler.obj_serverResp1;
-		return obj_serRes.ForgotPassNotification;
-
-	}
+//	public String forgetPassword(){
+//		HttpPostRequest httpRe=new HttpPostRequest();
+//
+//		String response1="";
+//		response1=httpRe.forgetPassword(this.userName);
+//
+//		MyXmlHandler myhandler=new MyXmlHandler();
+//
+//		try {
+//			Xml.parse(response1, myhandler);
+//		} catch (SAXException e) {
+//			e.printStackTrace();
+//		}
+//
+//		ServerResponse obj_serRes=myhandler.obj_serverResp1;
+//		return obj_serRes.ForgotPassNotification;
+//
+//	}
 	/**
 	 * function for getting the profile of the user which will be saved in this class members variables
 	 */

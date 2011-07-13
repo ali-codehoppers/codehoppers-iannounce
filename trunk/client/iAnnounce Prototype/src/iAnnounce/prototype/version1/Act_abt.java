@@ -1,10 +1,6 @@
 package iAnnounce.prototype.version1;
 
 import android.app.Activity;
-import android.graphics.Canvas;
-import android.graphics.ColorFilter;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.DrawableContainer;
 import android.os.Bundle;
 import android.widget.ImageView;
 

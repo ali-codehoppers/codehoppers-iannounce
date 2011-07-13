@@ -159,19 +159,32 @@ public class Announce extends Activity {
 			return true;
 		case R.id.menu_Logout:
 			HttpPostRequest ht=new HttpPostRequest();
-			String x=ht.logout(settings.getString("sessionId", "0"));
-			MyXmlHandler myhand=new MyXmlHandler();
-			try {
-				Xml.parse(x, myhand);
-			} catch (SAXException e) {
-				e.printStackTrace();
-			}
+			ht.logout(settings.getString("sessionId", "0"));
 			
-			SharedPreferences.Editor editor = settings.edit();
-			editor.putString("sessionId", "0");
-			editor.commit();
-			Toast.makeText(getApplicationContext(),myhand.obj_serverResp1.logoutResponse, Toast.LENGTH_LONG).show();				
-			finish();		
+			if(ht.isError){
+				Toast.makeText(getApplicationContext(), ht.xception, Toast.LENGTH_LONG).show();			
+			}
+			else{
+				MyXmlHandler myhand=new MyXmlHandler();
+				try {
+					Xml.parse(ht.xmlStringResponse, myhand);
+				} catch (SAXException e) {
+					e.printStackTrace();
+				}
+				
+				if(!myhand.obj_serverResp1.responseCode.equalsIgnoreCase("0")){
+					Toast.makeText(getApplicationContext(), ht.xception, Toast.LENGTH_LONG).show();					
+				}
+				else{
+					SharedPreferences.Editor editor = settings.edit();
+					editor.putString("sessionId", "0");
+					editor.commit();
+					Toast.makeText(getApplicationContext(),myhand.obj_serverResp1.logoutResponse, Toast.LENGTH_LONG).show();				
+										
+				}
+				finish();				
+			}
+					
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -185,10 +198,10 @@ public class Announce extends Activity {
 			if (resultCode == Activity.RESULT_OK) {
 				SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
 				HttpPostRequest ht=new HttpPostRequest();
-				String x=ht.logout(settings.getString("sessionId", "0"));
+				ht.logout(settings.getString("sessionId", "0"));
 				MyXmlHandler myhand=new MyXmlHandler();
 				try {
-					Xml.parse(x, myhand);
+					Xml.parse(ht.xmlStringResponse, myhand);
 				} catch (SAXException e) {
 					e.printStackTrace();
 				}

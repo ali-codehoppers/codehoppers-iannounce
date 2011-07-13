@@ -9,7 +9,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Xml;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,59 +24,9 @@ import android.widget.Toast;
  *@version 1
  */
 public class MyProfile extends Activity{
+	
 	public void onCreate(Bundle savedInstanceState){
-		super.onCreate(savedInstanceState);
-		/*setContentView(R.layout.view_profile);
-
-
-		Button editButton = (Button) findViewById(R.id.EditProfileButton);
-		editButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				Intent myIntent = new Intent(v.getContext(), EditProfile.class);
-				startActivityForResult(myIntent,3);
-			}
-		});
-
-		Button bt_del=(Button)findViewById(R.id.DeleteProfileButton);
-		bt_del.setOnClickListener(new OnClickListener() {
-
-			public void onClick(View v) {
-				showDialog(0);
-			}
-		});
-
-		Bundle b=this.getIntent().getExtras();
-		String username=b.getString("username");
-		HttpPostRequest ht=new HttpPostRequest();
-
-		SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
-
-		String resp=ht.getProfile(settings.getString("sessionId", "0"),username);
-		MyXmlHandler mh=new MyXmlHandler();
-		try {
-			Xml.parse(resp, mh);
-		} catch (SAXException e) {
-			e.printStackTrace();
-		}
-		if(!mh.obj_serverResp1.forceLogin){
-			((TextView)findViewById(R.id.mypro_name)).setText(mh.obj_serverResp1.userProfile.firstName+" "+mh.obj_serverResp1.userProfile.lastName);
-			((TextView)findViewById(R.id.mypro_age)).setText(mh.obj_serverResp1.userProfile.age);
-			((TextView)findViewById(R.id.mypro_rating)).setText(mh.obj_serverResp1.userProfile.averageRating);
-			if((mh.obj_serverResp1.userProfile.gender).equalsIgnoreCase("0")){
-				((TextView)findViewById(R.id.mypro_gender)).setText("Female");
-			}
-			else{
-				((TextView)findViewById(R.id.mypro_gender)).setText("Male");
-			}
-
-			((TextView)findViewById(R.id.mypro_numofpost)).setText(mh.obj_serverResp1.userProfile.numofPost);
-
-		}
-		else{
-			Intent resultIntent = new Intent();
-			setResult(Activity.RESULT_OK, resultIntent);
-			finish();
-		}*/
+		super.onCreate(savedInstanceState);		
 	}
 	private String mess;
 
