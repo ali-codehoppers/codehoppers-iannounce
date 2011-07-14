@@ -21,6 +21,7 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 import android.provider.Settings;
+import android.util.Log;
 import android.widget.TabHost;
 import android.widget.Toast;
 
@@ -187,6 +188,7 @@ public class HomePage extends TabActivity {
 
 	class IncomingHandler extends Handler {
 		Messenger NewsFeed_messenger=NewsFeed.myMess;
+		
 		Message m;
 
 		@Override
@@ -200,6 +202,7 @@ public class HomePage extends TabActivity {
 				m=Message.obtain(null,iAnnounceService.RECIEVE_ANNOUNCEMENTS);
 				m.replyTo = mMessenger;
 				m.obj=msg.obj;
+								
 				try {
 					NewsFeed_messenger.send(m);
 				} catch (RemoteException e) {			
