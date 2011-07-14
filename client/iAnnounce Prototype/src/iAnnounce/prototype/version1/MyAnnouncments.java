@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Html;
 import android.util.Xml;
 import android.view.Gravity;
@@ -28,13 +30,84 @@ import android.widget.Toast;
  *@version 1
  */
 public class MyAnnouncments extends Activity {
+	
 	private int pageNum_int=1;
+	
+	private Handler msgHandler;
+	private final int ERROR_COMMUNICATION = 0;	
+	private final int ERROR_SERVER = 1;
+	private final int ERROR_SESSION = 2;
+	private final int GUI_READY = 3;
+	
+	private ProgressDialog pdialog1;
+	
+	
+	
+	private class myAnnouncementThread extends Thread{
+
+		@Override
+		public void run() {
+			
+			HttpPostRequest htreq=new HttpPostRequest();
+			SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
+			htreq.getMyAnnouncements(settings.getString("sessionId", "0"),Integer.toString(pageNum_int));
+			if(htreq.isError){
+				Message msg1=new Message();
+				msg1.what=ERROR_COMMUNICATION;
+				msg1.obj=htreq.xception;				
+				msgHandler.sendMessage(msg1);
+				
+			}else{
+				generateGUI(htreq.xmlStringResponse);				
+			}
+			
+			
+			
+			super.run();
+		}
+		
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.my_announcments);
-		getAnnouncementText(1);
+//		getAnnouncementText(pageNum_int);
+		pdialog1= new ProgressDialog(MyAnnouncments.this);
+		pdialog1.setTitle("");
+		pdialog1.setMessage("Loading. Please wait...");
+
+		
+		
+		
+		msgHandler=new Handler(){
+
+			@Override
+			public void handleMessage(Message msg) {
+				pdialog1.cancel();				
+				switch (msg.what){
+				case ERROR_COMMUNICATION:					
+					Toast.makeText(getApplicationContext(),(String) msg.obj, Toast.LENGTH_LONG).show();
+					break;
+				case ERROR_SERVER:
+					Toast.makeText(getApplicationContext(),(String) msg.obj, Toast.LENGTH_LONG).show();
+					break;
+				case ERROR_SESSION:
+					Toast.makeText(getApplicationContext(),(String) msg.obj, Toast.LENGTH_LONG).show();
+					finish();					
+					break;
+				case GUI_READY:
+					setContentView((LinearLayout)msg.obj);
+					break;
+					
+				default:
+
+				}
+				super.handleMessage(msg);
+			}
+
+		};
+		
 
 	}
 
@@ -50,18 +123,25 @@ public class MyAnnouncments extends Activity {
 	 */
 
 	void getAnnouncementText(int pg){
-		ProgressDialog pdialog1;
-		pdialog1 = ProgressDialog.show(MyAnnouncments.this, "", 
-				"Loading. Please wait...", true);
-		HttpPostRequest htreq=new HttpPostRequest();
-		SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
-		htreq.getMyAnnouncements(settings.getString("sessionId", "0"),Integer.toString(pg));
-		if(htreq.isError){
-			Toast.makeText(getApplicationContext(), htreq.xception, Toast.LENGTH_LONG).show();
-		}else{
-			generateGUI(htreq.xmlStringResponse);
-			pdialog1.cancel();
-		}
+		
+		pdialog1.show();
+		
+		myAnnouncementThread th=new myAnnouncementThread();
+		
+		th.start();
+		
+		
+		
+		
+//		HttpPostRequest htreq=new HttpPostRequest();
+//		SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
+//		htreq.getMyAnnouncements(settings.getString("sessionId", "0"),Integer.toString(pg));
+//		if(htreq.isError){
+//			Toast.makeText(getApplicationContext(), htreq.xception, Toast.LENGTH_LONG).show();
+//		}else{
+//			generateGUI(htreq.xmlStringResponse);
+//			pdialog1.cancel();
+//		}
 	}
 
 	/**
@@ -73,7 +153,7 @@ public class MyAnnouncments extends Activity {
 		ScrollView v=new ScrollView(getBaseContext());
 		LinearLayout mainLayout=new LinearLayout(getBaseContext());
 		mainLayout.setOrientation(LinearLayout.VERTICAL);
-		setContentView(mainLayout);	
+
 
 
 		LinearLayout lbar=new LinearLayout(getBaseContext());
@@ -92,6 +172,7 @@ public class MyAnnouncments extends Activity {
 		bt_Next.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View arg0) {
+				
 				pageNum_int++;
 				tv_pgnum.setText("Page : "+Integer.toString(pageNum_int));
 				getAnnouncementText(pageNum_int);
@@ -130,99 +211,104 @@ public class MyAnnouncments extends Activity {
 		}
 
 		final ServerResponse obj_serRes=myhandler.obj_serverResp1;
-		
-		if(obj_serRes.responseCode.equalsIgnoreCase("0")){
-						
+		Message msg=new Message();
+		if(!obj_serRes.responseCode.equalsIgnoreCase("0")){
+			msg.obj=obj_serRes.responseMessage;			
+			if(obj_serRes.responseCode.equalsIgnoreCase("1")){
+				msg.what=ERROR_SESSION;				
+			}
+			else{
+				msg.what=ERROR_SERVER;
+			}
+			msgHandler.sendMessage(msg);
 		}
 		else{
-			Toast.makeText(getApplicationContext(), obj_serRes.responseMessage, Toast.LENGTH_LONG).show();
-			if(obj_serRes.responseCode.equalsIgnoreCase("1")){
-				finish();
-			}			
+			LinearLayout l1=new LinearLayout(getBaseContext());
+			v.addView(l1);
+			l1.setOrientation(LinearLayout.VERTICAL);
+			
+			
+			for(int i=0;i<obj_serRes.feed.size();i++){
+
+				LinearLayout l2=new LinearLayout(getBaseContext());
+				l2.setOrientation(LinearLayout.VERTICAL);
+				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+				lp.setMargins(0,10, 0,10);
+				l2.setLayoutParams(lp);
+
+				TextView Descr=new TextView(getBaseContext());
+				Descr.setText(Html.fromHtml("<b>Description:</b> "+obj_serRes.feed.get(i).description));
+				Descr.setTextSize(20);
+
+				l2.addView(Descr);
+
+				TextView date=new TextView(getBaseContext());
+				date.setText(Html.fromHtml("<b>Time:</b> "+obj_serRes.feed.get(i).timestamp));
+				date.setTextSize(16);
+
+				l2.addView(date);
+
+				TextView ratin=new TextView(getBaseContext());
+				ratin.setText(Html.fromHtml("<b>Rating:</b> "+obj_serRes.feed.get(i).averageRating));
+				ratin.setTextSize(16);						
+				l2.addView(ratin);
+
+				LinearLayout l3=new LinearLayout(getBaseContext());
+
+				Button bt_locate=new Button(getBaseContext());
+
+				final String longi=obj_serRes.feed.get(i).longitude;
+				final String lati=obj_serRes.feed.get(i).latitude;
+				final String mapDesc=obj_serRes.feed.get(i).announcer+" :  "+obj_serRes.feed.get(i).description+"("+(obj_serRes.feed.get(i).timestamp).substring(0,(obj_serRes.feed.get(i).timestamp).length())+")";
+
+				bt_locate.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.locate));
+				bt_locate.setOnClickListener(new OnClickListener() {
+
+					public void onClick(View arg0) {
+						Bundle b=new Bundle();
+						b.putString("longitude", longi);
+						b.putString("latitude", lati);
+						b.putString("desc", mapDesc);
+						Intent myIntent = new Intent(getBaseContext(), MyMapAct.class);	
+						myIntent.putExtras(b);
+						startActivity(myIntent);					
+					}
+				});
+
+				LinearLayout l4=new LinearLayout(getBaseContext());
+				l4.addView(bt_locate);
+				Button bt_comment=new Button(getBaseContext());
+				bt_comment.setText(obj_serRes.feed.get(i).noOfComments);
+				bt_comment.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.comment));
+				final int k=i;
+				bt_comment.setOnClickListener(new OnClickListener() {
+
+					public void onClick(View v) {
+						Intent in=new Intent(getBaseContext(),CommentActivity.class);
+
+						Bundle b=new Bundle();
+						b.putString("desc",obj_serRes.feed.get(k).description);
+						b.putString("aid",obj_serRes.feed.get(k).announcement_id);
+						in.putExtras(b);
+						startActivityForResult(in,3);
+
+					}
+				});
+
+				l4.addView(bt_comment);
+
+				l2.addView(l3);
+				l2.addView(l4);
+				l1.addView(l2);
+			}
+			mainLayout.addView(v);
+			
+			msg.what=GUI_READY;
+			msg.obj=mainLayout;
+			msgHandler.sendMessage(msg);
+			
 		}
-		
-		LinearLayout l1=new LinearLayout(getBaseContext());
-		v.addView(l1);
-		l1.setOrientation(LinearLayout.VERTICAL);
-
-		if(obj_serRes.forceLogin){						
-			finish();			
-		}		
-
-		for(int i=0;i<obj_serRes.feed.size();i++){
-
-			LinearLayout l2=new LinearLayout(getBaseContext());
-			l2.setOrientation(LinearLayout.VERTICAL);
-			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-			lp.setMargins(0,10, 0,10);
-			l2.setLayoutParams(lp);
-
-			TextView Descr=new TextView(getBaseContext());
-			Descr.setText(Html.fromHtml("<b>Description:</b> "+obj_serRes.feed.get(i).description));
-			Descr.setTextSize(20);
-
-			l2.addView(Descr);
-
-			TextView date=new TextView(getBaseContext());
-			date.setText(Html.fromHtml("<b>Time:</b> "+obj_serRes.feed.get(i).timestamp));
-			date.setTextSize(16);
-
-			l2.addView(date);
-
-			TextView ratin=new TextView(getBaseContext());
-			ratin.setText(Html.fromHtml("<b>Rating:</b> "+obj_serRes.feed.get(i).averageRating));
-			ratin.setTextSize(16);						
-			l2.addView(ratin);
-
-			LinearLayout l3=new LinearLayout(getBaseContext());
-
-			Button bt_locate=new Button(getBaseContext());
-
-			final String longi=obj_serRes.feed.get(i).longitude;
-			final String lati=obj_serRes.feed.get(i).latitude;
-			final String mapDesc=obj_serRes.feed.get(i).announcer+" :  "+obj_serRes.feed.get(i).description+"("+(obj_serRes.feed.get(i).timestamp).substring(0,(obj_serRes.feed.get(i).timestamp).length())+")";
-
-			bt_locate.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.locate));
-			bt_locate.setOnClickListener(new OnClickListener() {
-
-				public void onClick(View arg0) {
-					Bundle b=new Bundle();
-					b.putString("longitude", longi);
-					b.putString("latitude", lati);
-					b.putString("desc", mapDesc);
-					Intent myIntent = new Intent(getBaseContext(), MyMapAct.class);	
-					myIntent.putExtras(b);
-					startActivity(myIntent);					
-				}
-			});
-
-			LinearLayout l4=new LinearLayout(getBaseContext());
-			l4.addView(bt_locate);
-			Button bt_comment=new Button(getBaseContext());
-			bt_comment.setText(obj_serRes.feed.get(i).noOfComments);
-			bt_comment.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.comment));
-			final int k=i;
-			bt_comment.setOnClickListener(new OnClickListener() {
-
-				public void onClick(View v) {
-					Intent in=new Intent(getBaseContext(),CommentActivity.class);
-
-					Bundle b=new Bundle();
-					b.putString("desc",obj_serRes.feed.get(k).description);
-					b.putString("aid",obj_serRes.feed.get(k).announcement_id);
-					in.putExtras(b);
-					startActivityForResult(in,3);
-
-				}
-			});
-
-			l4.addView(bt_comment);
-
-			l2.addView(l3);
-			l2.addView(l4);
-			l1.addView(l2);
-		}
-		mainLayout.addView(v);
+				
 	}
 
 

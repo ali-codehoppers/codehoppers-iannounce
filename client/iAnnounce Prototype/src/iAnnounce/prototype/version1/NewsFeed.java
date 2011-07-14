@@ -38,7 +38,10 @@ import android.widget.Toast;
  *@version 1
  */
 public class NewsFeed extends Activity {
+	
 	private ProgressDialog pdialog1;
+	private IncomingHandler incHand;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -46,9 +49,12 @@ public class NewsFeed extends Activity {
 
 		pdialog1 = ProgressDialog.show(NewsFeed.this,"", 
 				"Loading. Please wait...", true);
-
+		
+		mMessenger = new Messenger(new IncomingHandler());
 		myMess=mMessenger;
+		
 	}
+	
 
 
 
@@ -126,9 +132,10 @@ public class NewsFeed extends Activity {
 	/**
 	 * Messenger of this activity
 	 */
-	public static Messenger myMess;
 	
-	final Messenger mMessenger = new Messenger(new IncomingHandler());
+	
+	Messenger mMessenger;
+	public static Messenger myMess;
 	
 	/**
 	 * Message handler 
