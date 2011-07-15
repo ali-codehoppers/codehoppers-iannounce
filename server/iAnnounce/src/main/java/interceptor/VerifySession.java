@@ -48,7 +48,7 @@ public class VerifySession extends AbstractInterceptor
         if (!userSessionList.isEmpty() && userSessionList.get(0).getStatuss())
           {
             username = userSessionList.get(0).getUsername();
-            logger.error("sessionID=" + sessionId + ",username=" + username);
+//            logger.error("sessionID=" + sessionId + ",username=" + username);
             ai.getStack().setValue("username", username);
             try
               {

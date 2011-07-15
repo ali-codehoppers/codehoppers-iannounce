@@ -202,44 +202,52 @@ public class HomePage extends TabActivity {
 				m=Message.obtain(null,iAnnounceService.RECIEVE_ANNOUNCEMENTS);
 				m.replyTo = mMessenger;
 				m.obj=msg.obj;
-								
+					if(NewsFeed_messenger!=null){			
 				try {
 					NewsFeed_messenger.send(m);
 				} catch (RemoteException e) {			
 					e.printStackTrace();
-				}			
+				}		
+					}
 				break;
 
 			case iAnnounceService.RESPONSE_NETWORK_ERROR:
 				m=Message.obtain(null,iAnnounceService.RESPONSE_NETWORK_ERROR);
 				m.replyTo = mMessenger;
 				m.obj=msg.obj;
+				if(NewsFeed_messenger!=null){	
 				try {
 					NewsFeed_messenger.send(m);
 				} catch (RemoteException e) {			
 					e.printStackTrace();
-				}			
+				}	
+				}
 				break;
 			case  iAnnounceService.RESPONSE_ERROR_FROM_SERVER:
 				m=Message.obtain(null,iAnnounceService.RESPONSE_ERROR_FROM_SERVER);
 				m.replyTo = mMessenger;
 				m.obj=msg.obj;
+				if(NewsFeed_messenger!=null){	
 				try {
 					NewsFeed_messenger.send(m);
 				} catch (RemoteException e) {			
 					e.printStackTrace();
-				}							
+				}	
+				}
 				break;
 			case iAnnounceService.RESPONSE_ERROR_SESSION:
 				m=Message.obtain(null,iAnnounceService.RESPONSE_ERROR_FROM_SERVER);
 				m.replyTo = mMessenger;
 				m.obj=msg.obj;
+				if(NewsFeed_messenger!=null){	
 				try {
 					NewsFeed_messenger.send(m);
 				} catch (RemoteException e) {			
 					e.printStackTrace();
-				}							
+				}
+				}
 				break;
+				
 				
 			default:
 

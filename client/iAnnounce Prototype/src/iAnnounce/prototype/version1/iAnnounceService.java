@@ -229,7 +229,7 @@ public class iAnnounceService extends Service{
 			tim.cancel();
 		}
 		tim= new Timer();
-		tim.scheduleAtFixedRate(tTask,0,20000);
+		tim.scheduleAtFixedRate(tTask,ifreq,ifreq);
 
 
 
