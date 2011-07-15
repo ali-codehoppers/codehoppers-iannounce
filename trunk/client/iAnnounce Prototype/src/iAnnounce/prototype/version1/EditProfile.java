@@ -92,7 +92,7 @@ public class EditProfile extends Activity {
 					((RadioButton)findViewById(R.id.radio_male)).toggle();
 				}
 
-				Log.e("errr", mh.obj_serverResp1.userProfile.dob);
+
 
 				String []str_dob=mh.obj_serverResp1.userProfile.dob.split("-");
 
@@ -178,7 +178,7 @@ public class EditProfile extends Activity {
 	private void myFunc(String gender){
 		HttpPostRequest ht=new HttpPostRequest();
 		SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
-		ht.editProfile(settings.getString("sessionId", "0"),((EditText)findViewById(R.id.editProfileEdittextPassword)).getText().toString(), ((EditText)findViewById(R.id.editProfileEdittextNewPassword)).getText().toString(), gender, ((EditText)findViewById(R.id.editProfileEdittextName)).getText().toString(), ((EditText)findViewById(R.id.editProfileEdittextLastName)).getText().toString(),mYear+"/"+mMonth+"/"+mDay);
+		ht.editProfile(settings.getString("sessionId", "0"),((EditText)findViewById(R.id.editProfileEdittextPassword)).getText().toString(), ((EditText)findViewById(R.id.editProfileEdittextNewPassword)).getText().toString(), gender, ((EditText)findViewById(R.id.editProfileEdittextName)).getText().toString(), ((EditText)findViewById(R.id.editProfileEdittextLastName)).getText().toString(),mYear+"/"+(mMonth+1)+"/"+mDay);
 		
 		if(ht.isError){
 			Toast.makeText(getApplicationContext(), ht.xception, Toast.LENGTH_LONG).show();

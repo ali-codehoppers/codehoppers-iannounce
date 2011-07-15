@@ -71,9 +71,7 @@ public class AnnouncementPost extends BaseActionClass
             
             Timestamp time = new Timestamp(date.getTime());
 
-            Logger log=Logger.getLogger(AnnouncementPost.class);
-
-            log.error("errorrr in timestamp=="+time);
+            
 
             //normal announcement with 0 ranking
             Announcement announcement = new Announcement(0, Double.parseDouble(latitude), Double.parseDouble(longitude), announce, radius, time, false, username, 0);
