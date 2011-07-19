@@ -295,6 +295,10 @@ public class CommentActivity extends Activity{
 				}
 				else if(et_comment.getText().length()<=CHAR_LIMIT){
 					
+					ThreadPostComment th=new ThreadPostComment();
+					th.start();
+					
+					
 					
 					//					HttpPostRequest ht=new HttpPostRequest();
 					//					SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
