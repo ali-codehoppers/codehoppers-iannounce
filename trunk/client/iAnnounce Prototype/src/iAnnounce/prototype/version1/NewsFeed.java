@@ -40,7 +40,7 @@ import android.widget.Toast;
 public class NewsFeed extends Activity {
 	
 	private ProgressDialog pdialog1;
-	private IncomingHandler incHand;
+	
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -53,7 +53,77 @@ public class NewsFeed extends Activity {
 		mMessenger = new Messenger(new IncomingHandler());
 		myMess=mMessenger;
 		
+		l1=new LinearLayout(getBaseContext());
+		mainLayout=new LinearLayout(getBaseContext());
+		
+		mainLayout.setOrientation(LinearLayout.VERTICAL);
+		setContentView(mainLayout);
+		
+		v=new ScrollView(NewsFeed.this){
+
+			@Override
+			protected void onScrollChanged(int l, int t, int oldl, int oldt) {
+				View view = (View) getChildAt(getChildCount()-1);
+		        int diff = (view.getBottom()-(getHeight()+getScrollY()));// Calculate the scrolldiff
+		        if( diff == 0 ){  // if diff is zero, then the bottom has been reached
+//		            Toast.makeText(getApplicationContext(), "crap", Toast.LENGTH_LONG).show();
+		            
+		            
+		            
+		        	if(fl_gotPage){
+		        		pdialog1.show();
+		        		fl_gotPage=false;
+		            pageNum_int++;
+					
+//					if(pageNum_int<=1){
+//						bt_Prev.setEnabled(false);
+//					}
+//					else{
+//						bt_Prev.setEnabled(true);
+//					}
+//					tv_pgnum.setText("Page : "+Integer.toString(pageNum_int));
+					getAnnouncementText(Integer.toString(pageNum_int));
+
+
+					Messenger HomePage_messenger=HomePage.myMess;
+					Messenger toSer_Mess=HomePage.Static_mServer;
+
+					Message m=Message.obtain(null,iAnnounceService.STOP_TIMERTASK);
+					m.replyTo = HomePage_messenger;
+
+
+					try {
+						toSer_Mess.send(m);
+					} catch (RemoteException e) {			
+						e.printStackTrace();
+					}		
+
+
+					m=Message.obtain(null,iAnnounceService.START_TIMERTASK);
+					m.replyTo = HomePage_messenger;
+					m.obj=(String)Integer.toString(pageNum_int);
+
+					try {
+						toSer_Mess.send(m);
+					} catch (RemoteException e) {			
+						e.printStackTrace();
+					}
+		            
+		        	}
+		            
+		            
+		        }	
+				super.onScrollChanged(l, t, oldl, oldt);
+			}
+			
+		};
+		
+		v.addView(l1);
+		mainLayout.addView(v);
+		
 	}
+	
+	LinearLayout mainLayout;
 	
 
 
@@ -144,19 +214,21 @@ public class NewsFeed extends Activity {
 	 */
 
 	class IncomingHandler extends Handler {
+		
 		@Override
 		public void handleMessage(Message msg) {
+			pdialog1.cancel();
 			switch (msg.what) {
 			case iAnnounceService.RECIEVE_ANNOUNCEMENTS:
-				pdialog1.cancel();				
+				fl_gotPage=true;				
 				generateGUI((ServerResponse)msg.obj,Integer.toString(pageNum_int));
 				break;
 			case iAnnounceService.RESPONSE_NETWORK_ERROR:
-				pdialog1.cancel();
+				
 				Toast.makeText(getApplicationContext(), (String)msg.obj, Toast.LENGTH_LONG).show();
 				break;
 			case iAnnounceService.RESPONSE_ERROR_FROM_SERVER:
-				pdialog1.cancel();				
+								
 				Toast.makeText(getApplicationContext(), (String)msg.obj, Toast.LENGTH_LONG).show();
 				break;
 			case iAnnounceService.RESPONSE_ERROR_SESSION:
@@ -172,6 +244,11 @@ public class NewsFeed extends Activity {
 	
 	Button bt_Next;
 	Button bt_Prev;
+	
+	boolean fl_gotPage=false;
+	
+	ScrollView v;
+	LinearLayout l1;
 
 /**
  * Function for populating the screen
@@ -181,124 +258,111 @@ public class NewsFeed extends Activity {
 
 	void generateGUI(ServerResponse sr01,String pagenum){
 		
-		LinearLayout mainLayout=new LinearLayout(getBaseContext());
-		mainLayout.setOrientation(LinearLayout.VERTICAL);
-		setContentView(mainLayout);
-		LinearLayout lbar=new LinearLayout(getBaseContext());
-		lbar.setGravity(Gravity.CENTER_HORIZONTAL);
-
-		lbar.setBackgroundColor(Color.rgb(189, 189, 189));
-		lbar.setPadding(0, 5, 0, 0);
-		final TextView tv_pgnum= new TextView(getBaseContext());
-		tv_pgnum.setText("Page : "+pagenum);
-		tv_pgnum.setTextColor(Color.BLACK);
-		bt_Next=new Button(getBaseContext());
-		bt_Next.setText("Next Page");
-		bt_Next.setOnClickListener(new OnClickListener() {
-
-			public void onClick(View arg0) {
-
-				pageNum_int++;
-				
-				if(pageNum_int<=1){
-					bt_Prev.setEnabled(false);
-				}
-				else{
-					bt_Prev.setEnabled(true);
-				}
-				tv_pgnum.setText("Page : "+Integer.toString(pageNum_int));
-				getAnnouncementText(Integer.toString(pageNum_int));
-
-
-				Messenger HomePage_messenger=HomePage.myMess;
-				Messenger toSer_Mess=HomePage.Static_mServer;
-
-				Message m=Message.obtain(null,iAnnounceService.STOP_TIMERTASK);
-				m.replyTo = HomePage_messenger;
-
-
-				try {
-					toSer_Mess.send(m);
-				} catch (RemoteException e) {			
-					e.printStackTrace();
-				}		
-
-
-				m=Message.obtain(null,iAnnounceService.START_TIMERTASK);
-				m.replyTo = HomePage_messenger;
-				m.obj=(String)Integer.toString(pageNum_int);
-
-				try {
-					toSer_Mess.send(m);
-				} catch (RemoteException e) {			
-					e.printStackTrace();
-				}	
-
-
-			}
-		});
-
-		bt_Prev=new Button(getBaseContext());
-		bt_Prev.setText("Prev Page");
-		bt_Prev.setOnClickListener(new OnClickListener() {
-
-			public void onClick(View arg0) {
-				pageNum_int--;
-				tv_pgnum.setText("Page : "+Integer.toString(pageNum_int));
-				getAnnouncementText(Integer.toString(pageNum_int));					
-
-				Messenger HomePage_messenger=HomePage.myMess;
-				Messenger toSer_Mess=HomePage.Static_mServer;
-
-				Message m=Message.obtain(null,iAnnounceService.STOP_TIMERTASK);
-				m.replyTo = HomePage_messenger;
-
-				try {
-					toSer_Mess.send(m);
-				} catch (RemoteException e) {			
-					e.printStackTrace();
-				}					
-
-				m=Message.obtain(null,iAnnounceService.START_TIMERTASK);
-				m.replyTo = HomePage_messenger;
-				m.obj=(String)Integer.toString(pageNum_int);
-
-				try {
-					toSer_Mess.send(m);
-				} catch (RemoteException e) {			
-					e.printStackTrace();
-				}	
-
-
-			}
-		});
-
-
-		if(pageNum_int<=1){
-			bt_Prev.setEnabled(false);
-		}
-		lbar.addView(bt_Prev);
-		lbar.addView(tv_pgnum);
-		lbar.addView(bt_Next);
-
-		mainLayout.addView(lbar);
 		
 		
-
-		ScrollView v=new ScrollView(getBaseContext());
-
-//		MyXmlHandler myhandler=new MyXmlHandler();
+//		LinearLayout lbar=new LinearLayout(getBaseContext());
+//		lbar.setGravity(Gravity.CENTER_HORIZONTAL);
 //
-//		try {
-//			Xml.parse(s1, myhandler);
-//		} catch (SAXException e) {
-//			e.printStackTrace();
+//		lbar.setBackgroundColor(Color.rgb(189, 189, 189));
+//		lbar.setPadding(0, 5, 0, 0);
+//		final TextView tv_pgnum= new TextView(getBaseContext());
+//		tv_pgnum.setText("Page : "+pagenum);
+//		tv_pgnum.setTextColor(Color.BLACK);
+//		bt_Next=new Button(getBaseContext());
+//		bt_Next.setText("Next Page");
+//		bt_Next.setOnClickListener(new OnClickListener() {
+//
+//			public void onClick(View arg0) {
+//
+//				pageNum_int++;
+//				
+//				if(pageNum_int<=1){
+//					bt_Prev.setEnabled(false);
+//				}
+//				else{
+//					bt_Prev.setEnabled(true);
+//				}
+//				tv_pgnum.setText("Page : "+Integer.toString(pageNum_int));
+//				getAnnouncementText(Integer.toString(pageNum_int));
+//
+//
+//				Messenger HomePage_messenger=HomePage.myMess;
+//				Messenger toSer_Mess=HomePage.Static_mServer;
+//
+//				Message m=Message.obtain(null,iAnnounceService.STOP_TIMERTASK);
+//				m.replyTo = HomePage_messenger;
+//
+//
+//				try {
+//					toSer_Mess.send(m);
+//				} catch (RemoteException e) {			
+//					e.printStackTrace();
+//				}		
+//
+//
+//				m=Message.obtain(null,iAnnounceService.START_TIMERTASK);
+//				m.replyTo = HomePage_messenger;
+//				m.obj=(String)Integer.toString(pageNum_int);
+//
+//				try {
+//					toSer_Mess.send(m);
+//				} catch (RemoteException e) {			
+//					e.printStackTrace();
+//				}	
+//
+//
+//			}
+//		});
+//
+//		bt_Prev=new Button(getBaseContext());
+//		bt_Prev.setText("Prev Page");
+//		
+//		bt_Prev.setOnClickListener(new OnClickListener() {
+//
+//			public void onClick(View arg0) {
+//				pageNum_int--;
+//				tv_pgnum.setText("Page : "+Integer.toString(pageNum_int));
+//				getAnnouncementText(Integer.toString(pageNum_int));					
+//
+//				Messenger HomePage_messenger=HomePage.myMess;
+//				Messenger toSer_Mess=HomePage.Static_mServer;
+//
+//				Message m=Message.obtain(null,iAnnounceService.STOP_TIMERTASK);
+//				m.replyTo = HomePage_messenger;
+//
+//				try {
+//					toSer_Mess.send(m);
+//				} catch (RemoteException e) {			
+//					e.printStackTrace();
+//				}					
+//
+//				m=Message.obtain(null,iAnnounceService.START_TIMERTASK);
+//				m.replyTo = HomePage_messenger;
+//				m.obj=(String)Integer.toString(pageNum_int);
+//
+//				try {
+//					toSer_Mess.send(m);
+//				} catch (RemoteException e) {			
+//					e.printStackTrace();
+//				}	
+//
+//
+//			}
+//		});
+//
+//
+//		if(pageNum_int<=1){
+//			bt_Prev.setEnabled(false);
 //		}
+//		lbar.addView(bt_Prev);
+//		lbar.addView(tv_pgnum);
+//		lbar.addView(bt_Next);
+//
+//		mainLayout.addView(lbar);
 
-//		final ServerResponse obj_serRes=myhandler.obj_serverResp1;
 		final ServerResponse obj_serRes=sr01;
-		LinearLayout l1=new LinearLayout(getBaseContext());
-		v.addView(l1);
+		
+//		v.addView(l1);
 		l1.setOrientation(LinearLayout.VERTICAL);
 
 		if(obj_serRes.forceLogin){						
@@ -481,14 +545,13 @@ public class NewsFeed extends Activity {
 
 			l2.addView(l3);
 			//			l2.addView(l4);
-
-
+			
 			lp.setMargins(0, 5, 0, 5);
 			l2.setLayoutParams(lp);
 			l1.addView(l2);
 		}
 
-		mainLayout.addView(v);
+//		mainLayout.addView(v);
 
 
 	}
