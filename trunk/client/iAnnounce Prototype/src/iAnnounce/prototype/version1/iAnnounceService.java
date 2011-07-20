@@ -191,10 +191,15 @@ public class iAnnounceService extends Service{
 						Xml.parse(ht.xmlStringResponse, myhandler);
 						if(myhandler.obj_serverResp1.responseCode.equalsIgnoreCase("0")){						
 							m=Message.obtain(null,RECIEVE_TASK_RESPONSE,(Object)myhandler.obj_serverResp1);
-							mClient.send(m);
+							mClient_getAnn.send(m);
 						}else{
-							m=Message.obtain(null,RESPONSE_ERROR_FROM_SERVER,(Object)myhandler.obj_serverResp1.responseMessage);
-							mClient.send(m);
+							if(myhandler.obj_serverResp1.responseCode.equalsIgnoreCase("1")){
+								m=Message.obtain(null,RESPONSE_ERROR_SESSION,(Object)myhandler.obj_serverResp1.responseMessage);
+							}
+							else{
+								m=Message.obtain(null,RESPONSE_ERROR_FROM_SERVER,(Object)myhandler.obj_serverResp1.responseMessage);	
+							}
+							mClient_getAnn.send(m);
 						}
 					}
 
@@ -222,17 +227,17 @@ public class iAnnounceService extends Service{
 
 		SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
 
-		String freq=settings.getString("timeInterval", "5");
+		String freq=settings.getString("timeInterval", "1");
 		int ifreq= Integer.parseInt(freq);
 		ifreq=ifreq*60*1000;
 		if(tim!=null){
 			tim.cancel();
 		}
+		
 		tim= new Timer();
 		tim.scheduleAtFixedRate(tTask,ifreq,ifreq);
-
-
-
+		Log.e("grrrrrrService", "Timer task started :D");
+		
 	}
 
 	@Override
@@ -242,7 +247,11 @@ public class iAnnounceService extends Service{
 		}
 		super.onDestroy();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
 	}
+	
+	
+	
 
+	
 	@Override
 	public void onStart(Intent intent, int startId) {
 		String ns = Context.NOTIFICATION_SERVICE;

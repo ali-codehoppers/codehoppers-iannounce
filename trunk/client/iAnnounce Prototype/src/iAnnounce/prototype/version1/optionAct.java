@@ -39,17 +39,26 @@ public class optionAct extends Activity{
 		final SharedPreferences.Editor editor = settings.edit();
 
 		final EditText et1=(EditText)findViewById(R.id.et_LocFreq);
-		et1.setText(settings.getString("timeInterval",""));
+		et1.setText(settings.getString("timeInterval","1"));
 		
 		et1.setInputType(InputType.TYPE_CLASS_NUMBER);
 
 		final EditText et_dist=(EditText)findViewById(R.id.et_distance);
-		et_dist.setText(settings.getString("distanceMeter",""));
+		et_dist.setText(settings.getString("distanceMeter","500"));
 		
 		et_dist.setInputType(InputType.TYPE_CLASS_NUMBER);
+		
+		
 
 		Button bt_save= (Button)findViewById(R.id.bt_option_save);
 		Button bt_cancel= (Button)findViewById(R.id.bt_option_cancel);
+		
+		final EditText et_dtime=(EditText)findViewById(R.id.et_distanceTime);
+		
+		et_dtime.setText(settings.getString("distanceTime","1"));
+		et_dtime.setInputType(InputType.TYPE_CLASS_NUMBER);
+		
+		
 		
 
 		bt_save.setOnClickListener(new OnClickListener() {
@@ -58,8 +67,10 @@ public class optionAct extends Activity{
 				try {
 					Integer.parseInt(et1.getText().toString());
 					Integer.parseInt(et_dist.getText().toString());
+					Integer.parseInt(et_dtime.getText().toString());
 					editor.putString("timeInterval", (et1.getText()).toString());
 					editor.putString("distanceMeter", (et_dist.getText()).toString());
+					editor.putString("distanceTime", (et_dtime.getText()).toString());
 					editor.commit();
 					Toast.makeText(getApplicationContext(), "Setting Saved", Toast.LENGTH_LONG).show();
 					finish();

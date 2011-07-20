@@ -10,7 +10,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
-import android.graphics.Color;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -18,8 +21,8 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 import android.text.Html;
+import android.util.Log;
 import android.util.Xml;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -41,10 +44,19 @@ public class NewsFeed extends Activity {
 	
 	private ProgressDialog pdialog1;
 	
+	public Messenger mService;
+	private int pageNum_int=1;
+	
+	Messenger mMessenger;
+	public static Messenger myMess;
+	
+	
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		
 		getApplicationContext().bindService(new Intent(NewsFeed.this, iAnnounceService.class), mConnection, Context.BIND_AUTO_CREATE);
 
 		pdialog1 = ProgressDialog.show(NewsFeed.this,"", 
@@ -54,10 +66,11 @@ public class NewsFeed extends Activity {
 		myMess=mMessenger;
 		
 		l1=new LinearLayout(getBaseContext());
-		mainLayout=new LinearLayout(getBaseContext());
+		l1.setOrientation(LinearLayout.VERTICAL);
+//		mainLayout=new LinearLayout(getBaseContext());
 		
-		mainLayout.setOrientation(LinearLayout.VERTICAL);
-		setContentView(mainLayout);
+//		mainLayout.setOrientation(LinearLayout.VERTICAL);
+//		setContentView(mainLayout);
 		
 		v=new ScrollView(NewsFeed.this){
 
@@ -65,50 +78,43 @@ public class NewsFeed extends Activity {
 			protected void onScrollChanged(int l, int t, int oldl, int oldt) {
 				View view = (View) getChildAt(getChildCount()-1);
 		        int diff = (view.getBottom()-(getHeight()+getScrollY()));// Calculate the scrolldiff
-		        if( diff == 0 ){  // if diff is zero, then the bottom has been reached
-//		            Toast.makeText(getApplicationContext(), "crap", Toast.LENGTH_LONG).show();
-		            
-		            
-		            
+		        if( diff == 0 ){  
+		        	
 		        	if(fl_gotPage){
 		        		pdialog1.show();
 		        		fl_gotPage=false;
 		            pageNum_int++;
-					
-//					if(pageNum_int<=1){
-//						bt_Prev.setEnabled(false);
-//					}
-//					else{
-//						bt_Prev.setEnabled(true);
-//					}
-//					tv_pgnum.setText("Page : "+Integer.toString(pageNum_int));
+		            
+		            
 					getAnnouncementText(Integer.toString(pageNum_int));
 
 
 					Messenger HomePage_messenger=HomePage.myMess;
-					Messenger toSer_Mess=HomePage.Static_mServer;
+					//Messenger toSer_Mess=HomePage.Static_mServer;
 
 					Message m=Message.obtain(null,iAnnounceService.STOP_TIMERTASK);
-					m.replyTo = HomePage_messenger;
+					m.replyTo = mMessenger;
 
 
 					try {
-						toSer_Mess.send(m);
+//						toSer_Mess.send(m);
+						mService.send(m);
 					} catch (RemoteException e) {			
 						e.printStackTrace();
 					}		
 
 
 					m=Message.obtain(null,iAnnounceService.START_TIMERTASK);
-					m.replyTo = HomePage_messenger;
+					m.replyTo = mMessenger;
 					m.obj=(String)Integer.toString(pageNum_int);
 
 					try {
-						toSer_Mess.send(m);
+//						toSer_Mess.send(m);
+						mService.send(m);
 					} catch (RemoteException e) {			
 						e.printStackTrace();
 					}
-		            
+					
 		        	}
 		            
 		            
@@ -119,11 +125,85 @@ public class NewsFeed extends Activity {
 		};
 		
 		v.addView(l1);
-		mainLayout.addView(v);
 		
+//		mainLayout.addView(v);
+		
+		setContentView(v);
+		
+		
+		/*location update thing goes here now*/
+		
+		
+		String context = Context.LOCATION_SERVICE;
+		locationManager = (LocationManager)getSystemService(context);
+		Criteria criteria = new Criteria();
+		criteria.setAccuracy(Criteria.ACCURACY_FINE);
+		criteria.setAltitudeRequired(false);
+		criteria.setBearingRequired(false);
+		criteria.setCostAllowed(true);
+
+
+		String provider = locationManager.getBestProvider(criteria, true);
+		
+		if(provider==null){
+			Toast.makeText(getApplicationContext(), "Please Enable your GPS", Toast.LENGTH_LONG).show();
+			finish();
+
+		}
+		else{
+			
+			SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
+			int distance=Integer.parseInt(settings.getString("distanceMeter","500"));
+			int distUpdateTime=60*1000*(Integer.parseInt(settings.getString("distanceTime","1")));
+			
+			locationManager.requestLocationUpdates(provider, distUpdateTime, distance,
+					locationListener);
+
+			/* ifcrash*/
+
+			Location location =
+				locationManager.getLastKnownLocation(provider);
+
+			if(location!=null){
+				updateLocation(location);
+			}
+		}
+		
+		
+		
+		
+		
+		
+		/*----------------------------------------------*/
+		
+			
 	}
 	
-	LinearLayout mainLayout;
+//	LinearLayout mainLayout;
+	
+	LocationManager locationManager;
+	
+	public void updateLocation(Location Loc){
+		SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
+		SharedPreferences.Editor editor = settings.edit();
+
+		editor.putString("Longitude", Double.toString(Loc.getLongitude()));
+		editor.putString("Latitude", Double.toString(Loc.getLatitude()));
+		editor.commit();
+
+
+	}
+	private LocationListener locationListener = new LocationListener() {
+		public void onLocationChanged(Location location) {
+			updateLocation(location);
+		}
+		public void onProviderDisabled(String provider){
+			showDialog(2);
+		}
+		public void onProviderEnabled(String provider){ }
+		public void onStatusChanged(String provider, int status,
+				Bundle extras){ }
+	};
 	
 
 
@@ -193,19 +273,7 @@ public class NewsFeed extends Activity {
 		}
 	}
 
-	/**
-	 * Service messenger which will be available after this activity is binded with the iAnnounce service
-	 */
-	public Messenger mService;
-	private int pageNum_int=1;
 	
-	/**
-	 * Messenger of this activity
-	 */
-	
-	
-	Messenger mMessenger;
-	public static Messenger myMess;
 	
 	/**
 	 * Message handler 
@@ -221,10 +289,9 @@ public class NewsFeed extends Activity {
 			switch (msg.what) {
 			case iAnnounceService.RECIEVE_ANNOUNCEMENTS:
 				fl_gotPage=true;				
-				generateGUI((ServerResponse)msg.obj,Integer.toString(pageNum_int));
+				generateGUI((ServerResponse)msg.obj,Integer.toString(pageNum_int));				
 				break;
-			case iAnnounceService.RESPONSE_NETWORK_ERROR:
-				
+			case iAnnounceService.RESPONSE_NETWORK_ERROR:				
 				Toast.makeText(getApplicationContext(), (String)msg.obj, Toast.LENGTH_LONG).show();
 				break;
 			case iAnnounceService.RESPONSE_ERROR_FROM_SERVER:
@@ -235,6 +302,9 @@ public class NewsFeed extends Activity {
 				Toast.makeText(getApplicationContext(), (String)msg.obj, Toast.LENGTH_LONG).show();
 				finish();
 				break;
+			case iAnnounceService.RECIEVE_TASK_RESPONSE:
+				
+				
 			default:
 
 			}
@@ -249,6 +319,8 @@ public class NewsFeed extends Activity {
 	
 	ScrollView v;
 	LinearLayout l1;
+	
+	boolean fl_refreshGui=false;
 
 /**
  * Function for populating the screen
@@ -258,6 +330,10 @@ public class NewsFeed extends Activity {
 
 	void generateGUI(ServerResponse sr01,String pagenum){
 		
+		if(fl_refreshGui){
+			l1=new LinearLayout(NewsFeed.this);
+			fl_refreshGui=false;
+		}
 		
 		
 //		LinearLayout lbar=new LinearLayout(getBaseContext());
@@ -363,11 +439,8 @@ public class NewsFeed extends Activity {
 		final ServerResponse obj_serRes=sr01;
 		
 //		v.addView(l1);
-		l1.setOrientation(LinearLayout.VERTICAL);
-
-		if(obj_serRes.forceLogin){						
-			finish();			
-		}		
+		
+		
 
 		for(int i=0;i<obj_serRes.feed.size();i++){
 
@@ -521,22 +594,35 @@ public class NewsFeed extends Activity {
 			bt_td.setOnClickListener(new OnClickListener() {
 
 				public void onClick(View v) {
+					
+					v.setBackgroundDrawable(getApplicationContext().getResources().getDrawable(R.drawable.rtd));
+					v.setEnabled(false);
+					
 					HttpPostRequest ht=new HttpPostRequest();
 					SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);					
 					
 					ht.rateAnnouncement(settings.getString("sessionId","0"), obj_serRes.feed.get(k).announcement_id, "0");
 					myFunc(ht);
-
+					
+					
+					
 				}
 			});
 
 			bt_tu.setOnClickListener(new OnClickListener() {
 
 				public void onClick(View v) {
+					v.setBackgroundDrawable(getApplicationContext().getResources().getDrawable(R.drawable.rtu));
+					v.setEnabled(false);
+					
 					HttpPostRequest ht=new HttpPostRequest();
-					SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);					
-					ht.rateAnnouncement(settings.getString("sessionId","0"), obj_serRes.feed.get(k).announcement_id, "1");					
+					
+					SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
+					
+					ht.rateAnnouncement(settings.getString("sessionId","0"), obj_serRes.feed.get(k).announcement_id, "1");
+					
 					myFunc(ht);
+					
 				}
 			});
 			
@@ -570,14 +656,16 @@ public class NewsFeed extends Activity {
 			}
 			
 			if(!myhandler.obj_serverResp1.responseCode.equalsIgnoreCase("0")){
+				
 				Toast.makeText(getApplicationContext(),myhandler.obj_serverResp1.responseCode, Toast.LENGTH_LONG).show();
 				if(myhandler.obj_serverResp1.responseCode.equalsIgnoreCase("1")){
 					finish();
 				}
 			}
 			else{
-				Toast.makeText(getApplicationContext(), myhandler.obj_serverResp1.rateResponse, Toast.LENGTH_LONG).show();
-				getAnnouncementText(Integer.toString(pageNum_int));
+				
+				Toast.makeText(getApplicationContext(), myhandler.obj_serverResp1.rateResponse, Toast.LENGTH_LONG).show();				
+//				getAnnouncementText(Integer.toString(pageNum_int));
 			}
 			
 			
@@ -615,6 +703,17 @@ public class NewsFeed extends Activity {
 			} catch (RemoteException e) {			
 				e.printStackTrace();
 			}
+			Message m1=new Message();
+			m1.what=iAnnounceService.START_TIMERTASK;
+			
+			try {
+				mService.send(m1);
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
 		}
 
 		public void onServiceDisconnected(ComponentName className) {
@@ -648,13 +747,38 @@ public class NewsFeed extends Activity {
 		}
 
 	}
+	
+	@Override
+	protected void onStop() {
+		
+		locationManager.removeUpdates(locationListener);
+		if(mConnection!=null){			
+			if(mService!=null){
+				Message m=new Message();
+				m.what=iAnnounceService.STOP_TIMERTASK;
+				m.replyTo=mMessenger;
+				 try {
+					mService.send(m);
+				} catch (RemoteException e) {					
+					e.printStackTrace();
+				}
+			}
+			getApplicationContext().unbindService(mConnection);			
+		}
+		
+		
+		super.onStop();
+	}
 
 
-	//	@Override
-	//	protected void onResume() {
-	//		getAnnouncementText(Integer.toString(pageNum_int));
-	//		super.onResume();
-	//	}
+		@Override
+		protected void onResume() {
+			if(mService!=null){
+				fl_refreshGui=true;
+			getAnnouncementText(Integer.toString(pageNum_int));
+			}
+			super.onResume();
+		}
 
 
 

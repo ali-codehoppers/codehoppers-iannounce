@@ -49,7 +49,7 @@ public class HomePage extends TabActivity {
 
 
 		getApplication().startService(new Intent(this, iAnnounceService.class));
-		getApplicationContext().bindService(new Intent(HomePage.this, iAnnounceService.class), mConnection, Context.BIND_AUTO_CREATE);
+//		getApplicationContext().bindService(new Intent(HomePage.this, iAnnounceService.class), mConnection, Context.BIND_AUTO_CREATE);
 
 
 
@@ -98,17 +98,17 @@ public class HomePage extends TabActivity {
 
 		}
 		else{
-			locationManager.requestLocationUpdates(provider, 1*60*1000, distFreq,
-					locationListener);
-
-			/* ifcrash*/
-
-			Location location =
-				locationManager.getLastKnownLocation(provider);
-
-			if(location!=null){
-				updateLocation(location);
-			}
+//			locationManager.requestLocationUpdates(provider, 1*60*1000, distFreq,
+//					locationListener);
+//
+//			/* ifcrash*/
+//
+//			Location location =
+//				locationManager.getLastKnownLocation(provider);
+//
+//			if(location!=null){
+//				updateLocation(location);
+//			}
 			/*----*/
 
 			TabHost tabHost = getTabHost();  // The activity TabHost
@@ -269,77 +269,79 @@ public class HomePage extends TabActivity {
 				e.printStackTrace();
 			}
 
-
 		}
 
 		public void onServiceDisconnected(ComponentName className) {
-
+			
 			mService = null;				
 			Toast.makeText(getBaseContext(),"Disconnected from Service",Toast.LENGTH_SHORT).show();
-
 
 		}
 	};
 
 
 	protected void onResume() {
+//		
+//		//		Message m=Message.obtain(null,iAnnounceService.GET_ANNOUNCEMENTS);
+//		//		m.replyTo = NewsFeed.myMess;
+//		//		if(mService!=null){
+//		//			try {
+//		//				mService.send(m);
+//		//			} catch (RemoteException e) {			
+//		//				e.printStackTrace();
+//		//			}
+//		//		}
+//		if(mService!=null){
+//			Message m1=Message.obtain(null,iAnnounceService.STOP_TIMERTASK);
+//			m1.replyTo = mMessenger;
+//
+//			try {
+//				mService.send(m1);
+//			} catch (RemoteException e) {			
+//				e.printStackTrace();
+//			}
+//
+//		}
+//
+//		Message m=Message.obtain(null,iAnnounceService.START_TIMERTASK);	
+//		m.replyTo = mMessenger;
+//		if(mService!=null){
+//			try {
+//				mService.send(m);
+//			} catch (RemoteException e) {			
+//				e.printStackTrace();
+//			}
+//		}
 		super.onResume();
-		//		Message m=Message.obtain(null,iAnnounceService.GET_ANNOUNCEMENTS);
-		//		m.replyTo = NewsFeed.myMess;
-		//		if(mService!=null){
-		//			try {
-		//				mService.send(m);
-		//			} catch (RemoteException e) {			
-		//				e.printStackTrace();
-		//			}
-		//		}
-		if(mService!=null){
-			Message m1=Message.obtain(null,iAnnounceService.STOP_TIMERTASK);
-			m1.replyTo = mMessenger;
 
-			try {
-				mService.send(m1);
-			} catch (RemoteException e) {			
-				e.printStackTrace();
-			}
-
-		}
-
-		Message m=Message.obtain(null,iAnnounceService.START_TIMERTASK);	
-		m.replyTo = mMessenger;
-		if(mService!=null){
-			try {
-				mService.send(m);
-			} catch (RemoteException e) {			
-				e.printStackTrace();
-			}
-		}
-
-	};
+	}
 
 	@Override
 	protected void onPause() {
 
-		Message m=Message.obtain(null,iAnnounceService.STOP_TIMERTASK);
-		m.replyTo = mMessenger;
-		if(mService!=null){
-			try {
-				mService.send(m);
-			} catch (RemoteException e) {			
-				e.printStackTrace();
-			}
-
-		}
-
+//		Message m=Message.obtain(null,iAnnounceService.STOP_TIMERTASK);
+//		m.replyTo = mMessenger;
+//		if(mService!=null){
+//			try {
+//				mService.send(m);
+//			} catch (RemoteException e) {			
+//				e.printStackTrace();
+//			}
+//
+//		}
+//
 		super.onPause();		
 	}
 
 	@Override
 	protected void onStop() {
-		locationManager.removeUpdates(locationListener);
-		//getApplicationContext().unbindService(mConnection);
+		
+//		locationManager.removeUpdates(locationListener);
+//		getApplicationContext().unbindService(mConnection);
+		
+		getApplication().stopService(new Intent(this, iAnnounceService.class));
+		
 		super.onStop();
-
 	}
 
 	@Override
