@@ -181,7 +181,7 @@ public class iAnnounceService extends Service{
 				try{
 					HttpPostRequest ht=new HttpPostRequest();
 					SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
-					ht.getAnnoucnements(settings.getString("sessionId", "0"), settings.getString("Latitude", "0"), settings.getString("Longitude", "0"), pagenum);
+					ht.getAnnoucnements(settings.getString("sessionId", "0"), settings.getString("Latitude", "0"), settings.getString("Longitude", "0"), "1"); // fetching that page in background 
 					Message m;
 					if(ht.isError){
 						m=Message.obtain(null,RESPONSE_NETWORK_ERROR,(Object)ht.xception);
@@ -221,7 +221,6 @@ public class iAnnounceService extends Service{
 				catch (SAXException e) {				
 					e.printStackTrace();				
 				}
-
 			}
 		};
 
@@ -236,7 +235,7 @@ public class iAnnounceService extends Service{
 		
 		tim= new Timer();
 		tim.scheduleAtFixedRate(tTask,ifreq,ifreq);
-		Log.e("grrrrrrService", "Timer task started :D");
+		
 		
 	}
 

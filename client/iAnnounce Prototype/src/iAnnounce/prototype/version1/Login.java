@@ -113,6 +113,8 @@ public class Login extends Activity {
 						e.printStackTrace();
 					}												
 					if(myhandler.obj_serverResp1.responseCode.equalsIgnoreCase("0")){
+						
+						
 						Intent myIntent = new Intent(getApplicationContext(), HomePage.class);
 						if(provider==null){
 							msg.what=ERROR_GPS;
@@ -228,10 +230,10 @@ public class Login extends Activity {
 			public void onClick(View v) {
 
 				pdialog1.show();
+				
 				loginThread th=new loginThread();
 				th.start();
-
-
+				
 				//				User user1=new User();
 				//				user1.userName=(((EditText)findViewById(R.id.mainEdittextLogin)).getText()).toString();
 				//				if(user1.userName.length()<1 || user1.userName.length()>15 || user1.userName.contains(" ") || user1.userName.contains("/")){
