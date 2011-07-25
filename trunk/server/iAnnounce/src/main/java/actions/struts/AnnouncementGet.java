@@ -9,6 +9,8 @@ import hibernate.entities.Person;
 import hibernate.entities.Rating;
 import java.util.Collections;
 import java.util.List;
+import org.apache.log4j.Logger;
+
 
 import xtras.Consts;
 import xtras.insertionSortAnnouncementDate;
@@ -73,6 +75,8 @@ public class AnnouncementGet extends BaseActionClass
             for (int index = 0; index < announcementList.size(); index++)
               {  //traverse list
                 Announcement announcement = announcementList.get(index);
+                Logger log=Logger.getLogger(AnnouncementGet.class);
+                    log.error("distance of announce"+index+"="+distFrom(Double.parseDouble(latitude), Double.parseDouble(longitude), announcement.getLatitude(), announcement.getLongitude())+"AnnRad="+announcement.getRadius());
 
                 //test if in range
                 if (distFrom(Double.parseDouble(latitude), Double.parseDouble(longitude), announcement.getLatitude(), announcement.getLongitude()) <= announcement.getRadius())

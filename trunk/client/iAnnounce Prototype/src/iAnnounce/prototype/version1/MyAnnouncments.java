@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Html;
+import android.util.Log;
 import android.util.Xml;
 import android.view.Gravity;
 import android.view.Menu;
@@ -30,24 +31,26 @@ import android.widget.Toast;
  *@version 1
  */
 public class MyAnnouncments extends Activity {
-	
+
 	private int pageNum_int=1;
-	
+
 	private Handler msgHandler;
 	private final int ERROR_COMMUNICATION = 0;	
 	private final int ERROR_SERVER = 1;
 	private final int ERROR_SESSION = 2;
 	private final int GUI_READY = 3;
-	
+
 	private ProgressDialog pdialog1;
-	
-	
-	
+
+	private LinearLayout mlay;
+	private boolean fl_gotPage;
+	ScrollView sv;
+
 	private class myAnnouncementThread extends Thread{
 
 		@Override
 		public void run() {
-			
+
 			HttpPostRequest htreq=new HttpPostRequest();
 			SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
 			htreq.getMyAnnouncements(settings.getString("sessionId", "0"),Integer.toString(pageNum_int));
@@ -56,30 +59,62 @@ public class MyAnnouncments extends Activity {
 				msg1.what=ERROR_COMMUNICATION;
 				msg1.obj=htreq.xception;				
 				msgHandler.sendMessage(msg1);
-				
+
 			}else{
 				generateGUI(htreq.xmlStringResponse);				
 			}
-			
-			
-			
+
 			super.run();
 		}
-		
+
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.my_announcments);
-//		getAnnouncementText(pageNum_int);
+		
+		fl_gotPage=true;
+		
+		//		getAnnouncementText(pageNum_int);
 		pdialog1= new ProgressDialog(MyAnnouncments.this);
 		pdialog1.setTitle("");
 		pdialog1.setMessage("Loading. Please wait...");
+		
+		
 
+		sv =new ScrollView(MyAnnouncments.this){
+
+			@Override
+			protected void onScrollChanged(int l, int t, int oldl, int oldt) {
+				Log.e("errrrrrrrrrr", "crap its working");
+				View view = (View) getChildAt(getChildCount()-1);
+				int diff = (view.getBottom()-(getHeight()+getScrollY()));// Calculate the scrolldiff
+				
+				
+				if( diff == 0 ){  
+
+					if(fl_gotPage){
+						pdialog1.show();
+						fl_gotPage=false;
+						pageNum_int++;
+						getAnnouncementText();
+					}
+				}
+				super.onScrollChanged(l, t, oldl, oldt);
+			}
+
+
+		};
 		
+//		mlay=new LinearLayout(MyAnnouncments.this);
+//		mlay.setOrientation(LinearLayout.VERTICAL);
+//		sv.addView(mlay);
 		
-		
+		setContentView(sv);
+
+
+
 		msgHandler=new Handler(){
 
 			@Override
@@ -97,23 +132,28 @@ public class MyAnnouncments extends Activity {
 					finish();					
 					break;
 				case GUI_READY:
-					setContentView((LinearLayout)msg.obj);
+					fl_gotPage=true;
+					mlay.addView((LinearLayout)msg.obj);
 					break;
-					
 				default:
 
 				}
 				super.handleMessage(msg);
 			}
-
 		};
-		
+
 
 	}
 
 	@Override
 	protected void onResume() {
-		getAnnouncementText(pageNum_int);
+		sv.removeAllViews();
+		
+		pageNum_int=1;
+		mlay=new LinearLayout(MyAnnouncments.this);
+		mlay.setOrientation(LinearLayout.VERTICAL);
+		sv.addView(mlay);
+		getAnnouncementText();
 		super.onResume();
 	}
 
@@ -122,26 +162,26 @@ public class MyAnnouncments extends Activity {
 	 * @param pg Pagenumber of type int
 	 */
 
-	void getAnnouncementText(int pg){
-		
+	void getAnnouncementText(){
+
 		pdialog1.show();
-		
+
 		myAnnouncementThread th=new myAnnouncementThread();
-		
+
 		th.start();
-		
-		
-		
-		
-//		HttpPostRequest htreq=new HttpPostRequest();
-//		SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
-//		htreq.getMyAnnouncements(settings.getString("sessionId", "0"),Integer.toString(pg));
-//		if(htreq.isError){
-//			Toast.makeText(getApplicationContext(), htreq.xception, Toast.LENGTH_LONG).show();
-//		}else{
-//			generateGUI(htreq.xmlStringResponse);
-//			pdialog1.cancel();
-//		}
+
+
+
+
+		//		HttpPostRequest htreq=new HttpPostRequest();
+		//		SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
+		//		htreq.getMyAnnouncements(settings.getString("sessionId", "0"),Integer.toString(pg));
+		//		if(htreq.isError){
+		//			Toast.makeText(getApplicationContext(), htreq.xception, Toast.LENGTH_LONG).show();
+		//		}else{
+		//			generateGUI(htreq.xmlStringResponse);
+		//			pdialog1.cancel();
+		//		}
 	}
 
 	/**
@@ -150,55 +190,55 @@ public class MyAnnouncments extends Activity {
 	 */
 
 	void generateGUI(String resp){
-		ScrollView v=new ScrollView(getBaseContext());
-		LinearLayout mainLayout=new LinearLayout(getBaseContext());
-		mainLayout.setOrientation(LinearLayout.VERTICAL);
 
-
-
-		LinearLayout lbar=new LinearLayout(getBaseContext());
-
-		lbar.setGravity(Gravity.CENTER_HORIZONTAL);
-		lbar.setBackgroundColor(Color.rgb(189, 189, 189));
-		lbar.setPadding(0, 5, 0, 0);
-
-		final TextView tv_pgnum= new TextView(getBaseContext());
-		tv_pgnum.setText("Page : "+Integer.toString(pageNum_int));
-		tv_pgnum.setTextColor(Color.BLACK);
-
-
-		Button bt_Next=new Button(getBaseContext());
-		bt_Next.setText("Next Page");
-		bt_Next.setOnClickListener(new OnClickListener() {
-
-			public void onClick(View arg0) {
-				
-				pageNum_int++;
-				tv_pgnum.setText("Page : "+Integer.toString(pageNum_int));
-				getAnnouncementText(pageNum_int);
-			}
-		});
-
-		Button bt_Prev=new Button(getBaseContext());
-		bt_Prev.setText("Prev Page");
-		bt_Prev.setOnClickListener(new OnClickListener() {
-
-			public void onClick(View arg0) {
-				pageNum_int--;
-				tv_pgnum.setText("Page : "+Integer.toString(pageNum_int));
-				getAnnouncementText(pageNum_int);
-			}
-		});
-
-
-		if(pageNum_int<=1){
-			bt_Prev.setEnabled(false);
-		}
-		lbar.addView(bt_Prev);
-		lbar.addView(tv_pgnum);
-		lbar.addView(bt_Next);
-
-		mainLayout.addView(lbar);
+		//		LinearLayout mainLayout=new LinearLayout(getBaseContext());
+		//		mainLayout.setOrientation(LinearLayout.VERTICAL);
+		//
+		//
+		//
+		//		LinearLayout lbar=new LinearLayout(getBaseContext());
+		//
+		//		lbar.setGravity(Gravity.CENTER_HORIZONTAL);
+		//		lbar.setBackgroundColor(Color.rgb(189, 189, 189));
+		//		lbar.setPadding(0, 5, 0, 0);
+		//
+		//		final TextView tv_pgnum= new TextView(getBaseContext());
+		//		tv_pgnum.setText("Page : "+Integer.toString(pageNum_int));
+		//		tv_pgnum.setTextColor(Color.BLACK);
+		//
+		//
+		//		Button bt_Next=new Button(getBaseContext());
+		//		bt_Next.setText("Next Page");
+		//		bt_Next.setOnClickListener(new OnClickListener() {
+		//
+		//			public void onClick(View arg0) {
+		//				
+		//				pageNum_int++;
+		//				tv_pgnum.setText("Page : "+Integer.toString(pageNum_int));
+		//				getAnnouncementText(pageNum_int);
+		//			}
+		//		});
+		//
+		//		Button bt_Prev=new Button(getBaseContext());
+		//		bt_Prev.setText("Prev Page");
+		//		bt_Prev.setOnClickListener(new OnClickListener() {
+		//
+		//			public void onClick(View arg0) {
+		//				pageNum_int--;
+		//				tv_pgnum.setText("Page : "+Integer.toString(pageNum_int));
+		//				getAnnouncementText(pageNum_int);
+		//			}
+		//		});
+		//
+		//
+		//		if(pageNum_int<=1){
+		//			bt_Prev.setEnabled(false);
+		//		}
+		//		lbar.addView(bt_Prev);
+		//		lbar.addView(tv_pgnum);
+		//		lbar.addView(bt_Next);
+		//
+		//		mainLayout.addView(lbar);
 
 
 
@@ -223,11 +263,8 @@ public class MyAnnouncments extends Activity {
 			msgHandler.sendMessage(msg);
 		}
 		else{
-			LinearLayout l1=new LinearLayout(getBaseContext());
-			v.addView(l1);
+			LinearLayout l1=new LinearLayout(getBaseContext());			
 			l1.setOrientation(LinearLayout.VERTICAL);
-			
-			
 			for(int i=0;i<obj_serRes.feed.size();i++){
 
 				LinearLayout l2=new LinearLayout(getBaseContext());
@@ -301,14 +338,14 @@ public class MyAnnouncments extends Activity {
 				l2.addView(l4);
 				l1.addView(l2);
 			}
-			mainLayout.addView(v);
-			
+
+
 			msg.what=GUI_READY;
-			msg.obj=mainLayout;
+			msg.obj=l1;
 			msgHandler.sendMessage(msg);
-			
+
 		}
-				
+
 	}
 
 
@@ -335,7 +372,7 @@ public class MyAnnouncments extends Activity {
 		case R.id.menu_Logout:
 			HttpPostRequest ht=new HttpPostRequest();
 			ht.logout(settings.getString("sessionId", "0"));
-			
+
 			if(ht.isError){
 				Toast.makeText(getApplicationContext(), ht.xception, Toast.LENGTH_LONG).show();			
 			}
@@ -346,7 +383,7 @@ public class MyAnnouncments extends Activity {
 				} catch (SAXException e) {
 					e.printStackTrace();
 				}
-				
+
 				if(!myhand.obj_serverResp1.responseCode.equalsIgnoreCase("0")){
 					Toast.makeText(getApplicationContext(), ht.xception, Toast.LENGTH_LONG).show();					
 				}
@@ -354,12 +391,11 @@ public class MyAnnouncments extends Activity {
 					SharedPreferences.Editor editor = settings.edit();
 					editor.putString("sessionId", "0");
 					editor.commit();
-					Toast.makeText(getApplicationContext(),myhand.obj_serverResp1.logoutResponse, Toast.LENGTH_LONG).show();				
-										
+					Toast.makeText(getApplicationContext(),myhand.obj_serverResp1.logoutResponse, Toast.LENGTH_LONG).show();
 				}
 				finish();				
 			}
-					
+
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

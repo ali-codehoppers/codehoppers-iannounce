@@ -302,9 +302,17 @@ public class NewsFeed extends Activity {
 				Toast.makeText(getApplicationContext(), (String)msg.obj, Toast.LENGTH_LONG).show();
 				finish();
 				break;
-			case iAnnounceService.RECIEVE_TASK_RESPONSE:
+			case iAnnounceService.RECIEVE_TASK_RESPONSE:				
+				v.removeView(l1);
+				l1=new LinearLayout(NewsFeed.this);
+				l1.setOrientation(LinearLayout.VERTICAL);
+				v.addView(l1);
+				generateGUI((ServerResponse)msg.obj,Integer.toString(pageNum_int));				
 				
+				Log.e("task respnse", "Got taskkkkkkkkkkkkk responseeeeeeeeeeeeeeee");
+				break;
 				
+			
 			default:
 
 			}
@@ -709,7 +717,6 @@ public class NewsFeed extends Activity {
 			try {
 				mService.send(m1);
 			} catch (RemoteException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -762,22 +769,44 @@ public class NewsFeed extends Activity {
 				} catch (RemoteException e) {					
 					e.printStackTrace();
 				}
-			}
-			getApplicationContext().unbindService(mConnection);			
+			}						
 		}
 		
 		
 		super.onStop();
 	}
+	
+	@Override
+	protected void onDestroy() {
+		getApplicationContext().unbindService(mConnection);
+		super.onDestroy();
+	}
 
 
 		@Override
 		protected void onResume() {
-			if(mService!=null){
-				fl_refreshGui=true;
-			getAnnouncementText(Integer.toString(pageNum_int));
-			}
+//			if(mService!=null){
+//			
+//			getAnnouncementText(Integer.toString(pageNum_int));
+//			}
 			super.onResume();
+		}
+		
+		@Override
+		protected void onRestart() {
+			if(mConnection!=null){			
+				if(mService!=null){
+					Message m=new Message();
+					m.what=iAnnounceService.START_TIMERTASK;
+					m.replyTo=mMessenger;
+					 try {
+						mService.send(m);
+					} catch (RemoteException e) {					
+						e.printStackTrace();
+					}
+				}						
+			}			
+			super.onRestart();
 		}
 
 

@@ -22,7 +22,9 @@ import android.os.Messenger;
 import android.os.RemoteException;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.Window;
 import android.widget.TabHost;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -36,7 +38,35 @@ public class HomePage extends TabActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.home_page);
+		
+		
+		
+		
+		//check if custom title is supported BEFORE setting the content view!
+        boolean customTitleSupported = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+        setContentView(R.layout.home_page);
+        
+        if(customTitleSupported){
+        	Toast.makeText(getApplicationContext(), "supported :D", Toast.LENGTH_LONG).show();
+        	getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,R.layout.titlebar);
+        	TextView tv_title= (TextView)findViewById(R.id.tv_titlebar);        	
+        	SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
+        	tv_title.setText((settings.getString("userName", "iAnnounce")).toUpperCase());
+        }
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 
 		/*Location work*/
 
@@ -119,7 +149,7 @@ public class HomePage extends TabActivity {
 			intent = new Intent().setClass(this, NewsFeed.class);
 
 			// Initialize a TabSpec for each tab and add it to the TabHost
-			spec1 = tabHost.newTabSpec("news").setIndicator("Announcement Feed").setContent(intent);
+			spec1 = tabHost.newTabSpec("news").setIndicator("Announcement Feed",getResources().getDrawable(R.drawable.tabs_annoucements)).setContent(intent);
 			tabHost.addTab(spec1);
 
 			// Do the same for the other tabs
