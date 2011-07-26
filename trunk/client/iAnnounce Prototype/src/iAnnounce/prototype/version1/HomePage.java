@@ -1,6 +1,8 @@
 package iAnnounce.prototype.version1;
 
 
+
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.TabActivity;
@@ -22,7 +24,10 @@ import android.os.Messenger;
 import android.os.RemoteException;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,8 +52,13 @@ public class HomePage extends TabActivity {
         setContentView(R.layout.home_page);
         
         if(customTitleSupported){
-        	Toast.makeText(getApplicationContext(), "supported :D", Toast.LENGTH_LONG).show();
+        	
         	getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,R.layout.titlebar);
+        	
+        	Window win=getWindow();
+        	
+        	
+        	
         	TextView tv_title= (TextView)findViewById(R.id.tv_titlebar);        	
         	SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
         	tv_title.setText((settings.getString("userName", "iAnnounce")).toUpperCase());
@@ -141,30 +151,75 @@ public class HomePage extends TabActivity {
 //			}
 			/*----*/
 
-			TabHost tabHost = getTabHost();  // The activity TabHost
-			TabHost.TabSpec spec;  // Reusable TabSpec for each tab
-			Intent intent;  // Reusable Intent for each tab
-			TabHost.TabSpec spec1;
-			// Create an Intent to launch an Activity for the tab (to be reused)
-			intent = new Intent().setClass(this, NewsFeed.class);
-
-			// Initialize a TabSpec for each tab and add it to the TabHost
-			spec1 = tabHost.newTabSpec("news").setIndicator("Announcement Feed",getResources().getDrawable(R.drawable.tabs_annoucements)).setContent(intent);
-			tabHost.addTab(spec1);
-
-			// Do the same for the other tabs
-			intent = new Intent().setClass(this, Announce.class);
-			spec = tabHost.newTabSpec("post").setIndicator("Announce").setContent(intent);
+//			TabHost tabHost = getTabHost();  // The activity TabHost
+//			TabHost.TabSpec spec;  // Reusable TabSpec for each tab
+//			Intent intent;  // Reusable Intent for each tab
+//			TabHost.TabSpec spec1;
+//			// Create an Intent to launch an Activity for the tab (to be reused)
+//			intent = new Intent().setClass(this, NewsFeed.class);
+//
+//			// Initialize a TabSpec for each tab and add it to the TabHost
+//			spec1 = tabHost.newTabSpec("news").setIndicator("Announcement Feed",getResources().getDrawable(R.drawable.tabs_annoucements)).setContent(intent);
+//			tabHost.addTab(spec1);
+//
+//			// Do the same for the other tabs
+//			intent = new Intent().setClass(this, Announce.class);
+//			spec = tabHost.newTabSpec("post").setIndicator("Announce").setContent(intent);
+//			tabHost.addTab(spec);
+//
+//
+//
+//
+//			intent = new Intent().setClass(this, MyAnnouncments.class);
+//			spec = tabHost.newTabSpec("mypost").setIndicator("My Announcments").setContent(intent);
+//			tabHost.addTab(spec);
+//
+//			tabHost.setCurrentTab(0);
+			
+			
+			TabHost tabHost= getTabHost();
+			
+			View tabIndicator = LayoutInflater.from(this).inflate(R.layout.tabs_indicator, getTabWidget(), false);
+			tabIndicator.setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_indicator_selector_ann));
+			TextView title = (TextView) tabIndicator.findViewById(R.id.title);
+			title.setText("Announcements");
+			
+			TabHost.TabSpec spec = tabHost.newTabSpec("tab1");			
+			spec.setIndicator(tabIndicator);
+			spec.setContent(new Intent(HomePage.this, NewsFeed.class));
 			tabHost.addTab(spec);
+			
+			
+			
+			View tabIndicator1 = LayoutInflater.from(this).inflate(R.layout.tabs_indicator, getTabWidget(), false);
+			tabIndicator1.setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_indicator_selector_pann));
+			TextView title1 = (TextView) tabIndicator1.findViewById(R.id.title);
+			title1.setText("Announce");
+			TabHost.TabSpec spec2 = tabHost.newTabSpec("tab2");			
+			spec2.setIndicator(tabIndicator1);
+			spec2.setContent(new Intent(HomePage.this, Announce.class));
+			tabHost.addTab(spec2);
+			
+			
+			View tabIndicator2 = LayoutInflater.from(this).inflate(R.layout.tabs_indicator, getTabWidget(), false);
+			tabIndicator2.setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_indicator_selector_myann));
+			TextView title2 = (TextView) tabIndicator2.findViewById(R.id.title);
+			title2.setText("My Announcements");
+			TabHost.TabSpec spec3 = tabHost.newTabSpec("tab3");			 
+			spec3.setIndicator(tabIndicator2);
+			spec3.setContent(new Intent(HomePage.this,MyAnnouncments.class));
+			tabHost.addTab(spec3);
+			
+			
 
-
-
-
-			intent = new Intent().setClass(this, MyAnnouncments.class);
-			spec = tabHost.newTabSpec("mypost").setIndicator("My Announcments").setContent(intent);
-			tabHost.addTab(spec);
-
-			tabHost.setCurrentTab(0);
+			
+			
+			
+			
+//			addTab("Announce", R.drawable.tab_indicator_selector_ann, new Intent(HomePage.this, Announce.class));
+//			addTab("My Announcements", R.drawable.tab_indicator_selector_ann, new Intent(HomePage.this, MyAnnouncments.class));
+			
+			
 
 
 			/*Message m=Message.obtain(null,iAnnounceService.GET_ANNOUNCEMENTS);
@@ -180,6 +235,7 @@ public class HomePage extends TabActivity {
 		}
 
 	}
+	
 
 
 	public void updateLocation(Location Loc){
