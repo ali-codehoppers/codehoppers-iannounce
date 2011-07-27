@@ -1,8 +1,11 @@
 package iAnnounce.prototype.version1;
 
 
+import java.util.zip.Inflater;
+
 import org.xml.sax.SAXException;
 
+import android.R.color;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
@@ -10,6 +13,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -23,6 +27,7 @@ import android.os.RemoteException;
 import android.text.Html;
 import android.util.Log;
 import android.util.Xml;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -56,7 +61,7 @@ public class NewsFeed extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		
+				
 		getApplicationContext().bindService(new Intent(NewsFeed.this, iAnnounceService.class), mConnection, Context.BIND_AUTO_CREATE);
 
 		pdialog1 = ProgressDialog.show(NewsFeed.this,"", 
@@ -67,6 +72,14 @@ public class NewsFeed extends Activity {
 		
 		l1=new LinearLayout(getBaseContext());
 		l1.setOrientation(LinearLayout.VERTICAL);
+		
+		LayoutParams lp1 = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
+		
+		l1.setLayoutParams(lp1);
+		
+//		l1.setBackgroundColor(getResources().getColor(R.color.announcemts_bg));
+		
+		
 //		mainLayout=new LinearLayout(getBaseContext());
 		
 //		mainLayout.setOrientation(LinearLayout.VERTICAL);
@@ -124,6 +137,8 @@ public class NewsFeed extends Activity {
 			
 		};
 		
+//		v.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+		v.setBackgroundColor(getResources().getColor(R.color.announcemts_bg));
 		v.addView(l1);
 		
 //		mainLayout.addView(v);
@@ -337,9 +352,12 @@ public class NewsFeed extends Activity {
  */
 
 	void generateGUI(ServerResponse sr01,String pagenum){
+		/*LayoutParams lp1 = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT); 
+		l1.setLayoutParams(lp1);
+		l1.setBackgroundColor(Color.BLACK);	*/	
 		
 		if(fl_refreshGui){
-			l1=new LinearLayout(NewsFeed.this);
+			l1=new LinearLayout(NewsFeed.this);			
 			fl_refreshGui=false;
 		}
 		
@@ -451,13 +469,26 @@ public class NewsFeed extends Activity {
 		
 
 		for(int i=0;i<obj_serRes.feed.size();i++){
+			
+			LayoutInflater mInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-			LinearLayout l2=new LinearLayout(getBaseContext());
-			l2.setOrientation(LinearLayout.VERTICAL);
-			l2.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
+//			LinearLayout l2=new LinearLayout(getBaseContext());
+			
+			View v=mInflater.inflate(R.layout.ann_bg,null);
+			
+			LinearLayout l2=(LinearLayout)v.findViewById(R.id.lay_ann_bg);
+			
+			
+			
+			
+			
+//			l2.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
 
 			TextView ann=new TextView(getBaseContext());
-			ann.setText(Html.fromHtml("<b>"+obj_serRes.feed.get(i).announcer+"</b>"));			
+			
+			ann.setText((Html.fromHtml("<b>"+obj_serRes.feed.get(i).announcer+"</b>")).toString().toUpperCase());
+//			ann.setText(obj_serRes.feed.get(i).announcer);
+			ann.setTextColor(getResources().getColor(R.color.ann_announcer));
 			ann.setTextSize(26);
 			final String s=obj_serRes.feed.get(i).announcer;
 			ann.setOnClickListener(new OnClickListener() {
@@ -486,6 +517,7 @@ public class NewsFeed extends Activity {
 			TextView Descr=new TextView(getBaseContext());
 			Descr.setText(obj_serRes.feed.get(i).description);
 			Descr.setTextSize(20);
+			Descr.setTextColor(getResources().getColor(R.color.ann_desc));
 
 			l2.addView(Descr);
 
@@ -633,15 +665,21 @@ public class NewsFeed extends Activity {
 					
 				}
 			});
-			
-			
 			l3.addView(bt_comment);
+			
+			
 
 			l2.addView(l3);
 			//			l2.addView(l4);
 			
-			lp.setMargins(0, 5, 0, 5);
-			l2.setLayoutParams(lp);
+			
+			LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+			lp2.setMargins(10, 10, 10, 0);
+			v.setPadding(15, 15, 15, 15);
+			l2.setLayoutParams(lp2);
+			
+			
+			
 			l1.addView(l2);
 		}
 
