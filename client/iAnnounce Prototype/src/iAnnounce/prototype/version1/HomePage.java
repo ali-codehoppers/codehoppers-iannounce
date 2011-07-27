@@ -12,6 +12,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -179,10 +180,17 @@ public class HomePage extends TabActivity {
 			
 			TabHost tabHost= getTabHost();
 			
+//			tabHost.setBackgroundColor(Color.BLACK);
+			
+			
+			
+			
 			View tabIndicator = LayoutInflater.from(this).inflate(R.layout.tabs_indicator, getTabWidget(), false);
+			
 			tabIndicator.setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_indicator_selector_ann));
 			TextView title = (TextView) tabIndicator.findViewById(R.id.title);
 			title.setText("Announcements");
+			
 			
 			TabHost.TabSpec spec = tabHost.newTabSpec("tab1");			
 			spec.setIndicator(tabIndicator);

@@ -7,6 +7,7 @@
 
 	<TextView android:id="@+id/tv_titlebar"
 		android:layout_alignParentLeft="true" android:layout_width="wrap_content"
-		android:text="iAnnounce" android:layout_height="wrap_content" />
+		android:text="iAnnounce" android:layout_height="wrap_content"
+		android:textStyle="bold" android:textColor="@color/title_username" />
 
 </LinearLayout>
