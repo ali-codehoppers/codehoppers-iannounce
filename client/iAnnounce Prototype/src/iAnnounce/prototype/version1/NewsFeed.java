@@ -36,6 +36,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -518,169 +519,189 @@ public class NewsFeed extends Activity {
 			Descr.setText(obj_serRes.feed.get(i).description);
 			Descr.setTextSize(20);
 			Descr.setTextColor(getResources().getColor(R.color.ann_desc));
-
+			
 			l2.addView(Descr);
 
-			TextView date=new TextView(getBaseContext());
+//			TextView date=new TextView(getBaseContext());
+//			
+//			
+//			String []tempst=(obj_serRes.feed.get(i).timestamp).split(" ");
+//			String date_txt=tempst[0];
+//			String time=tempst[1];
+//			time=time.substring(0, time.length()-2);
+//
+//
+//			date.setText(Html.fromHtml("<b>Date: </b>"+date_txt));			
+//			date.setTextSize(16);		
+//
+//			TextView tim=new TextView(getBaseContext());
+//			tim.setText(Html.fromHtml("<b>Time: </b>"+time));			
+//			tim.setTextSize(16);
+//
+//			l2.addView(tim);
+//			l2.addView(date);
+//
+//
+//			TextView ratin=new TextView(getBaseContext());
+//			ratin.setText(Html.fromHtml("<b>Rating:</b> "+obj_serRes.feed.get(i).averageRating));
+//			ratin.setTextSize(16);						
+//			l2.addView(ratin);
 			
 			
-			String []tempst=(obj_serRes.feed.get(i).timestamp).split(" ");
-			String date_txt=tempst[0];
-			String time=tempst[1];
-			time=time.substring(0, time.length()-2);
+			View v2=mInflater.inflate(R.layout.ann_info_bar, null);
+			
+			RelativeLayout l3=(RelativeLayout)v2.findViewById(R.id.ann_info_bar_RL);
+
+//			LinearLayout l3=new LinearLayout(getBaseContext());
+			
 
 
-			date.setText(Html.fromHtml("<b>Date: </b>"+date_txt));			
-			date.setTextSize(16);		
-
-			TextView tim=new TextView(getBaseContext());
-			tim.setText(Html.fromHtml("<b>Time: </b>"+time));			
-			tim.setTextSize(16);
-
-			l2.addView(tim);
-			l2.addView(date);
-
-
-			TextView ratin=new TextView(getBaseContext());
-			ratin.setText(Html.fromHtml("<b>Rating:</b> "+obj_serRes.feed.get(i).averageRating));
-			ratin.setTextSize(16);						
-			l2.addView(ratin);
-
-
-			LinearLayout l3=new LinearLayout(getBaseContext());
-
-
-			Button bt_locate=new Button(getBaseContext());
-			//			bt_locate.setText("Locate");
-			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-
-
-			bt_locate.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.locate));
-
-			final String longi=obj_serRes.feed.get(i).longitude;
-			final String lati=obj_serRes.feed.get(i).latitude;
-			final String mapDesc=obj_serRes.feed.get(i).announcer+" :  "+obj_serRes.feed.get(i).description+"("+(obj_serRes.feed.get(i).timestamp).substring(0,(obj_serRes.feed.get(i).timestamp).length())+")";
-			bt_locate.setOnClickListener(new OnClickListener() {				
-
-				public void onClick(View arg0) {
-					Bundle b=new Bundle();
-					b.putString("longitude", longi);
-					b.putString("latitude", lati);
-					b.putString("desc", mapDesc);
-					Intent myIntent = new Intent(getBaseContext(), MyMapAct.class);	
-					myIntent.putExtras(b);
-					startActivity(myIntent);					
-				}
-			});
-
-
-			Button bt_tu=new Button(getBaseContext());
-			//			bt_tu.setText("Rate UP");
-			if((obj_serRes.feed.get(i).currentUserRating).equalsIgnoreCase("0")){
-				bt_tu.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.bt_r1));
-			}
-			else if((obj_serRes.feed.get(i).currentUserRating).equalsIgnoreCase("-1")){
-				bt_tu.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.bt_r1));
-				bt_tu.setEnabled(false);
-			}
-			else{
-				bt_tu.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.rtu));
-				bt_tu.setEnabled(false);
-			}
-
-
-			Button bt_td=new Button(getBaseContext());			
-
-			if((obj_serRes.feed.get(i).currentUserRating).equalsIgnoreCase("0")){
-				bt_td.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.bt_r2));
-			}
-			else if((obj_serRes.feed.get(i).currentUserRating).equalsIgnoreCase("-1")){
-				bt_td.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.rtd));
-				bt_td.setEnabled(false);
-			}
-			else{
-				bt_td.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.bt_r2));
-				bt_td.setEnabled(false);
-			}
-
-
-
-
-			l3.addView(bt_tu);
-			l3.addView(bt_td);
-			//			LinearLayout l4=new LinearLayout(getBaseContext());
-			l3.addView(bt_locate);
-			Button bt_comment=new Button(getBaseContext());
-			bt_comment.setText(obj_serRes.feed.get(i).noOfComments);
-			bt_comment.setTextSize(18);
-
-
-			bt_comment.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.comment));
-			lp.setMargins(5, 0, 0, 0);
-			bt_comment.setLayoutParams(lp);
-			final int k=i;
-			bt_comment.setOnClickListener(new OnClickListener() {
-
-				public void onClick(View v) {
-					Intent in=new Intent(getBaseContext(),CommentActivity.class);
-					Bundle b=new Bundle();
-					b.putString("desc",obj_serRes.feed.get(k).description);
-					b.putString("aid",obj_serRes.feed.get(k).announcement_id);
-					in.putExtras(b);
-					startActivityForResult(in,3);
-				}
-			});
-
-			bt_td.setOnClickListener(new OnClickListener() {
-
-				public void onClick(View v) {
-					
-					v.setBackgroundDrawable(getApplicationContext().getResources().getDrawable(R.drawable.rtd));
-					v.setEnabled(false);
-					
-					HttpPostRequest ht=new HttpPostRequest();
-					SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);					
-					
-					ht.rateAnnouncement(settings.getString("sessionId","0"), obj_serRes.feed.get(k).announcement_id, "0");
-					myFunc(ht);
-					
-					
-					
-				}
-			});
-
-			bt_tu.setOnClickListener(new OnClickListener() {
-
-				public void onClick(View v) {
-					v.setBackgroundDrawable(getApplicationContext().getResources().getDrawable(R.drawable.rtu));
-					v.setEnabled(false);
-					
-					HttpPostRequest ht=new HttpPostRequest();
-					
-					SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
-					
-					ht.rateAnnouncement(settings.getString("sessionId","0"), obj_serRes.feed.get(k).announcement_id, "1");
-					
-					myFunc(ht);
-					
-				}
-			});
-			l3.addView(bt_comment);
+//			Button bt_locate=new Button(getBaseContext());
+//			//			bt_locate.setText("Locate");
+//			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//
+//
+//			bt_locate.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.locate));
+//
+//			final String longi=obj_serRes.feed.get(i).longitude;
+//			final String lati=obj_serRes.feed.get(i).latitude;
+//			final String mapDesc=obj_serRes.feed.get(i).announcer+" :  "+obj_serRes.feed.get(i).description+"("+(obj_serRes.feed.get(i).timestamp).substring(0,(obj_serRes.feed.get(i).timestamp).length())+")";
+//			bt_locate.setOnClickListener(new OnClickListener() {				
+//
+//				public void onClick(View arg0) {
+//					Bundle b=new Bundle();
+//					b.putString("longitude", longi);
+//					b.putString("latitude", lati);
+//					b.putString("desc", mapDesc);
+//					Intent myIntent = new Intent(getBaseContext(), MyMapAct.class);	
+//					myIntent.putExtras(b);
+//					startActivity(myIntent);					
+//				}
+//			});
+//
+//
+//			Button bt_tu=new Button(getBaseContext());
+//			//			bt_tu.setText("Rate UP");
+//			if((obj_serRes.feed.get(i).currentUserRating).equalsIgnoreCase("0")){
+//				bt_tu.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.bt_r1));
+//			}
+//			else if((obj_serRes.feed.get(i).currentUserRating).equalsIgnoreCase("-1")){
+//				bt_tu.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.bt_r1));
+//				bt_tu.setEnabled(false);
+//			}
+//			else{
+//				bt_tu.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.rtu));
+//				bt_tu.setEnabled(false);
+//			}
+//
+//
+//			Button bt_td=new Button(getBaseContext());			
+//
+//			if((obj_serRes.feed.get(i).currentUserRating).equalsIgnoreCase("0")){
+//				bt_td.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.bt_r2));
+//			}
+//			else if((obj_serRes.feed.get(i).currentUserRating).equalsIgnoreCase("-1")){
+//				bt_td.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.rtd));
+//				bt_td.setEnabled(false);
+//			}
+//			else{
+//				bt_td.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.bt_r2));
+//				bt_td.setEnabled(false);
+//			}
+//
+//
+//
+//
+//			l3.addView(bt_tu);
+//			l3.addView(bt_td);
+//			//			LinearLayout l4=new LinearLayout(getBaseContext());
+//			l3.addView(bt_locate);
+//			Button bt_comment=new Button(getBaseContext());
+//			bt_comment.setText(obj_serRes.feed.get(i).noOfComments);
+//			bt_comment.setTextSize(18);
+//
+//
+//			bt_comment.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.comment));
+//			lp.setMargins(5, 0, 0, 0);
+//			bt_comment.setLayoutParams(lp);
+//			final int k=i;
+//			bt_comment.setOnClickListener(new OnClickListener() {
+//
+//				public void onClick(View v) {
+//					Intent in=new Intent(getBaseContext(),CommentActivity.class);
+//					Bundle b=new Bundle();
+//					b.putString("desc",obj_serRes.feed.get(k).description);
+//					b.putString("aid",obj_serRes.feed.get(k).announcement_id);
+//					in.putExtras(b);
+//					startActivityForResult(in,3);
+//				}
+//			});
+//
+//			bt_td.setOnClickListener(new OnClickListener() {
+//				public void onClick(View v) {
+//					
+//					v.setBackgroundDrawable(getApplicationContext().getResources().getDrawable(R.drawable.rtd));
+//					v.setEnabled(false);
+//					
+//					HttpPostRequest ht=new HttpPostRequest();
+//					SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);					
+//					
+//					ht.rateAnnouncement(settings.getString("sessionId","0"), obj_serRes.feed.get(k).announcement_id, "0");
+//					myFunc(ht);
+//					
+//				}
+//			});
+//
+//			bt_tu.setOnClickListener(new OnClickListener() {
+//
+//				public void onClick(View v) {
+//					v.setBackgroundDrawable(getApplicationContext().getResources().getDrawable(R.drawable.rtu));
+//					v.setEnabled(false);
+//					
+//					HttpPostRequest ht=new HttpPostRequest();
+//					
+//					SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
+//					
+//					ht.rateAnnouncement(settings.getString("sessionId","0"), obj_serRes.feed.get(k).announcement_id, "1");
+//					
+//					myFunc(ht);
+//					
+//				}
+//			});
+//			l3.addView(bt_comment);
+			
+			
 			
 			
 
-			l2.addView(l3);
+//			l2.addView(l3);
+			
 			//			l2.addView(l4);
+			
+			
+			TextView tv_comment=(TextView) v2.findViewById(R.id.tv_ann_info_comments);
+			tv_comment.setText(getResources().getString(R.string.comments)+" ( "+obj_serRes.feed.get(i).noOfComments+" ) ");
+			
 			
 			
 			LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 			lp2.setMargins(10, 10, 10, 0);
+			
+			l2.setLayoutParams(lp2);			
+			
+			
+			LinearLayout.LayoutParams rlp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+			rlp.setMargins(10, 0, 10, 0);
+			l3.setLayoutParams(rlp);
+			
 			v.setPadding(15, 15, 15, 15);
-			l2.setLayoutParams(lp2);
+			
+			v2.setPadding(30, 10,30, 10);
+			
+			l1.addView(l2);			
+			l1.addView(l3);
 			
 			
-			
-			l1.addView(l2);
 		}
 
 //		mainLayout.addView(v);

@@ -1,8 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <RelativeLayout android:id="@+id/relativeLayout1" android:layout_width="fill_parent" android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
-        <TextView android:layout_height="wrap_content" android:layout_alignParentLeft="true" android:layout_width="wrap_content" android:text="TextView" android:id="@+id/tv_ann_info_likes"></TextView>
-        <TextView android:layout_height="wrap_content" android:layout_below="@+id/tv_ann_info_likes" android:layout_width="wrap_content" android:text="TextView" android:layout_alignLeft="@+id/tv_ann_info_likes" android:layout_alignRight="@+id/tv_ann_info_likes" android:id="@+id/tv_ann_info_comments"></TextView>
-        <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="TextView" android:layout_alignParentRight="true" android:id="@+id/tv_ann_info_dislikes"></TextView>
-        <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="TextView" android:layout_below="@+id/tv_ann_info_dislikes" android:layout_alignLeft="@+id/tv_ann_info_dislikes" android:layout_alignRight="@+id/tv_ann_info_dislikes" android:id="@+id/tv_ann_info_locate"></TextView>
-    </RelativeLayout>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/ann_info_bar_RL" android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:background="@drawable/ann_info_bar">
+
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="@dimen/ann_info_bar_textHeight"
+		android:layout_alignParentLeft="true" android:id="@+id/tv_ann_info_likes"
+		style="@style/info_bar_style" android:text="@string/like"
+		android:layout_marginBottom="10dp"/>
+
+	<TextView android:layout_width="wrap_content" android:id="@+id/tv_ann_info_comments"
+		android:layout_height="@dimen/ann_info_bar_textHeight"
+		android:layout_below="@id/tv_ann_info_likes" android:text="@string/comments"
+		style="@style/info_bar_style" />
+
+
+
+	<TextView style="@style/info_bar_style" android:layout_width="wrap_content"
+		android:layout_height="@dimen/ann_info_bar_textHeight"
+		android:layout_alignParentRight="true" android:id="@+id/tv_ann_info_dislikes"
+		android:layout_alignLeft="@+id/tv_ann_info_locate"
+		android:text="@string/dislike" android:layout_marginBottom="10dp"/>
+
+	<TextView style="@style/info_bar_style" android:layout_width="wrap_content"
+		android:text="@string/locate" android:layout_height="@dimen/ann_info_bar_textHeight"
+		android:layout_below="@+id/tv_ann_info_dislikes"
+		android:id="@+id/tv_ann_info_locate"
+		android:layout_alignParentRight="true"
+		 />
+
+</RelativeLayout>
 
