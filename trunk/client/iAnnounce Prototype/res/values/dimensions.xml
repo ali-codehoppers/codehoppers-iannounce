@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="corner_radius">8dp</dimen>
+    <dimen name="tab_space_top">0dp</dimen>
+    <dimen name="tab_space">0dp</dimen>
+    <dimen name="tab_space_plus1">0dp</dimen>
+    <dimen name="tab_top">63dp</dimen>
+    
+    <dimen name="ann_bg_margin">5dp</dimen>
+    <dimen name="ann_info_bar_textHeight">16dp</dimen>
+    
+    
+</resources>

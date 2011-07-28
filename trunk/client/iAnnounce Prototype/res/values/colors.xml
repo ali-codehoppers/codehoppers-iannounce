@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<color name="app_background">#000000</color>
+	<color name="light_red">#ba0305</color>
+	<color name="dark_red">#9d0c0f</color>
+		
+	<color name="text_tab_selected">#5d5d5d</color>
+	<color name="text_tab_unselected">#838183</color>
+	
+	<color name="tabGradStart">#356891</color>
+	<color name="tabGradEnd">#356891</color>
+	
+	<color name="tabHostBackground">#356891</color>
+	<color name="announcemts_bg">#a0bbca</color>
+	
+	<color name="title_username">#FFFFFF</color>
+	
+	<color name="tab_title">#7cb5f5</color>
+	
+	<color name="ann_bg">#294c6e</color>
+	
+	<color name="ann_announcer">#FFFFFF</color>
+	
+	<color name="ann_desc">#c9dff8</color>
+	
+	<color name="ann_info_bar">#113058</color>
+	<color name="ann_info_bar_text">#6e90b3</color>
+	
+	
+</resources>
