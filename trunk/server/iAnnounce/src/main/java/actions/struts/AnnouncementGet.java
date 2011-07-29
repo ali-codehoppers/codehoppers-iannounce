@@ -60,7 +60,7 @@ public class AnnouncementGet extends BaseActionClass
             String xml;
 //            xml = "<announcements>"; //"<response><responseCode>0</responseCode><responseMessage>"+Consts.responseCodes[0]+"</responseMessage><getAnnouncements>"
 //            xml = "<response><responseCode>";
-            xml="";
+            xml = "";
             int page = Integer.valueOf(pageNum);
             int counter = 0;
 
@@ -70,16 +70,16 @@ public class AnnouncementGet extends BaseActionClass
             announcementList = (new insertionSortAnnouncementDate(announcementList)).mySort();
             Collections.reverse(announcementList);
 
-            int numAnnouncements=0;
+            int numAnnouncements = 0;
 
             for (int index = 0; index < announcementList.size(); index++)
               {  //traverse list
                 Announcement announcement = announcementList.get(index);
-                Logger log=Logger.getLogger(AnnouncementGet.class);
-                    log.error("distance of announce"+index+"="+distFrom(Double.parseDouble(latitude), Double.parseDouble(longitude), announcement.getLatitude(), announcement.getLongitude())+"AnnRad="+announcement.getRadius());
-
+//                Logger log=Logger.getLogger(AnnouncementGet.class);
+//                    log.error("distance of announce"+index+"="+distFrom(Double.parseDouble(latitude), Double.parseDouble(longitude), announcement.getLatitude(), announcement.getLongitude())+"AnnRad="+announcement.getRadius());
+                float dist=distFrom(Double.parseDouble(latitude), Double.parseDouble(longitude), announcement.getLatitude(), announcement.getLongitude());
                 //test if in range
-                if (distFrom(Double.parseDouble(latitude), Double.parseDouble(longitude), announcement.getLatitude(), announcement.getLongitude()) <= announcement.getRadius())
+                if (dist<= announcement.getRadius())
                   {
                     ++counter;
                     //select announcement of the given page number
@@ -93,10 +93,23 @@ public class AnnouncementGet extends BaseActionClass
 
                         List<Rating> ratingList = ratingService.findByName(announcement.getA_id());
 
+                        int likes = 0;
+                        int dislikes = 0;
+
                         //rating by the currunt user
                         for (int indexr = 0; indexr < ratingList.size(); indexr++)
                           {
                             Rating rating = ratingList.get(indexr);
+
+                            if (rating.isStatus())
+                              {
+                                likes++;
+                              } else
+                              {
+                                dislikes++;
+                              }
+
+
                             if (rating.getUsername().compareTo(username) == 0)
                               {
                                 if (rating.isStatus())
@@ -111,16 +124,26 @@ public class AnnouncementGet extends BaseActionClass
 
                         if (announcement.getTotalRating() > -10)
                           {  //hiding a bad rated announcement
-                            xml += "<announcement>\n<id>" + announcement.getA_id() + "</id>\n";
-                            xml += "<announcer>" + announcement.getUsername_FK() + "</announcer>\n";
-                            xml += "<Description>" + announcement.getAnnouncement() + "</Description>\n";
-                            xml += "<timestamp>" + announcement.getTtime() + "</timestamp>\n";
-                            xml += "<noOfComments>" + noOfComments + "</noOfComments>\n";
-                            xml += "<averageRating>" + announcement.getTotalRating() + "</averageRating>\n";
-                            xml += "<currentUserRating>" + curruntRating + "</currentUserRating>\n";
-                            xml += "<longitude>" + announcement.getLongitude() + "</longitude>\n";
-                            xml += "<latitude>" + announcement.getLatitude() + "</latitude>\n";
-                            xml += "</announcement>\n";
+                            xml += "<announcement><id>" + announcement.getA_id() + "</id>";
+                            xml += "<announcer>" + announcement.getUsername_FK() + "</announcer>";
+                            xml += "<Description>" + announcement.getAnnouncement() + "</Description>";
+                            xml += "<timestamp>" + announcement.getTtime() + "</timestamp>";
+                            xml += "<noOfComments>" + noOfComments + "</noOfComments>";
+                            xml += "<averageRating>" + announcement.getTotalRating() + "</averageRating>";
+                            xml += "<currentUserRating>" + curruntRating + "</currentUserRating>";
+                            xml += "<longitude>" + announcement.getLongitude() + "</longitude>";
+                            xml += "<latitude>" + announcement.getLatitude() + "</latitude>";
+
+                            if((Float.toString(dist)).length()>5){
+                            xml+="<distance>"+(Float.toString(dist)).substring(0, 4)+"</distance>"; //in kilometers
+                                }
+                            else{
+                            xml+="<distance>"+Float.toString(dist)+"</distance>"; //in kilometers
+                            }
+
+                            xml+="<likes>"+likes+"</likes>";
+                            xml+="<dislikes>"+dislikes+"</dislikes>";
+                            xml += "</announcement>";
                             numAnnouncements++;
                           } else
                           {
@@ -136,7 +159,7 @@ public class AnnouncementGet extends BaseActionClass
                   }
 
               }
-            
+
 
             if (numAnnouncements != 0)
               {

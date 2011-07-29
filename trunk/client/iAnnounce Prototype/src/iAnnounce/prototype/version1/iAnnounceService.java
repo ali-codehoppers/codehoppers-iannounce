@@ -132,6 +132,7 @@ public class iAnnounceService extends Service{
 					SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
 					Message m;
 					ht.getAnnoucnements(settings.getString("sessionId", "0"), settings.getString("Latitude", "0"), settings.getString("Longitude", "0"), pagenum);
+					Log.e("XML=", ht.xmlStringResponse);
 
 					if(ht.isError){
 						m=Message.obtain(null,RESPONSE_NETWORK_ERROR,(Object)ht.xception);

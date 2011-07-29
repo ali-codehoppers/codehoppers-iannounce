@@ -44,6 +44,12 @@ public class Announcements {
 	/**
 	 * will consists of number of comments which are posted on this announcement
 	 */
-	public String noOfComments;	
+	public String noOfComments;
+		
+	public String likes;
+	
+	public String dislikes;
+	
+	public String distance;
 
 }

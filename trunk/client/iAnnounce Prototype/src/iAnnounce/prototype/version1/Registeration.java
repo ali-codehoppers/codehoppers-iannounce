@@ -16,6 +16,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.Settings;
 import android.text.InputType;
 import android.util.Xml;
@@ -48,6 +50,16 @@ public class Registeration extends Activity {
 	private EditText et_email;
 	private EditText et_password;
 	
+	private Handler msgHandler;
+	
+	private final int ERROR_COMMUNICATION = 0;
+	private final int REGISTER_SUCCESS = 1;
+	
+	private final int ERROR_SERVER = 3;
+	private final int ERROR_CONNECTIVITY=4; //wifi is off :O
+	private final int ERROR_GPS=5;
+
+	
 
 	static final int DATE_DIALOG_ID = 0;
 	/** Called when the activity is first created. */
@@ -70,6 +82,44 @@ public class Registeration extends Activity {
 		});
 
 		final User user1=new User();
+		pdialog1=new ProgressDialog(Registeration.this);		
+		pdialog1.setMessage("Loading. Please wait...");
+		pdialog1.setIndeterminate(true);
+		
+		msgHandler=new Handler(){
+
+			@Override
+			public void handleMessage(Message msg) {
+				pdialog1.cancel();				
+				switch (msg.what){
+				case ERROR_COMMUNICATION:					
+					Toast.makeText(getApplicationContext(),(String) msg.obj, Toast.LENGTH_LONG).show();
+					break;
+				
+				case REGISTER_SUCCESS:
+					mess=(String)msg.obj;
+					showDialog(1);				
+					break;
+				case ERROR_CONNECTIVITY:					
+					showDialog(3);
+					break;
+				case ERROR_SERVER:
+					mess=(String)msg.obj;
+					showDialog(1);
+					break;
+				case ERROR_GPS:
+					showDialog(2);
+					break;
+				default:
+				}
+				super.handleMessage(msg);
+			}
+
+		};
+		
+		
+		
+		
 		
 		et_fname=(EditText)findViewById(R.id.registrationEdittextName);
 		et_lname=(EditText)findViewById(R.id.registrationEdittextLastName);
@@ -120,42 +170,17 @@ public class Registeration extends Activity {
 						showDialog(3);
 					}
 					else{
-						pdialog1 = ProgressDialog.show(Registeration.this,"", 
-								"Loading. Please wait...", true);
 						
-						HttpPostRequest ht=new HttpPostRequest();
-											
-						try {
-							ht.register(user1.firstName, user1.lastName, user1.userName, user1.getPassword(), user1.email,user1.gender, user1.dob);
-						} catch (Exception e1) {							
-							e1.printStackTrace();
-						}
+						pdialog1.show();
+						
+						threadRegister th=new threadRegister();
+						
+						th.user1=user1;
+						
+						th.start();
 						
 						
-						if(ht.isError){
-							Toast.makeText(getApplicationContext(), ht.xception, Toast.LENGTH_LONG).show();
-						}
-						else{
-							MyXmlHandler myhandler=new MyXmlHandler();
-							try {
-								Xml.parse(ht.xmlStringResponse, myhandler);
-							} catch (SAXException e) {
-								e.printStackTrace();
-							}
-							
-							if(!myhandler.obj_serverResp1.responseCode.equalsIgnoreCase("0")){
-								Toast.makeText(getApplicationContext(),myhandler.obj_serverResp1.responseMessage, Toast.LENGTH_LONG).show();								
-							}
-							else{
-								mess=myhandler.obj_serverResp1.register_response;
-								showDialog(1);
-								
-							}
-							
-						}
-						pdialog1.dismiss();
-					
-
+						
 					}
 				}
 
@@ -165,6 +190,71 @@ public class Registeration extends Activity {
 
 
 	}
+	
+	private class threadRegister extends Thread{
+		public User user1;
+
+		@Override
+		public void run() {
+			
+
+			HttpPostRequest ht=new HttpPostRequest();
+								
+			try {
+				ht.register(user1.firstName, user1.lastName, user1.userName, user1.getPassword(), user1.email,user1.gender, user1.dob);
+			} catch (Exception e1) {
+				Message msg=new Message();
+				msg.what=ERROR_COMMUNICATION;
+				msg.obj=e1.toString();	
+				msgHandler.sendMessage(msg);
+				e1.printStackTrace();
+			}
+			
+			
+			if(ht.isError){
+//				Toast.makeText(getApplicationContext(), ht.xception, Toast.LENGTH_LONG).show();
+				Message msg=new Message();
+				msg.what=ERROR_COMMUNICATION;
+				msg.obj=ht.xception;	
+				msgHandler.sendMessage(msg);
+			}
+			else{
+				MyXmlHandler myhandler=new MyXmlHandler();
+				try {
+					Xml.parse(ht.xmlStringResponse, myhandler);
+				} catch (SAXException e) {
+					Message msg=new Message();
+					msg.what=ERROR_COMMUNICATION;
+					msg.obj=e.toString();	
+					msgHandler.sendMessage(msg);
+					e.printStackTrace();
+				}
+				
+				if(!myhandler.obj_serverResp1.responseCode.equalsIgnoreCase("0")){
+					Message msg=new Message();
+					msg.obj=myhandler.obj_serverResp1.responseMessage;
+					msg.what=ERROR_SERVER;
+					msgHandler.sendMessage(msg);
+//					Toast.makeText(getApplicationContext(),myhandler.obj_serverResp1.responseMessage, Toast.LENGTH_LONG).show();								
+				}
+				else{
+					Message msg=new Message();
+					msg.obj=myhandler.obj_serverResp1.register_response;
+					msg.what=REGISTER_SUCCESS;
+					msgHandler.sendMessage(msg);					
+				}
+				
+			}
+			
+			super.run();
+		}
+		
+	}
+	
+	
+	
+	
+	
 	/**
 	 * DatePicker Dialog
 	 */
