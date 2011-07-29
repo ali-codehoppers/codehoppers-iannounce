@@ -56,7 +56,9 @@ public class VerifySession extends AbstractInterceptor
               } catch (Exception ex)
               {
                 logger.error(ex);
+//                  System.out.println(ex);
                 return "ERROR";
+                
               }
 
           } else

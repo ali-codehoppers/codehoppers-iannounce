@@ -56,13 +56,10 @@ public class HomePage extends TabActivity {
         	
         	getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,R.layout.titlebar);
         	
-        	Window win=getWindow();
-        	
-        	
-        	
         	TextView tv_title= (TextView)findViewById(R.id.tv_titlebar);        	
         	SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
         	tv_title.setText((settings.getString("userName", "iAnnounce")).toUpperCase());
+        	
         }
 		
 		

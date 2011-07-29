@@ -20,6 +20,7 @@ import android.os.Message;
 import android.provider.Settings;
 import android.util.Xml;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -49,16 +50,16 @@ public class Login extends Activity {
 
 
 
-	
 
-	
+
+
 	private class loginThread extends Thread{
-//		private volatile Thread blinker;
-//		
-//		@Override
-//		public void stop(){
-//			blinker=null;
-//		}
+		//		private volatile Thread blinker;
+		//		
+		//		@Override
+		//		public void stop(){
+		//			blinker=null;
+		//		}
 
 		@Override
 		public void run() {
@@ -113,8 +114,8 @@ public class Login extends Activity {
 						e.printStackTrace();
 					}												
 					if(myhandler.obj_serverResp1.responseCode.equalsIgnoreCase("0")){
-						
-						
+
+
 						Intent myIntent = new Intent(getApplicationContext(), HomePage.class);
 						if(provider==null){
 							msg.what=ERROR_GPS;
@@ -162,7 +163,16 @@ public class Login extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		boolean customTitleSupported = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.main);
+
+		if(customTitleSupported){
+
+			getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,R.layout.titlebar);
+
+			TextView tv_title= (TextView)findViewById(R.id.tv_titlebar);
+			tv_title.setText("iAnnounce");
+		}
 
 
 		settings = getSharedPreferences("iAnnounceVars", 0);
@@ -179,7 +189,6 @@ public class Login extends Activity {
 				((EditText)findViewById(R.id.mainEdittextLogin)).setText(us);
 				((EditText)findViewById(R.id.mainEdittextPassword)).setText(pas);
 			}
-
 		}
 
 		msgHandler=new Handler(){
@@ -209,9 +218,7 @@ public class Login extends Activity {
 				case ERROR_GPS:
 					showDialog(2);
 					break;
-
 				default:
-
 				}
 				super.handleMessage(msg);
 			}
@@ -230,10 +237,10 @@ public class Login extends Activity {
 			public void onClick(View v) {
 
 				pdialog1.show();
-				
+
 				loginThread th=new loginThread();
 				th.start();
-				
+
 				//				User user1=new User();
 				//				user1.userName=(((EditText)findViewById(R.id.mainEdittextLogin)).getText()).toString();
 				//				if(user1.userName.length()<1 || user1.userName.length()>15 || user1.userName.contains(" ") || user1.userName.contains("/")){

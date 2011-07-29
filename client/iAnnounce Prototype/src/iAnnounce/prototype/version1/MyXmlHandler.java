@@ -47,6 +47,9 @@ public class MyXmlHandler extends DefaultHandler{
 	private boolean fl_announcement_avgRating;
 	private boolean fl_announcement_currenUserRating;
 	private boolean fl_announcement_numOfComments;
+	private boolean fl_announcement_likes;
+	private boolean fl_announcement_dislikes;
+	private boolean fl_announcement_distance;
 
 
 	private boolean fl_myAnn;
@@ -119,6 +122,11 @@ public class MyXmlHandler extends DefaultHandler{
 		fl_announcement_avgRating=false;
 		fl_announcement_currenUserRating=false;
 		fl_announcement_numOfComments=false;
+		fl_announcement_likes=false;
+		fl_announcement_dislikes=false;
+		fl_announcement_distance=false;
+		
+		
 
 		fl_myAnn=false;
 		fl_myAnn_announcement=false;
@@ -220,6 +228,15 @@ public class MyXmlHandler extends DefaultHandler{
 					}
 					else if(localName.equalsIgnoreCase("noOfComments")){
 						fl_announcement_numOfComments=true;
+					}
+					else if(localName.equalsIgnoreCase("likes")){
+						fl_announcement_likes=true;
+					}
+					else if(localName.equalsIgnoreCase("dislikes")){
+						fl_announcement_dislikes=true;
+					}
+					else if(localName.equalsIgnoreCase("distance")){
+						fl_announcement_distance=true;
 					}
 				}				
 			}//get announcement
@@ -401,7 +418,17 @@ public class MyXmlHandler extends DefaultHandler{
 					}
 					else if(localName.equalsIgnoreCase("noOfComments")){
 						fl_announcement_numOfComments=false;
-					}					
+					}
+					else if(localName.equalsIgnoreCase("likes")){
+						fl_announcement_likes=false;
+					}
+					else if(localName.equalsIgnoreCase("dislikes")){
+						fl_announcement_dislikes=false;
+					}
+					else if(localName.equalsIgnoreCase("distance")){
+						fl_announcement_distance=false;
+					}
+					
 				}//fl_announcement
 
 			}//fl_getAnnouncements
@@ -573,7 +600,16 @@ public class MyXmlHandler extends DefaultHandler{
 					}
 					else if(fl_announcement_numOfComments){
 						a.noOfComments=x;
-					}     			
+					}
+					else if(fl_announcement_likes){
+						a.likes=x;
+					}
+					else if(fl_announcement_dislikes){
+						a.dislikes=x;
+					}
+					else if(fl_announcement_distance){
+						a.distance=x;
+					}
 				}	    		
 			}//ann end
 

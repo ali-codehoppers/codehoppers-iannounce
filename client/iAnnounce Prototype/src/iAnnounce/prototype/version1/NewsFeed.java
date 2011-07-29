@@ -671,18 +671,21 @@ public class NewsFeed extends Activity {
 //			l3.addView(bt_comment);
 			
 			
-			
-			
-
 //			l2.addView(l3);
 			
-			//			l2.addView(l4);
+//			l2.addView(l4);
+			
+			TextView tv_like=(TextView) v2.findViewById(R.id.tv_ann_info_likes);
+			TextView tv_dislike=(TextView) v2.findViewById(R.id.tv_ann_info_dislikes);
+			TextView tv_locate=(TextView) v2.findViewById(R.id.tv_ann_info_locate);
+			
+			tv_like.setText(getResources().getString(R.string.like)+" ( "+obj_serRes.feed.get(i).likes+" ) ");
+			tv_dislike.setText(getResources().getString(R.string.dislike)+" ( "+obj_serRes.feed.get(i).dislikes+" ) ");
+			tv_locate.setText(getResources().getString(R.string.locate)+" ( "+obj_serRes.feed.get(i).distance+" km ) ");
 			
 			
 			TextView tv_comment=(TextView) v2.findViewById(R.id.tv_ann_info_comments);
 			tv_comment.setText(getResources().getString(R.string.comments)+" ( "+obj_serRes.feed.get(i).noOfComments+" ) ");
-			
-			
 			
 			LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 			lp2.setMargins(10, 10, 10, 0);
