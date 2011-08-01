@@ -20,10 +20,12 @@ import android.os.Message;
 import android.provider.Settings;
 import android.util.Xml;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 /**
@@ -231,6 +233,9 @@ public class Login extends Activity {
 		pdialog1.setMessage("Loading. Please wait...");
 
 
+
+
+
 		final Button searchButton = (Button) findViewById(R.id.mainButtonLogin);
 
 		searchButton.setOnClickListener(new View.OnClickListener() {
@@ -342,6 +347,26 @@ public class Login extends Activity {
 				startActivity(myIntent);
 			}
 		});
+
+		ImageView im=(ImageView)findViewById(R.id.register_img);
+		im.setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View v) {
+				Intent myIntent = new Intent(v.getContext(), Registeration.class);
+				startActivity(myIntent);
+			}
+		});
+
+		TextView tv_regis2=(TextView)findViewById(R.id.main_register);
+		
+		tv_regis2.setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View v) {
+				Intent myIntent = new Intent(v.getContext(), Registeration.class);
+				startActivity(myIntent);
+			}
+		});
+		
 
 		final TextView forgoTextView = (TextView) findViewById(R.id.forgo);
 		forgoTextView.setOnClickListener(new View.OnClickListener() {

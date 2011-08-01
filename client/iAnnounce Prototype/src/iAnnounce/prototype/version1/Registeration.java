@@ -1,10 +1,8 @@
 package iAnnounce.prototype.version1;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.regex.Pattern;
 
-import org.apache.http.client.ClientProtocolException;
 import org.xml.sax.SAXException;
 
 import android.app.Activity;

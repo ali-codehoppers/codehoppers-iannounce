@@ -13,9 +13,11 @@ import android.os.Messenger;
 import android.os.RemoteException;
 import android.text.InputType;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -33,7 +35,17 @@ public class optionAct extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
+		boolean customTitleSupported = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.options);
+		
+		
+        
+        if(customTitleSupported){        	
+        	getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,R.layout.titlebar);
+        	TextView tv_title= (TextView)findViewById(R.id.tv_titlebar);        	        	
+        	tv_title.setText("Options");
+        	
+        }
 		
 		SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
 		final SharedPreferences.Editor editor = settings.edit();
