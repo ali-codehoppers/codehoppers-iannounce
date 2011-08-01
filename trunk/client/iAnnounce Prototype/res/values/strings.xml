@@ -4,7 +4,7 @@
     <string name="app_name">iAnnounce</string>
 <string name="loginColon">Username:</string>
 <string name="passwordColon">Password:</string>
-<string name="rememberMe">Remember Me</string>
+<string name="rememberMe"><b>Remember Me</b></string>
 <string name="login">Sign in</string>
 <string name="registerClick"><u>Not a user? Click here to Sign Up</u></string>
 <string name="like">Like</string>

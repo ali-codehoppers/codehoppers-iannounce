@@ -517,7 +517,7 @@ public class NewsFeed extends Activity {
 			l2.addView(ann);			
 			TextView Descr=new TextView(getBaseContext());
 			Descr.setText(obj_serRes.feed.get(i).description);
-			Descr.setTextSize(20);
+			Descr.setTextSize(16);
 			Descr.setTextColor(getResources().getColor(R.color.ann_desc));
 			
 			l2.addView(Descr);
