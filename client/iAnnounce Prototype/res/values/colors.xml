@@ -36,9 +36,18 @@
 	<color name="login_input_textColor">#FFFF</color>
 	
 	<color name="option_backgouround_grad">#a9c3cd</color>
+	<color name="option_labels">#6e90b3</color>
 	
 	<color name="grad_bg_start">#e6ecef</color>
 	<color name="grad_bg_end">#c5d1d9</color>
+	
+	<color name="announce_txt">#FFFFFF</color>
+	<color name="announce_char_remaining">#FFFFFF</color>
+	<color name="announce_labels">#284868</color>
+	<color name="custom_input_text">#FFFFFF</color>
+	
+	
+	
 	
 	
 </resources>

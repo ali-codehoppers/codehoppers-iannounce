@@ -701,9 +701,36 @@ public class NewsFeed extends Activity {
 			
 			v2.setPadding(30, 10,30, 10);
 			
+			final int k=i;
+			l3.setOnClickListener(new OnClickListener() {
+				
+				public void onClick(View v) {
+					
+					Intent In=new Intent(getApplicationContext(), AnnouncementDetail.class);
+					
+					Bundle b=new Bundle();
+					
+					b.putString("announcer", obj_serRes.feed.get(k).announcer);
+					b.putString("desc",obj_serRes.feed.get(k).description);
+					b.putString("aid",obj_serRes.feed.get(k).announcement_id);
+					b.putString("avgRating",obj_serRes.feed.get(k).averageRating);
+					b.putString("cUserRating",obj_serRes.feed.get(k).currentUserRating);
+					b.putString("dislikes",obj_serRes.feed.get(k).dislikes);
+					b.putString("likes",obj_serRes.feed.get(k).likes);
+					b.putString("lati",obj_serRes.feed.get(k).latitude);
+					b.putString("longi",obj_serRes.feed.get(k).longitude);
+					b.putString("numComments",obj_serRes.feed.get(k).noOfComments);
+					b.putString("timestamp",obj_serRes.feed.get(k).timestamp);
+					
+					In.putExtras(b);
+					startActivityForResult(In,3);
+					
+					
+				}
+			});
+			
 			l1.addView(l2);			
 			l1.addView(l3);
-			
 			
 		}
 

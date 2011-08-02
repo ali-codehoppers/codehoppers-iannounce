@@ -27,6 +27,7 @@
 <activity android:name="MapDisp"></activity>
 <activity android:name="Act_abt"></activity>
 <activity android:name=".MyMapAct"></activity>
+<activity android:name=".AnnouncementDetail"></activity>
 <service android:name="iAnnounceService" />
 
 
