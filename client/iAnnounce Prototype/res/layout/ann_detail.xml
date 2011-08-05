@@ -20,6 +20,16 @@
 					android:layout_width="match_parent" android:layout_height="wrap_content" />
 			</LinearLayout>
 		</TableRow>
+		
+		<TableRow >
+		<RelativeLayout>
+			<TextView android:id="@+id/tv_detail_date" android:text="Date" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentLeft="true"/>
+			<TextView android:text="Time" android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/tv_detail_time" android:layout_alignParentRight="true" />
+			<TextView android:text="@string/like" android:id="@+id/tv_detail_like" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_alignParentLeft="true" android:layout_below="@id/tv_detail_date" android:layout_alignLeft="@id/tv_detail_date"/>
+			<TextView android:text="@string/dislike" android:id="@+id/tv_detail_dislike" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_alignParentRight="true" android:layout_below="@id/tv_detail_time" />
+		</RelativeLayout>
+		
+		</TableRow>
 
 
 	</TableLayout>
