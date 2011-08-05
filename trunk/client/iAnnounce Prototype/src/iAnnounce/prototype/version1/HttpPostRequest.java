@@ -16,9 +16,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
-import android.util.Log;
-import android.view.ViewGroup.LayoutParams;
-
 /**
  * Class to generate the postrequests to server for communication. Data is returned from methods as string.
  * @author Awais Akhtar
@@ -39,7 +36,7 @@ public class HttpPostRequest {
 		super();
 		isError=false;
 	}
-	private String base_url="http://192.168.0.104:8080/iAnnounce";  
+	private String base_url="http://192.168.0.100:8080/iAnnounce";  
 	//	 private String base_url="http://192.168.1.2:8080/do";
 	private String URL_register=base_url+"/register";
 	private String URL_forgotPassword=base_url+"/forgetpassword";
