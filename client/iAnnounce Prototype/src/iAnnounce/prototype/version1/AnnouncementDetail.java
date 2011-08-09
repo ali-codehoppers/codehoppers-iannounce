@@ -21,6 +21,9 @@ public class AnnouncementDetail extends Activity{
 	        	SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
 	        	tv_title.setText((settings.getString("userName", "iAnnounce")).toUpperCase());
 	        }
+		 
+		 //get the data out of intent
+		 
 		
 		
 		super.onCreate(savedInstanceState);
