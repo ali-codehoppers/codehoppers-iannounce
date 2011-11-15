@@ -3,86 +3,9 @@
 "http://struts.apache.org/dtds/struts-2.0.dtd">
 
 <struts>
-    <package name="default" extends="struts-default">
-        
-        <interceptors>
-            <interceptor name="verifySession" class="interceptor.VerifySession"/>
-            
-            <interceptor-stack name="basic">
-                <interceptor-ref name="defaultStack"/>
-                <interceptor-ref name="verifySession"/>
-            </interceptor-stack>
-        </interceptors>
+    
+    <include file="struts-common.xml"/>    
+    <include file="struts-main.xml"/>
 
-
-        
-
-        <global-results>
-            <result name="MOBILE">/results/ResponseXml.jsp</result>
-            <result name="PC">/results/request_pc.jsp</result>
-            <result name="INVALIDSESSIONID">/results/invalid_session.jsp</result>
-        </global-results>
-		
-		<!--for redirection -->
-		
-        <action name="">
-            <interceptor-ref name="basic"/>
-            <result>index.jsp</result>
-        </action>
-		
-		<!-- Actions  :D-->
-		
-        <action name="register" class="actions.struts.Register">
-        </action>
-		
-        <action name="login" class="actions.struts.Login">
-            
-        </action>
-		
-        <action name="logout" class="actions.struts.Logout">
-            
-        </action>
-		
-        <action name="getannouncements" class="actions.struts.AnnouncementGet">
-          <interceptor-ref name="basic"/>
-        </action>
-        <action name="getmyannouncements" class="actions.struts.AnnouncementGetMy">
-            <interceptor-ref name="basic"/>
-        </action>
-        <action name="postannouncement" class="actions.struts.AnnouncementPost">
-            <interceptor-ref name="basic"/>
-        </action>
-        <action name="getcomments" class="actions.struts.CommentGet">
-          <interceptor-ref name="basic"/>
-        </action>
-        <action name="postcomment" class="actions.struts.CommentPost">
-            <interceptor-ref name="basic"/>
-        </action>
-        <action name="deleteaccount" class="actions.struts.DeleteAccount">
-          <interceptor-ref name="basic"/>
-        </action>
-        <action name="editprofile" class="actions.struts.EditProfile">
-          <interceptor-ref name="basic"/>
-        </action>
-        <action name="forgetpassword" class="actions.struts.ForgetPassword">
-            
-        </action>
-        <action name="getprofile" class="actions.struts.GetProfile">
-            
-        </action>
-        <action name="rate" class="actions.struts.RatingPost">
-            <interceptor-ref name="basic"/>
-        </action>
-        
-        <action name="verifyaccount" class="actions.struts.VerifyAccount">
-            
-        </action>
-
-<!--   <action name="persons" class="restful.controller.RestfulFirstController">
-            
-        </action> -->
-		
-    </package>
-	
-	
+       
 </struts>
