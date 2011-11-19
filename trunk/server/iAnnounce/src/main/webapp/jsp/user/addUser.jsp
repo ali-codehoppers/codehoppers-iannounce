@@ -50,7 +50,7 @@
             <s:textfield name="contactNo2" label="Alternate Contact # "/>            
             <s:textfield name="email" label="Email "/>            
             <s:textfield name="userName" label="Username"/>                        
-            <s:textfield name="password" label="Password"/>                                    
+            <s:password name="password" label="Password"/>       
             <s:submit value="Add User" align="center"/>
         </s:form>
     </body>

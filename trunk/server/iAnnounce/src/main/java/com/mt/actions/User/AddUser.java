@@ -75,7 +75,7 @@ public class AddUser extends ActionSupport {
         this.stateService = stateService;
     }
 
-    public void setUserervice(UserService userervice) {
+    public void setUserService(UserService userervice) {
         this.userervice = userervice;
     }
 
@@ -91,6 +91,8 @@ public class AddUser extends ActionSupport {
         if (state == null) {
             System.out.println("State is null");
         }
+        else
+            System.out.println("State is "+state.getName());
 
         user = new User();
         user.setName(name);

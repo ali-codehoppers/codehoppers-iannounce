@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import org.hibernate.annotations.NamedQueries;
@@ -62,12 +63,13 @@ public class State implements Serializable {
         return name;
     }
 
-    @Column(insertable = false, updatable = false)
+    @Column(insertable = false, updatable = false, name="countryId")
     public int getCountryId() {
         return countryId;
     }
 
     @ManyToOne(targetEntity = Country.class, fetch = FetchType.LAZY)
+    @JoinColumn(name="countryId")
     public Country getCountry() {
         return country;
     }

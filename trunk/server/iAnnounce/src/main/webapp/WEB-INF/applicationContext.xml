@@ -172,6 +172,28 @@
         </property>
     </bean>
 
+    <bean id="companyDao" parent="abstractDaoFinderImp">
+        <property name="proxyInterfaces">
+            <value>com.mt.idao.ICompanyDao</value>
+        </property>
+        <property name="target">
+            <bean parent="abstractDaoGeneric">
+                <constructor-arg value="com.mt.hibernate.entities.Company" />
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="lookUpDao" parent="abstractDaoFinderImp">
+        <property name="proxyInterfaces">
+            <value>com.mt.idao.ILookUpDao</value>
+        </property>
+        <property name="target">
+            <bean parent="abstractDaoGeneric">
+                <constructor-arg value="com.mt.hibernate.entities.LookUp" />
+            </bean>
+        </property>
+    </bean>
+
     <bean id="categoryService" class="com.mt.services.CategoryService">
         <constructor-arg ref="categoryDao" />
     </bean>
@@ -203,4 +225,13 @@
     <bean id="stateService" class="com.mt.services.StateService">
         <constructor-arg ref="stateDao" />
     </bean>   
+
+    <bean id="companyService" class="com.mt.services.CompanyService">
+        <constructor-arg ref="companyDao" />
+    </bean>       
+    
+    <bean id="lookUpService" class="com.mt.services.LookUpService">
+        <constructor-arg ref="lookUpDao" />
+    </bean>       
+
 </beans>

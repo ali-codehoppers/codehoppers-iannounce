@@ -685,3 +685,67 @@ Caused by: java.lang.ClassCastException: org.apache.xerces.parsers.StandardParse
 2011-11-15 19:50:03,420 - net.sf.ehcache.config.ConfigurationFactory - WARN - No configuration found. Configuring ehcache from ehcache-failsafe.xml  found in the classpath: jar:file:/C:/Users/AmierHaider/.m2/repository/net/sf/ehcache/ehcache/1.2.3/ehcache-1.2.3.jar!/ehcache-failsafe.xml
 2011-11-15 19:50:04,245 - org.hibernate.cache.EhCacheProvider - WARN - Could not find configuration [org.hibernate.cache.UpdateTimestampsCache]; using defaults.
 2011-11-15 19:50:04,269 - org.hibernate.cache.EhCacheProvider - WARN - Could not find configuration [org.hibernate.cache.StandardQueryCache]; using defaults.
+2011-11-18 11:11:04,078 - net.sf.ehcache.config.ConfigurationFactory - WARN - No configuration found. Configuring ehcache from ehcache-failsafe.xml  found in the classpath: jar:file:/C:/Users/AmierHaider/.m2/repository/net/sf/ehcache/ehcache/1.2.3/ehcache-1.2.3.jar!/ehcache-failsafe.xml
+2011-11-18 11:11:06,347 - org.hibernate.cache.EhCacheProvider - WARN - Could not find configuration [org.hibernate.cache.UpdateTimestampsCache]; using defaults.
+2011-11-18 11:11:06,396 - org.hibernate.cache.EhCacheProvider - WARN - Could not find configuration [org.hibernate.cache.StandardQueryCache]; using defaults.
+2011-11-18 11:27:54,191 - net.sf.ehcache.config.ConfigurationFactory - WARN - No configuration found. Configuring ehcache from ehcache-failsafe.xml  found in the classpath: jar:file:/C:/Users/AmierHaider/.m2/repository/net/sf/ehcache/ehcache/1.2.3/ehcache-1.2.3.jar!/ehcache-failsafe.xml
+2011-11-18 11:27:55,132 - org.hibernate.cache.EhCacheProvider - WARN - Could not find configuration [org.hibernate.cache.UpdateTimestampsCache]; using defaults.
+2011-11-18 11:27:55,148 - org.hibernate.cache.EhCacheProvider - WARN - Could not find configuration [org.hibernate.cache.StandardQueryCache]; using defaults.
+2011-11-18 11:40:22,065 - net.sf.ehcache.config.ConfigurationFactory - WARN - No configuration found. Configuring ehcache from ehcache-failsafe.xml  found in the classpath: jar:file:/C:/Users/AmierHaider/.m2/repository/net/sf/ehcache/ehcache/1.2.3/ehcache-1.2.3.jar!/ehcache-failsafe.xml
+2011-11-18 11:40:22,957 - org.hibernate.cache.EhCacheProvider - WARN - Could not find configuration [org.hibernate.cache.UpdateTimestampsCache]; using defaults.
+2011-11-18 11:40:22,971 - org.hibernate.cache.EhCacheProvider - WARN - Could not find configuration [org.hibernate.cache.StandardQueryCache]; using defaults.
+2011-11-18 11:41:56,752 - net.sf.ehcache.config.ConfigurationFactory - WARN - No configuration found. Configuring ehcache from ehcache-failsafe.xml  found in the classpath: jar:file:/C:/Users/AmierHaider/.m2/repository/net/sf/ehcache/ehcache/1.2.3/ehcache-1.2.3.jar!/ehcache-failsafe.xml
+2011-11-18 11:41:57,630 - org.hibernate.cache.EhCacheProvider - WARN - Could not find configuration [org.hibernate.cache.UpdateTimestampsCache]; using defaults.
+2011-11-18 11:41:57,670 - org.hibernate.cache.EhCacheProvider - WARN - Could not find configuration [org.hibernate.cache.StandardQueryCache]; using defaults.
+2011-11-18 11:52:48,677 - net.sf.ehcache.config.ConfigurationFactory - WARN - No configuration found. Configuring ehcache from ehcache-failsafe.xml  found in the classpath: jar:file:/C:/Users/AmierHaider/.m2/repository/net/sf/ehcache/ehcache/1.2.3/ehcache-1.2.3.jar!/ehcache-failsafe.xml
+2011-11-18 11:52:49,578 - org.hibernate.cache.EhCacheProvider - WARN - Could not find configuration [org.hibernate.cache.UpdateTimestampsCache]; using defaults.
+2011-11-18 11:52:49,615 - org.hibernate.cache.EhCacheProvider - WARN - Could not find configuration [org.hibernate.cache.StandardQueryCache]; using defaults.
+2011-11-18 11:54:17,507 - net.sf.ehcache.config.ConfigurationFactory - WARN - No configuration found. Configuring ehcache from ehcache-failsafe.xml  found in the classpath: jar:file:/C:/Users/AmierHaider/.m2/repository/net/sf/ehcache/ehcache/1.2.3/ehcache-1.2.3.jar!/ehcache-failsafe.xml
+2011-11-18 11:54:17,969 - org.hibernate.cache.EhCacheProvider - WARN - Could not find configuration [org.hibernate.cache.UpdateTimestampsCache]; using defaults.
+2011-11-18 11:54:17,982 - org.hibernate.cache.EhCacheProvider - WARN - Could not find configuration [org.hibernate.cache.StandardQueryCache]; using defaults.
+2011-11-18 11:55:11,713 - org.apache.struts2.dispatcher.Dispatcher - WARN - Could not find action or result
+There is no Action mapped for namespace / and action name showAddNewUser. - [unknown location]
+	at com.opensymphony.xwork2.DefaultActionProxy.prepare(DefaultActionProxy.java:178)
+	at org.apache.struts2.impl.StrutsActionProxy.prepare(StrutsActionProxy.java:61)
+	at org.apache.struts2.impl.StrutsActionProxyFactory.createActionProxy(StrutsActionProxyFactory.java:39)
+	at com.opensymphony.xwork2.DefaultActionProxyFactory.createActionProxy(DefaultActionProxyFactory.java:47)
+	at org.apache.struts2.dispatcher.Dispatcher.serviceAction(Dispatcher.java:478)
+	at org.apache.struts2.dispatcher.ng.ExecuteOperations.executeAction(ExecuteOperations.java:77)
+	at org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter.doFilter(StrutsPrepareAndExecuteFilter.java:91)
+	at org.mortbay.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1157)
+	at org.mortbay.jetty.servlet.ServletHandler.handle(ServletHandler.java:388)
+	at org.mortbay.jetty.security.SecurityHandler.handle(SecurityHandler.java:216)
+	at org.mortbay.jetty.servlet.SessionHandler.handle(SessionHandler.java:182)
+	at org.mortbay.jetty.handler.ContextHandler.handle(ContextHandler.java:765)
+	at org.mortbay.jetty.webapp.WebAppContext.handle(WebAppContext.java:418)
+	at org.mortbay.jetty.handler.ContextHandlerCollection.handle(ContextHandlerCollection.java:230)
+	at org.mortbay.jetty.handler.HandlerCollection.handle(HandlerCollection.java:114)
+	at org.mortbay.jetty.handler.HandlerWrapper.handle(HandlerWrapper.java:152)
+	at org.mortbay.jetty.Server.handle(Server.java:326)
+	at org.mortbay.jetty.HttpConnection.handleRequest(HttpConnection.java:536)
+	at org.mortbay.jetty.HttpConnection$RequestHandler.headerComplete(HttpConnection.java:915)
+	at org.mortbay.jetty.HttpParser.parseNext(HttpParser.java:539)
+	at org.mortbay.jetty.HttpParser.parseAvailable(HttpParser.java:212)
+	at org.mortbay.jetty.HttpConnection.handle(HttpConnection.java:405)
+	at org.mortbay.io.nio.SelectChannelEndPoint.run(SelectChannelEndPoint.java:409)
+	at org.mortbay.thread.QueuedThreadPool$PoolThread.run(QueuedThreadPool.java:582)
+2011-11-18 11:55:51,600 - com.mt.interceptor.HibernateManagedSessionContext - ERROR - java.lang.NullPointerException
+2011-11-18 11:58:22,831 - net.sf.ehcache.config.ConfigurationFactory - WARN - No configuration found. Configuring ehcache from ehcache-failsafe.xml  found in the classpath: jar:file:/C:/Users/AmierHaider/.m2/repository/net/sf/ehcache/ehcache/1.2.3/ehcache-1.2.3.jar!/ehcache-failsafe.xml
+2011-11-18 11:58:23,250 - org.hibernate.cache.EhCacheProvider - WARN - Could not find configuration [org.hibernate.cache.UpdateTimestampsCache]; using defaults.
+2011-11-18 11:58:23,262 - org.hibernate.cache.EhCacheProvider - WARN - Could not find configuration [org.hibernate.cache.StandardQueryCache]; using defaults.
+2011-11-18 11:58:38,929 - org.hibernate.util.JDBCExceptionReporter - WARN - SQL Error: 1364, SQLState: HY000
+2011-11-18 11:58:38,931 - org.hibernate.util.JDBCExceptionReporter - ERROR - Field 'id' doesn't have a default value
+2011-11-18 11:58:38,958 - com.mt.interceptor.HibernateManagedSessionContext - ERROR - org.hibernate.exception.GenericJDBCException: could not insert: [com.mt.hibernate.entities.User]
+2011-11-18 12:02:41,260 - net.sf.ehcache.config.ConfigurationFactory - WARN - No configuration found. Configuring ehcache from ehcache-failsafe.xml  found in the classpath: jar:file:/C:/Users/AmierHaider/.m2/repository/net/sf/ehcache/ehcache/1.2.3/ehcache-1.2.3.jar!/ehcache-failsafe.xml
+2011-11-18 12:02:44,129 - org.hibernate.cache.EhCacheProvider - WARN - Could not find configuration [org.hibernate.cache.UpdateTimestampsCache]; using defaults.
+2011-11-18 12:02:44,153 - org.hibernate.cache.EhCacheProvider - WARN - Could not find configuration [org.hibernate.cache.StandardQueryCache]; using defaults.
+2011-11-18 12:04:00,171 - net.sf.ehcache.config.ConfigurationFactory - WARN - No configuration found. Configuring ehcache from ehcache-failsafe.xml  found in the classpath: jar:file:/C:/Users/AmierHaider/.m2/repository/net/sf/ehcache/ehcache/1.2.3/ehcache-1.2.3.jar!/ehcache-failsafe.xml
+2011-11-18 12:04:00,578 - org.hibernate.cache.EhCacheProvider - WARN - Could not find configuration [org.hibernate.cache.UpdateTimestampsCache]; using defaults.
+2011-11-18 12:04:00,590 - org.hibernate.cache.EhCacheProvider - WARN - Could not find configuration [org.hibernate.cache.StandardQueryCache]; using defaults.
+2011-11-19 12:59:18,046 - net.sf.ehcache.config.ConfigurationFactory - WARN - No configuration found. Configuring ehcache from ehcache-failsafe.xml  found in the classpath: jar:file:/C:/Users/AmierHaider/.m2/repository/net/sf/ehcache/ehcache/1.2.3/ehcache-1.2.3.jar!/ehcache-failsafe.xml
+2011-11-19 12:59:21,394 - org.hibernate.cache.EhCacheProvider - WARN - Could not find configuration [org.hibernate.cache.UpdateTimestampsCache]; using defaults.
+2011-11-19 12:59:21,443 - org.hibernate.cache.EhCacheProvider - WARN - Could not find configuration [org.hibernate.cache.StandardQueryCache]; using defaults.
+2011-11-19 13:00:07,223 - com.mt.interceptor.HibernateManagedSessionContext - ERROR - java.lang.NullPointerException
+2011-11-19 13:00:07,358 - com.mt.interceptor.HibernateManagedSessionContext - ERROR - java.lang.NullPointerException
+2011-11-19 13:00:08,809 - com.mt.interceptor.HibernateManagedSessionContext - ERROR - java.lang.NullPointerException
+2011-11-19 13:00:10,156 - com.mt.interceptor.HibernateManagedSessionContext - ERROR - java.lang.NullPointerException
