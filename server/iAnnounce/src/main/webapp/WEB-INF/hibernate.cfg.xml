@@ -23,5 +23,7 @@
         <mapping class="com.mt.hibernate.entities.User"/>                                      
         <mapping class="com.mt.hibernate.entities.Country"/>                                              
         <mapping class="com.mt.hibernate.entities.State"/>                                                      
+        <mapping class="com.mt.hibernate.entities.Company"/>                                                              
+        <mapping class="com.mt.hibernate.entities.LookUp"/>                                                              
     </session-factory>
 </hibernate-configuration>

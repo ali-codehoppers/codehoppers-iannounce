@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 
@@ -102,6 +103,7 @@ public class Image implements Serializable {
     }
 
     @ManyToOne(targetEntity = Product.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "productId")
     public Product getProduct() {
         return product;
     }

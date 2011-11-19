@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -85,8 +86,6 @@ public class Product implements Serializable {
     public void setDetailDescription(String detailDescription) {
         this.detailDescription = detailDescription;
     }
-    
-    
 
     public Product() {
     }
@@ -100,10 +99,10 @@ public class Product implements Serializable {
         this.specifications = specifications;
     }
 
-    public Product(String name, String description,String detailDescription, Manufacturer manufacturer, SubCategory subcategory, String features, String specifications) {
+    public Product(String name, String description, String detailDescription, Manufacturer manufacturer, SubCategory subcategory, String features, String specifications) {
         this.name = name;
         this.description = description;
-        this.detailDescription = detailDescription;        
+        this.detailDescription = detailDescription;
         this.manufacturer = manufacturer;
         this.subcategory = subcategory;
         this.features = features;
@@ -159,11 +158,13 @@ public class Product implements Serializable {
     }
 
     @ManyToOne(targetEntity = SubCategory.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "subcategoryId")
     public SubCategory getSubcategory() {
         return subcategory;
     }
 
     @ManyToOne(targetEntity = Manufacturer.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "manufacturerId")
     public Manufacturer getManufacturer() {
         return manufacturer;
     }
@@ -172,5 +173,4 @@ public class Product implements Serializable {
     public String getDetailDescription() {
         return detailDescription;
     }
-    
 }
