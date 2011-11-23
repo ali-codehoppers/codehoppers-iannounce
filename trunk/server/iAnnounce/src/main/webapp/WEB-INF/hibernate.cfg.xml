@@ -25,5 +25,7 @@
         <mapping class="com.mt.hibernate.entities.State"/>                                                      
         <mapping class="com.mt.hibernate.entities.Company"/>                                                              
         <mapping class="com.mt.hibernate.entities.LookUp"/>                                                              
+        <mapping class="com.mt.hibernate.entities.Part"/>                                                                      
+        <mapping class="com.mt.hibernate.entities.Inventory"/>                                                                              
     </session-factory>
 </hibernate-configuration>

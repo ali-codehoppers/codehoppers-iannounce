@@ -27,7 +27,7 @@
                             for (var i = 0; i< len; i++) {
                                 html += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
                             }
-                            $('#addUser_stateId').html(html);
+                            $('#addCompany_stateId').html(html);
                         }
                     });
                 }
@@ -36,11 +36,11 @@
    
         </script>
 
-        <title>Add New User</title>
+        <title>Add New Company</title>
     </head>
     <body>
-        <h1>Add New User!</h1>
-        <s:form action="addUser" method="POST">
+        <h1>Add New Company!</h1>
+        <s:form action="addCompany" method="POST">
             <s:textfield name="name" label="Name"/>
             <s:textarea name="address" label="Address"/>
             <s:textfield name="city" label="City"/>
@@ -48,8 +48,11 @@
             <s:select name="stateId" list="states" listKey="id" listValue="name" headerKey="0" headerValue="--State--" label="Select the state" />            
             <s:textfield name="phoneNo" label="Phone Number"/>
             <s:textfield name="faxNo" label="Fax Number"/>
+            <s:textfield name="zip" label="Zip"/>            
             <s:textfield name="webAddress" label="Web Address"/>            
-            <s:select name="companyCategory" list="companyCategories" listKey="code" listValue="description" headerKey="0" headerValue="--State--" label="Select the state" />                        
+            <s:select name="companyCategoryId" list="companyCategories" listKey="code" listValue="description" headerKey="0" headerValue="--Category--" label="Select the category" />                        
+            
+            
             <s:submit value="Add Company" align="center"/>
         </s:form>
     </body>

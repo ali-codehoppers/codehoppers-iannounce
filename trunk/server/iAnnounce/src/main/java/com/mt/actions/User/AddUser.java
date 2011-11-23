@@ -95,14 +95,13 @@ public class AddUser extends ActionSupport {
             System.out.println("State is "+state.getName());
 
         user = new User();
-        user.setName(name);
+        user.setFirstName(name);
         user.setAddress(address);
         user.setCity(city);
         user.setContactNo(contactNo);
         user.setContactNo2(contactNo2);
         user.setEmail(email);
         user.setPassword(password);
-        user.setState(state);
         user.setUsername(userName);
 
         userervice.addNew(user);

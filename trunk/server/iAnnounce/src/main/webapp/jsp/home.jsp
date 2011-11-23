@@ -160,7 +160,6 @@
                 return false;
                 
             }
-            
 
             function getProductHtml(product)
             {
@@ -182,6 +181,7 @@
                 html+="</div>"
                 return html;
             }
+
         </script>
 
 

@@ -18,21 +18,20 @@ import javax.persistence.NamedQuery;
 @Entity
 @javax.persistence.Table(name = "users")
 @NamedQueries({
-    @NamedQuery(name = "User.findByName", query = "select u from User u where u.name like ?")})
+    @NamedQuery(name = "User.findByName", query = "select u from User u where u.firstName like ? or u.lastName like ?"),
+    @NamedQuery(name = "User.findByUsername", query = "select u from User u where u.username like ?")})
 public class User {
 
     @Expose
     private int id;
     @Expose
-    private String name;
+    private String firstName;
+    @Expose
+    private String lastName;
     @Expose
     private String address;
     @Expose
     private String city;
-    @Expose
-    private int stateId;
-    @Expose
-    private State state;
     @Expose
     private String contactNo;
     @Expose
@@ -48,9 +47,14 @@ public class User {
         this.id = id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
 
     public void setAddress(String address) {
         this.address = address;
@@ -58,14 +62,6 @@ public class User {
 
     public void setCity(String city) {
         this.city = city;
-    }
-
-    public void setStateId(String state) {
-        this.stateId = stateId;
-    }
-
-    public void setState(State state) {
-        this.state = state;
     }
 
     public void setContactNo(String contactNo) {
@@ -94,8 +90,12 @@ public class User {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 
     public String getAddress() {
@@ -104,17 +104,6 @@ public class User {
 
     public String getCity() {
         return city;
-    }
-
-    @ManyToOne(targetEntity = State.class, fetch = FetchType.LAZY)
-    @JoinColumn(name="stateId")
-    public State getState() {
-        return state;
-    }
-
-    @Column(insertable = false, updatable = false, name = "stateId")
-    public int getStateId() {
-        return stateId;
     }
 
     @Column(name = "contactNo")

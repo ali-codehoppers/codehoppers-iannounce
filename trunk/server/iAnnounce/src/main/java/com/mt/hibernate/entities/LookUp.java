@@ -39,7 +39,6 @@ public class LookUp implements Serializable {
         this.type = type;
     }
 
-
     @Id
     @GeneratedValue
     public int getId() {
@@ -57,5 +56,4 @@ public class LookUp implements Serializable {
     public String getType() {
         return type;
     }
-
 }

@@ -2,7 +2,6 @@ package com.mt.services;
 
 import com.mt.hibernate.entities.LookUp;
 import com.mt.idao.ILookUpDao;
-import com.mt.idao.ILookUpDao;
 import java.util.List;
 
 public class LookUpService {

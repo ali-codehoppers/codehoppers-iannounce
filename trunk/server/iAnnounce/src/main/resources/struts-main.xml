@@ -17,7 +17,6 @@
             <result name="success">jsp/home.jsp</result>
         </action>
         
-        
         <!--      Product    -->
         
         <action name="showAddProduct" class="com.mt.actions.Product.ShowAddProduct">
@@ -66,6 +65,63 @@
 
 
         <!-- //     User    -->
+
+
+        <!--      Company    -->
+        <action name="showAddCompany" class="com.mt.actions.Company.ShowAddCompany">
+            <interceptor-ref name="basic"/>
+            <result name="success">jsp/company/addCompany.jsp</result>
+        </action>
+
+        <action name="addCompany" class="com.mt.actions.Company.AddCompany">
+            <interceptor-ref name="basic"/>
+            <result name="success" type="redirect">viewCompany?messeage=${message}&amp;companyId=${company.id} </result>
+        </action>
+
+        <action name="viewCompany" class="com.mt.actions.Company.ViewCompany">
+            <interceptor-ref name="basic"/>
+            <result name="success">jsp/company/viewCompany.jsp</result>
+        </action>
+
+
+        <!-- //     Company    -->
+
+
+        <!--      Registration    -->
+        
+        <action name="showRegistration" class="com.mt.actions.Registration.ShowRegistration">
+            <interceptor-ref name="basic"/>
+            <result name="success">jsp/registration/newRegistration.jsp</result>
+        </action>
+
+        <action name="register" class="com.mt.actions.Registration.Register">
+            <interceptor-ref name="basic"/>
+            <result name="success" type="redirect">viewRegistration?messeage=${message}&amp;companyId=${company.id}&amp;userId=${user.id} </result>
+        </action>
+
+        <action name="viewRegistration" class="com.mt.actions.Registration.ViewRegistration">
+            <interceptor-ref name="basic"/>
+            <result name="success">jsp/registration/viewRegistration.jsp</result>
+        </action>
+        
+        <!-- //     Registeration    -->
+
+        <!--        Login            -->
+        
+        <action name="showLogin" class="com.mt.actions.Login.ShowLogin">
+            <interceptor-ref name="basic"/>
+            <result name="success">jsp/login/login.jsp</result>
+        </action>
+
+        <action name="login" class="com.mt.actions.Login.Login">
+            <interceptor-ref name="basic"/>
+            <result name="success" type="redirect">home</result>
+            <result name="fail" type="redirect">showLogin</result>            
+        </action>
+
+        <!-- //     Login    -->
+
+
 
 
         <action name="getSubCategories" class="com.mt.actions.ajaxActions.GetSubCategories">

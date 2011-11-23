@@ -31,7 +31,7 @@ public class SubCategory implements Serializable
     @Expose
     private int categoryId;
     private Category category;
-    private List<Product> products;
+    private List<Part> parts;
 
     public void setId(int id)
     {
@@ -53,9 +53,9 @@ public class SubCategory implements Serializable
         this.categoryId = categoryId;
     }
 
-    public void setProducts(List<Product> products)
+    public void setParts(List<Part> parts)
     {
-        this.products = products;
+        this.parts= parts;
     }
 
     public SubCategory()
@@ -93,9 +93,9 @@ public class SubCategory implements Serializable
         return category;
     }
 
-    @OneToMany(targetEntity = Product.class, fetch = FetchType.LAZY, mappedBy = "subcategoryId")
-    public List<Product> getProducts()
+    @OneToMany(targetEntity = Part.class, fetch = FetchType.LAZY, mappedBy = "subcategoryId")
+    public List<Part> getParts()
     {
-        return products;
+        return parts;
     }
 }
