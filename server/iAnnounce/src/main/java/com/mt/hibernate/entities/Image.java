@@ -38,7 +38,7 @@ public class Image implements Serializable {
     private String extension;
     @Expose
     private String orgPath;
-    private Product product;
+    private Part part;
 
     public void setId(int id) {
         this.id = id;
@@ -64,8 +64,8 @@ public class Image implements Serializable {
         this.fileName = fileName;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setPart(Part part) {
+        this.part = part;
     }
 
     public void setExtension(String extension) {
@@ -102,10 +102,10 @@ public class Image implements Serializable {
         return fileName;
     }
 
-    @ManyToOne(targetEntity = Product.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "productId")
-    public Product getProduct() {
-        return product;
+    @ManyToOne(targetEntity = Part.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "partId")
+    public Part getPart() {
+        return part;
     }
 
     @Column(insertable = false, updatable = false, name = "productId")

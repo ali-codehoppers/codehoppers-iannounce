@@ -28,7 +28,7 @@ public class State implements Serializable {
     @Expose
     private int countryId;
     private Country country;
-    private List<User> users;
+    private List<Company> companys;
 
     public void setId(int id) {
         this.id = id;
@@ -46,10 +46,10 @@ public class State implements Serializable {
         this.countryId = countryId;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void setCompanys(List<Company> companys) {
+        this.companys = companys;
     }
-
+    
     public State() {
     }
 
@@ -74,8 +74,8 @@ public class State implements Serializable {
         return country;
     }
 
-    @OneToMany(targetEntity = User.class, fetch = FetchType.LAZY, mappedBy = "stateId")
-    public List<User> getUsers() {
-        return users;
+    @OneToMany(targetEntity = Company.class, fetch = FetchType.LAZY, mappedBy = "stateId")
+    public List<Company> getCompanys() {
+        return companys;
     }
 }

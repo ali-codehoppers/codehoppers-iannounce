@@ -16,8 +16,8 @@ public class UserService {
         return userDao.findByName(name);
     }
 
-    public List<User> findEagerCategoryList() {
-        return userDao.findEagerCategoryList();
+    public List<User> findByUsername(String userName) {
+        return userDao.findByUsername(userName);
     }
     
     public Integer addNew(User newInstance) {
