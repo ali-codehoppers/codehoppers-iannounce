@@ -28,6 +28,9 @@
 <activity android:name="Act_abt"></activity>
 <activity android:name=".MyMapAct"></activity>
 <activity android:name=".AnnouncementDetail"></activity>
+<activity android:name=".Community"></activity>
+<activity android:name=".NewCommunity"></activity>
+<activity android:name=".CommunityHome"></activity>
 <service android:name="iAnnounceService" />
 
 
