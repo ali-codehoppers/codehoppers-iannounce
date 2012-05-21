@@ -176,19 +176,17 @@ public class HomePage extends TabActivity {
 			
 			
 			TabHost tabHost= getTabHost();
-			
+			String tabId = "0";
 //			tabHost.setBackgroundColor(Color.BLACK);
-			
-			
-			
-			
+			Bundle bundle = this.getIntent().getExtras();
+			if(bundle != null && bundle.getString("tabId") != null){
+				tabId = bundle.getString("tabId");
+			}
 			View tabIndicator = LayoutInflater.from(this).inflate(R.layout.tabs_indicator, getTabWidget(), false);
 			
 			tabIndicator.setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_indicator_selector_ann));
 			TextView title = (TextView) tabIndicator.findViewById(R.id.title);
 			title.setText("Announcements");
-			
-			
 			TabHost.TabSpec spec = tabHost.newTabSpec("tab1");			
 			spec.setIndicator(tabIndicator);
 			spec.setContent(new Intent(HomePage.this, NewsFeed.class));
@@ -215,8 +213,15 @@ public class HomePage extends TabActivity {
 			spec3.setContent(new Intent(HomePage.this,MyAnnouncments.class));
 			tabHost.addTab(spec3);
 			
-			
-
+			View tabIndicator3 = LayoutInflater.from(this).inflate(R.layout.tabs_indicator, getTabWidget(), false);
+			tabIndicator3.setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_indicator_selector_myann));
+			TextView title3 = (TextView) tabIndicator3.findViewById(R.id.title);
+			title3.setText("Communities");
+			TabHost.TabSpec spec4 = tabHost.newTabSpec("tab4");			 
+			spec4.setIndicator(tabIndicator3);
+			spec4.setContent(new Intent(HomePage.this,Community.class));
+			tabHost.addTab(spec4);			
+			tabHost.setCurrentTab(Integer.parseInt(tabId));
 			
 			
 			

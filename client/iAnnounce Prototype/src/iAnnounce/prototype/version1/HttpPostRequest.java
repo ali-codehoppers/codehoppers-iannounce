@@ -36,7 +36,7 @@ public class HttpPostRequest {
 		super();
 		isError=false;
 	}
-	private String base_url="http://192.168.0.101:8080/iAnnounce";  
+	private String base_url="http://192.168.0.100:8080/iAnnounce";  
 	//	 private String base_url="http://192.168.1.2:8080/do";
 	private String URL_register=base_url+"/register";
 	private String URL_forgotPassword=base_url+"/forgetpassword";
@@ -51,9 +51,13 @@ public class HttpPostRequest {
 	public String uRL_deleteProfile=base_url+"/deleteaccount";
 	public String uRL_editProfile=base_url+"/editprofile";
 	public String uRL_myannouncements=base_url+"/getmyannouncements";
-
-
-
+	public String URL_createCommunity=base_url+"/createCommunity";
+	public String URL_getNeigbhours=base_url+"/getNeighbours";
+	public String URL_getNeigbhourById=base_url+"/getNeighbourById";
+	public String URL_joinNeigbhourhood=base_url+"/joinNeighbourhood";
+	public String URL_announcementByNeigbhourhood=base_url+"/announcementsByNeighbourhood";
+	
+	
 	/**
 	 * To send the httppost request to server on defined url for registering a user
 	 * @return String consists of server response (xml)
@@ -99,6 +103,46 @@ public class HttpPostRequest {
 	}
 
 	/**
+	 * Method for creating a new Community on the base of
+	 * @param sessionID sessionid of logged in user
+	 * @param title title of the community
+	 * @param description description of the community
+	 * @param isPrivate set if the community is private
+	 * */
+	public void createCommunity(String sessionID, String title, String description, Boolean isPrivate){
+		try{
+			request.setURI(new URI(URL_createCommunity));
+
+			List<NameValuePair> postParameters = new ArrayList<NameValuePair>();
+			postParameters.add(new BasicNameValuePair("sessionId", sessionID));
+			postParameters.add(new BasicNameValuePair("title", title));
+			postParameters.add(new BasicNameValuePair("description", description));
+			postParameters.add(new BasicNameValuePair("isPrivate", isPrivate.toString()));
+
+
+			UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(
+					postParameters);
+			request.setEntity(formEntity);
+			HttpResponse response = client.execute(request);
+			in = new BufferedReader(new InputStreamReader(response.getEntity()
+					.getContent()));
+			StringBuffer sb = new StringBuffer("");
+			String line = "";
+			String NL = System.getProperty("line.separator");
+			while ((line = in.readLine()) != null) {
+				sb.append(line + NL);
+			}
+			in.close();
+			xmlStringResponse = sb.toString();
+			
+
+
+		} catch (Exception e) {
+			isError=true;
+			xception=e.getMessage();
+		}	
+	}
+	/**
 	 * Method for getting the announcements on the base of  
 	 * @param sessionID sessionid of logged in user.
 	 * @param latitude	current latitude of user
@@ -142,7 +186,166 @@ public class HttpPostRequest {
 
 
 	}
+	/**
+	 * Method for getting the neighbours on the base of  
+	 * @param sessionID sessionid of logged in user.
+	 * @param pagenum	each page shows 10 announcements, all announcements divided into pages, Pages starts from 1
+	 * @return response from server as string (xml) 
+	 */
+	public void getAllNeighbours(String sessionID,String pagenum){
+		try{
+			request.setURI(new URI(URL_getNeigbhours));
 
+			List<NameValuePair> postParameters = new ArrayList<NameValuePair>();
+			postParameters.add(new BasicNameValuePair("sessionId", sessionID));
+			postParameters.add(new BasicNameValuePair("pageNum", pagenum));
+		
+			UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(
+					postParameters);
+			request.setEntity(formEntity);
+			HttpResponse response = client.execute(request);
+			in = new BufferedReader(new InputStreamReader(response.getEntity()
+					.getContent()));
+			StringBuffer sb = new StringBuffer("");
+			String line = "";
+			String NL = System.getProperty("line.separator");
+			while ((line = in.readLine()) != null) {
+				sb.append(line + NL);
+			}
+			in.close();
+			xmlStringResponse = sb.toString();
+			
+
+
+		} catch (Exception e) {
+			isError=true;
+			xception=e.getMessage();
+		}	
+
+
+
+	}
+	/**
+	 * Method for joining a neighbourhood on the base of  
+	 * @param sessionID sessionid of logged in user.
+	 * @param neighbourId id
+	 * @return response from server as string (xml) 
+	 */
+	public void JoinNeighbourhood(String sessionID,String nId){
+		try{
+			request.setURI(new URI(URL_joinNeigbhourhood));
+
+			List<NameValuePair> postParameters = new ArrayList<NameValuePair>();
+			postParameters.add(new BasicNameValuePair("sessionId", sessionID));
+			postParameters.add(new BasicNameValuePair("neighbourId", nId));
+		
+			UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(
+					postParameters);
+			request.setEntity(formEntity);
+			HttpResponse response = client.execute(request);
+			in = new BufferedReader(new InputStreamReader(response.getEntity()
+					.getContent()));
+			StringBuffer sb = new StringBuffer("");
+			String line = "";
+			String NL = System.getProperty("line.separator");
+			while ((line = in.readLine()) != null) {
+				sb.append(line + NL);
+			}
+			in.close();
+			xmlStringResponse = sb.toString();
+			
+
+
+		} catch (Exception e) {
+			isError=true;
+			xception=e.getMessage();
+		}	
+
+
+
+	}
+	/**
+	 * Method for getting the neighbours on the base of  
+	 * @param sessionID sessionid of logged in user.
+	 * @param Id id of neighbour
+	 * @param pagenum	each page shows 10 announcements, all announcements divided into pages, Pages starts from 1
+	 * @return response from server as string (xml) 
+	 */
+	public void getNeighbourById(String sessionID,String id,String pagenum){
+		try{
+			request.setURI(new URI(URL_getNeigbhourById));
+
+			List<NameValuePair> postParameters = new ArrayList<NameValuePair>();
+			postParameters.add(new BasicNameValuePair("sessionId", sessionID));
+			postParameters.add(new BasicNameValuePair("id", id));
+			postParameters.add(new BasicNameValuePair("pageNum", pagenum));
+		
+			UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(
+					postParameters);
+			request.setEntity(formEntity);
+			HttpResponse response = client.execute(request);
+			in = new BufferedReader(new InputStreamReader(response.getEntity()
+					.getContent()));
+			StringBuffer sb = new StringBuffer("");
+			String line = "";
+			String NL = System.getProperty("line.separator");
+			while ((line = in.readLine()) != null) {
+				sb.append(line + NL);
+			}
+			in.close();
+			xmlStringResponse = sb.toString();
+			
+
+
+		} catch (Exception e) {
+			isError=true;
+			xception=e.getMessage();
+		}	
+
+
+
+	}
+	/**
+	 * Method for getting the neighbours on the base of  
+	 * @param sessionID sessionid of logged in user.
+	 * @param Id id of neighbour
+	 * @param pagenum	each page shows 10 announcements, all announcements divided into pages, Pages starts from 1
+	 * @return response from server as string (xml) 
+	 */
+	public void getAnnouncementsByNeighbourhood(String sessionID,String id,String pagenum){
+		try{
+			request.setURI(new URI(URL_announcementByNeigbhourhood));
+
+			List<NameValuePair> postParameters = new ArrayList<NameValuePair>();
+			postParameters.add(new BasicNameValuePair("sessionId", sessionID));
+			postParameters.add(new BasicNameValuePair("neighbourhood_id", id));
+			postParameters.add(new BasicNameValuePair("pageNum", pagenum));
+		
+			UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(
+					postParameters);
+			request.setEntity(formEntity);
+			HttpResponse response = client.execute(request);
+			in = new BufferedReader(new InputStreamReader(response.getEntity()
+					.getContent()));
+			StringBuffer sb = new StringBuffer("");
+			String line = "";
+			String NL = System.getProperty("line.separator");
+			while ((line = in.readLine()) != null) {
+				sb.append(line + NL);
+			}
+			in.close();
+			xmlStringResponse = sb.toString();
+			
+
+
+		} catch (Exception e) {
+			isError=true;
+			xception=e.getMessage();
+		}	
+
+
+
+	}
 	/**
 	 * Method for login, session will be generated
 	 * @param username

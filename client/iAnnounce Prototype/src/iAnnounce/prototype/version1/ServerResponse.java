@@ -77,6 +77,8 @@ public class ServerResponse {
 	
 	public ArrayList<Announcements> feed;
 	
+	public ArrayList<Neigbhours> neigbhours;
+	
 	
 	public String responseCode;
 	public String responseMessage;
@@ -90,6 +92,7 @@ public class ServerResponse {
 		forceLogin=false;
 		userProfile=new User();
 		feed=new ArrayList<Announcements>();
+		neigbhours = new ArrayList<Neigbhours>();
 		comments=new ArrayList<Classcomment>();
 	}
 	

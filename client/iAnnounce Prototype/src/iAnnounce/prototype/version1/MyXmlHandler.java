@@ -20,6 +20,7 @@ public class MyXmlHandler extends DefaultHandler{
 	ServerResponse obj_serverResp1;
 	private Announcements a;
 	private Classcomment com;
+	private Neigbhours n;
 
 
 
@@ -83,17 +84,26 @@ public class MyXmlHandler extends DefaultHandler{
 	private boolean fl_avgRating;
 	private boolean fl_numposts;
 	private boolean fl_dob;
-	
+
+	private boolean fl_getNeighbourhood;
+	private boolean fl_neighbour;
+	private boolean fl_nb_id;
+	private boolean fl_nb_title;
+	private boolean fl_nb_description;
+	private boolean fl_nb_private; 
+	private boolean fl_nb_owner;
+	private boolean fl_nb_member;
+
 	private boolean fl_editProfile;
-	
+
 	private boolean fl_forgotPass;
-	
+
 	private boolean fl_logout;
-	
+
 	private boolean fl_ratePost;
-	
+
 	private boolean fl_register;
-	
+
 
 
 
@@ -102,6 +112,7 @@ public class MyXmlHandler extends DefaultHandler{
 
 		obj_serverResp1=new ServerResponse();
 		a=new Announcements();
+		n = new Neigbhours();
 		com=new Classcomment();
 
 		fl_response=false;
@@ -125,8 +136,8 @@ public class MyXmlHandler extends DefaultHandler{
 		fl_announcement_likes=false;
 		fl_announcement_dislikes=false;
 		fl_announcement_distance=false;
-		
-		
+
+
 
 		fl_myAnn=false;
 		fl_myAnn_announcement=false;
@@ -148,6 +159,15 @@ public class MyXmlHandler extends DefaultHandler{
 		fl_com_user=false;
 		fl_com_txt=false;
 
+		fl_getNeighbourhood=false;
+		fl_neighbour = false;
+		fl_nb_id=false;
+		fl_nb_title=false;
+		fl_nb_description=false ;
+		fl_nb_private=false; 
+		fl_nb_owner=false;
+		fl_nb_member=false;
+
 		fl_comment_post=false;
 
 		fl_deleteAccount=false;
@@ -159,22 +179,22 @@ public class MyXmlHandler extends DefaultHandler{
 		fl_age=false;
 		fl_avgRating=false;
 		fl_numposts=false;
-		
+
 		fl_editProfile=false;
-		
+
 		fl_forgotPass=false;
-		
+
 		fl_logout=false;
-		
+
 		fl_ratePost=false;
-		
+
 		fl_register=false;
 
 	}
 	@Override
 	public void startElement(String namespaceURI, String localName,
 			String qName, Attributes atts) throws SAXException {
-		
+
 
 		if(localName.equalsIgnoreCase("response")){
 			fl_response=true;			
@@ -241,6 +261,30 @@ public class MyXmlHandler extends DefaultHandler{
 				}				
 			}//get announcement
 
+			if(localName.equalsIgnoreCase("getNeighbourhood")){
+				fl_getNeighbourhood=true;
+			}
+			if(fl_getNeighbourhood){
+				if(localName.equalsIgnoreCase("neighbour")){
+					fl_neighbour=true;
+				}
+				if(fl_neighbour){
+					if(localName.equalsIgnoreCase("id")){
+						fl_nb_id=true;
+					}else if(localName.equalsIgnoreCase("title")){
+						fl_nb_title=true;
+					}else if(localName.equalsIgnoreCase("description")){
+						fl_nb_description=true;
+					}else if(localName.equalsIgnoreCase("isPrivate")){
+						fl_nb_private=true;
+					}else if(localName.equalsIgnoreCase("owner")){
+						fl_nb_owner=true;
+					}else if(localName.equalsIgnoreCase("isMember")){
+						fl_nb_member=true;
+					}
+				}
+			} // get Neighbours
+
 			if(localName.equalsIgnoreCase("myAnnouncements")){
 				fl_myAnn=true;
 			}
@@ -306,7 +350,7 @@ public class MyXmlHandler extends DefaultHandler{
 			if(localName.equalsIgnoreCase("deleteAccount")){
 				fl_deleteAccount=true;
 			}
-			
+
 			if(localName.equalsIgnoreCase("getProfile")){
 				fl_profile=true;
 			}
@@ -333,7 +377,7 @@ public class MyXmlHandler extends DefaultHandler{
 					fl_dob=true;
 				}
 			}//fl_profile
-			
+
 			if(localName.equalsIgnoreCase("editProfile")){
 				fl_editProfile=true;
 			}
@@ -349,9 +393,9 @@ public class MyXmlHandler extends DefaultHandler{
 			else if(localName.equalsIgnoreCase("register")){
 				fl_register=true;
 			}
-			
-			
-			
+
+
+
 		}//fl_response=true
 
 
@@ -361,7 +405,7 @@ public class MyXmlHandler extends DefaultHandler{
 	public void endElement(String namespaceURI, String localName, String qName)
 	throws SAXException {
 
-		
+
 
 		if(localName.equalsIgnoreCase("response")){
 			fl_response=false;			
@@ -428,10 +472,36 @@ public class MyXmlHandler extends DefaultHandler{
 					else if(localName.equalsIgnoreCase("distance")){
 						fl_announcement_distance=false;
 					}
-					
+
 				}//fl_announcement
 
 			}//fl_getAnnouncements
+
+			if(localName.equalsIgnoreCase("getNeighbourhood")){
+				fl_getNeighbourhood=false;
+			}
+			if(fl_getNeighbourhood){
+				if(localName.equalsIgnoreCase("neighbour")){
+					fl_neighbour=false;
+					obj_serverResp1.neigbhours.add(n);
+					n=new Neigbhours();
+				}
+				if(fl_neighbour){
+					if(localName.equalsIgnoreCase("id")){
+						fl_nb_id=false;
+					}else if(localName.equalsIgnoreCase("title")){
+						fl_nb_title=false;
+					}else if(localName.equalsIgnoreCase("description")){
+						fl_nb_description=false;
+					}else if(localName.equalsIgnoreCase("isPrivate")){
+						fl_nb_private=false;
+					}else if(localName.equalsIgnoreCase("owner")){
+						fl_nb_owner=false;
+					}else if(localName.equalsIgnoreCase("isMember")){
+						fl_nb_member=false;
+					}		
+				}
+			} // fl_get_Neighbours
 
 			if(fl_myAnn){
 				if(localName.equalsIgnoreCase("myAnnouncements")){
@@ -500,7 +570,7 @@ public class MyXmlHandler extends DefaultHandler{
 			if(localName.equalsIgnoreCase("deleteAccount")){
 				fl_deleteAccount=false;			
 			}
-			
+
 			if(fl_profile){
 				if(localName.equalsIgnoreCase("getProfile")){
 					fl_profile=false;
@@ -527,7 +597,7 @@ public class MyXmlHandler extends DefaultHandler{
 					fl_dob=false;
 				}
 			}//fl_profile
-			
+
 			if(localName.equalsIgnoreCase("editProfile")){
 				fl_editProfile=false;
 			}
@@ -543,10 +613,6 @@ public class MyXmlHandler extends DefaultHandler{
 			else if(localName.equalsIgnoreCase("register")){
 				fl_register=false;
 			}
-			
-
-
-
 		}//fl_response
 
 
@@ -558,7 +624,7 @@ public class MyXmlHandler extends DefaultHandler{
 	@Override
 	public void characters(char ch[], int start, int length) {
 		String x= new String(ch,start,length);
-		
+
 
 		if(fl_response){
 			if(fl_responseCode){				
@@ -612,6 +678,23 @@ public class MyXmlHandler extends DefaultHandler{
 					}
 				}	    		
 			}//ann end
+			if((fl_getNeighbourhood)){
+				if(fl_neighbour){
+					if(fl_nb_id){
+						n.id=x;
+					}else if(fl_nb_title){
+						n.title=x;
+					}else if(fl_nb_description){
+						n.description=x;
+					}else if(fl_nb_private){
+						n.isPrivate=x;
+					}else if(fl_nb_owner){
+						n.owner=x;
+					}else if(fl_nb_member){
+						n.isMember=x;	
+					}
+				}
+			} // fl_get_Neighbours
 
 			if(fl_myAnn){
 				if(fl_myAnn_announcement){
@@ -666,31 +749,31 @@ public class MyXmlHandler extends DefaultHandler{
 			if(fl_deleteAccount){
 				obj_serverResp1.delAccResponse=x;
 			}
-			
+
 			if(fl_profile){
-	    		if(fl_firstName){
-	    			obj_serverResp1.userProfile.firstName=x;
-	    		}
-	    		else if(fl_lastName){
-	    			obj_serverResp1.userProfile.lastName=x;
-	    		}
-	    		else if(fl_age){
-	    			obj_serverResp1.userProfile.age=x;	    			
-	    		}
-	    		else if(fl_avgRating){
-	    			obj_serverResp1.userProfile.averageRating=x;
-	    		}
-	    		else if(fl_numposts){
-	    			obj_serverResp1.userProfile.numofPost=x;
-	    		}
-	    		else if(fl_gender){
-	    			obj_serverResp1.userProfile.gender=x;
-	    		}
-	    		else if(fl_dob){
-	    			obj_serverResp1.userProfile.dob=x;
-	    		}
-	    	}//fl_profile
-			
+				if(fl_firstName){
+					obj_serverResp1.userProfile.firstName=x;
+				}
+				else if(fl_lastName){
+					obj_serverResp1.userProfile.lastName=x;
+				}
+				else if(fl_age){
+					obj_serverResp1.userProfile.age=x;	    			
+				}
+				else if(fl_avgRating){
+					obj_serverResp1.userProfile.averageRating=x;
+				}
+				else if(fl_numposts){
+					obj_serverResp1.userProfile.numofPost=x;
+				}
+				else if(fl_gender){
+					obj_serverResp1.userProfile.gender=x;
+				}
+				else if(fl_dob){
+					obj_serverResp1.userProfile.dob=x;
+				}
+			}//fl_profile
+
 			if(fl_editProfile){
 				obj_serverResp1.editProResponse=x;
 			}
