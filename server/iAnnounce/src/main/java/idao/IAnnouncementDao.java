@@ -5,4 +5,5 @@ import java.util.List;
 
 public interface IAnnouncementDao extends IDaoGeneric<Announcement, Integer> {
 	List<Announcement> findByName(String name);
+        List<Announcement> findByNeighbourhoodId(int id);
 }

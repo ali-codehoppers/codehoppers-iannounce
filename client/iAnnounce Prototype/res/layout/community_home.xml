@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:background="@color/announcemts_bg" android:gravity="center_horizontal"
+	android:layout_gravity="fill">
+	<Button android:text="Return to Communities"
+		android:layout_height="60dip" android:layout_width="fill_parent"
+		android:id="@+id/btn_return"></Button>
+	<TextView android:layout_width="wrap_content"
+		android:paddingLeft="5dip" android:layout_below="@+id/btn_return"
+		android:layout_height="wrap_content" android:text="Title"
+		android:textColor="@color/announce_txt" android:typeface="sans"
+		android:textSize="25sp" android:id="@+id/text_title" />
+	<ImageButton android:layout_width="48dip" android:id="@+id/btn_location"
+		android:layout_below="@+id/btn_return" android:layout_height="40dip"
+		android:src="@drawable/location" android:layout_alignParentRight="true" android:visibility="invisible" />
+		
+	<ImageButton android:layout_width="48dip" android:id="@+id/btn_announce"
+		android:layout_below="@+id/btn_return" android:layout_height="40dip"
+		android:src="@drawable/announce" android:layout_toLeftOf="@+id/btn_location" android:visibility="invisible" />
+		
+	<Button android:layout_width="100dip" android:id="@+id/btn_join"
+		android:layout_below="@+id/btn_return" android:layout_height="40dip"
+		android:text="Join" android:layout_alignParentRight="true"></Button>
+	
+
+	<ScrollView android:id="@+id/scroll_announcements"
+		android:layout_width="fill_parent" android:layout_height="fill_parent"
+		android:layout_below="@+id/text_title">
+
+	</ScrollView>
+</RelativeLayout>

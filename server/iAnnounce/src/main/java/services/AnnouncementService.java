@@ -15,7 +15,11 @@ public class AnnouncementService {
     public List<Announcement> findByName(String name) {
         return ADao.findByName(name);
     }
-
+    
+    public List<Announcement> findByNeighbourhoodId(int id) {
+        return ADao.findByNeighbourhoodId(id);
+    }
+    
     public Integer addNew(Announcement newInstance) {
         return ADao.addNew(newInstance);
     }

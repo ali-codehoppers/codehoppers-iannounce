@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import services.AnnouncementService;
 import services.CommentService;
+import services.CommunityService;
+import services.NeighbourService;
 import services.PersonService;
 import services.RangeService;
 import services.RatingService;
@@ -29,6 +31,8 @@ public class BaseActionClass extends ActionSupport implements ServletRequestAwar
     protected AnnouncementService announcementService;
     protected RangeService rangeService;
     protected RatingService ratingService;
+    protected CommunityService communityService;
+    protected NeighbourService neighbourService;
 
     public void setUsername(String username)
       {
@@ -70,4 +74,11 @@ public class BaseActionClass extends ActionSupport implements ServletRequestAwar
         this.userSessionService = userSessionService;        
       }
 
+    public void setCommunityService(CommunityService communityService) {
+        this.communityService = communityService;
+    }
+
+    public void setNeighbourService(NeighbourService neighbourService) {
+        this.neighbourService = neighbourService;
+    }
   }

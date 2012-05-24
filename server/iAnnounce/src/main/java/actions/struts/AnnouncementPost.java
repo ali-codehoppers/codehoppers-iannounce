@@ -19,6 +19,7 @@ public class AnnouncementPost extends BaseActionClass
     private String announce;
     private String longitude;
     private String latitude;
+    private String neighbourId;
 
     public void setAnnounce(String announce)
     {
@@ -40,6 +41,11 @@ public class AnnouncementPost extends BaseActionClass
         this.range = range;
     }
 
+    public void setNeighbourId(String neighbourId) {
+        this.neighbourId = neighbourId;
+    }
+
+    
     @Override
     public String execute() throws Exception
     {
@@ -47,8 +53,7 @@ public class AnnouncementPost extends BaseActionClass
 
         if (request.getHeader("User-Agent").contains("UNAVAILABLE"))
           {
-
-            //update currunt location of person
+          //update currunt location of person
 
             Person person = personService.findByName(username).get(0);
             person.setLatitude(Double.parseDouble(latitude));
@@ -74,7 +79,7 @@ public class AnnouncementPost extends BaseActionClass
             
 
             //normal announcement with 0 ranking
-            Announcement announcement = new Announcement(0, Double.parseDouble(latitude), Double.parseDouble(longitude), announce, radius, time, false, username, 0);
+            Announcement announcement = new Announcement(0, Double.parseDouble(latitude), Double.parseDouble(longitude), announce, radius, time, false, username, 0,Integer.parseInt(neighbourId));
 
             Integer newId = announcementService.addNew(announcement);
 

@@ -8,11 +8,20 @@
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
+<!--
+	<bean id="dataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+          p:driverClassName="com.mysql.jdbc.Driver"
+          p:url="jdbc:mysql://localhost:3306/iAnnounceDb"
+	  p:username="root"
+          p:password="" />
+					-->
+
     <bean id="dataSource"
 	class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="url" value="jdbc:mysql://localhost:3306/mexam_buynsell" />
+        <property name="url" value="jdbc:mysql://localhost:3306/iannouncedb" />
         <property name="username" value="root" />
-        <property name="password" value="admin" />
+        <property name="password" value="root" />
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
     </bean>
 
@@ -72,9 +81,9 @@
 
     <tx:annotation-driven transaction-manager="transactionManager" />
 
-    <bean id="finderAdvisor" class="com.mt.dao.FinderAdvisor" />
+    <bean id="finderAdvisor" class="dao.FinderAdvisor" />
 
-    <bean id="abstractDaoGeneric" class="com.mt.dao.DaoGeneric" abstract="true">
+    <bean id="abstractDaoGeneric" class="dao.DaoGeneric" abstract="true">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
@@ -82,156 +91,183 @@
         <property name="interceptorNames" value="finderAdvisor" />
     </bean>
 
-    <bean id="categoryDao" parent="abstractDaoFinderImp">
+    <bean id="personDao" parent="abstractDaoFinderImp">
         <property name="proxyInterfaces">
-            <value>com.mt.idao.ICategoryDao</value>
+            <value>idao.IPersonDao</value>
         </property>
         <property name="target">
             <bean parent="abstractDaoGeneric">
-                <constructor-arg value="com.mt.hibernate.entities.Category" />
-            </bean>
-        </property>
-    </bean>
-
-    <bean id="productDao" parent="abstractDaoFinderImp">
-        <property name="proxyInterfaces">
-            <value>com.mt.idao.IProductDao</value>
-        </property>
-        <property name="target">
-            <bean parent="abstractDaoGeneric">
-                <constructor-arg value="com.mt.hibernate.entities.Product" />
-            </bean>
-        </property>
-    </bean>
-    
-    <bean id="manufacturerDao" parent="abstractDaoFinderImp">
-        <property name="proxyInterfaces">
-            <value>com.mt.idao.IManufacturerDao</value>
-        </property>
-        <property name="target">
-            <bean parent="abstractDaoGeneric">
-                <constructor-arg value="com.mt.hibernate.entities.Manufacturer" />
-            </bean>
-        </property>
-    </bean>
-
-    <bean id="imageDao" parent="abstractDaoFinderImp">
-        <property name="proxyInterfaces">
-            <value>com.mt.idao.IImageDao</value>
-        </property>
-        <property name="target">
-            <bean parent="abstractDaoGeneric">
-                <constructor-arg value="com.mt.hibernate.entities.Image" />
-            </bean>
-        </property>
-    </bean>
-
-    <bean id="subCategoryDao" parent="abstractDaoFinderImp">
-        <property name="proxyInterfaces">
-            <value>com.mt.idao.ISubCategoryDao</value>
-        </property>
-        <property name="target">
-            <bean parent="abstractDaoGeneric">
-                <constructor-arg value="com.mt.hibernate.entities.SubCategory" />
+                <constructor-arg value="hibernate.entities.Person" />
             </bean>
         </property>
     </bean>
 
 
-    <bean id="userDao" parent="abstractDaoFinderImp">
+    <bean id="ADao" parent="abstractDaoFinderImp">
         <property name="proxyInterfaces">
-            <value>com.mt.idao.IUserDao</value>
+            <value>idao.IAnnouncementDao</value>
         </property>
         <property name="target">
             <bean parent="abstractDaoGeneric">
-                <constructor-arg value="com.mt.hibernate.entities.User" />
+                <constructor-arg value="hibernate.entities.Announcement" />
             </bean>
         </property>
     </bean>
 
-    <bean id="countryDao" parent="abstractDaoFinderImp">
+	<!--
+	<bean id="PADao" parent="abstractDaoFinderImp">
+		<property name="proxyInterfaces">
+			<value>com.testapp.sample.idao.IPaidAnnouncementDao</value>
+		</property>
+		<property name="target">
+			<bean parent="abstractDaoGeneric">
+				<constructor-arg value="com.testapp.sample.entity.PaidAnnouncement" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="PAADao" parent="abstractDaoFinderImp">
+		<property name="proxyInterfaces">
+			<value>com.testapp.sample.idao.IPaidAnnouncementAreaDao</value>
+		</property>
+		<property name="target">
+			<bean parent="abstractDaoGeneric">
+				<constructor-arg value="com.testapp.sample.entity.PaidAnnouncementArea" />
+			</bean>
+		</property>
+	</bean>
+	-->
+
+
+    <bean id="CDao" parent="abstractDaoFinderImp">
         <property name="proxyInterfaces">
-            <value>com.mt.idao.ICountryDao</value>
+            <value>idao.ICommentDao</value>
         </property>
         <property name="target">
             <bean parent="abstractDaoGeneric">
-                <constructor-arg value="com.mt.hibernate.entities.Country" />
+                <constructor-arg value="hibernate.entities.Comment" />
             </bean>
         </property>
     </bean>
 
-
-    <bean id="stateDao" parent="abstractDaoFinderImp">
+    <bean id="USDao" parent="abstractDaoFinderImp">
         <property name="proxyInterfaces">
-            <value>com.mt.idao.IStateDao</value>
+            <value>idao.IUserSessionDao</value>
         </property>
         <property name="target">
             <bean parent="abstractDaoGeneric">
-                <constructor-arg value="com.mt.hibernate.entities.State" />
+                <constructor-arg value="hibernate.entities.UserSession" />
             </bean>
         </property>
     </bean>
 
-    <bean id="companyDao" parent="abstractDaoFinderImp">
+    <bean id="ratingDao" parent="abstractDaoFinderImp">
         <property name="proxyInterfaces">
-            <value>com.mt.idao.ICompanyDao</value>
+            <value>idao.IRatingDao</value>
         </property>
         <property name="target">
             <bean parent="abstractDaoGeneric">
-                <constructor-arg value="com.mt.hibernate.entities.Company" />
+                <constructor-arg value="hibernate.entities.Rating" />
             </bean>
         </property>
     </bean>
 
-    <bean id="lookUpDao" parent="abstractDaoFinderImp">
+    <bean id="RangeDao" parent="abstractDaoFinderImp">
         <property name="proxyInterfaces">
-            <value>com.mt.idao.ILookUpDao</value>
+            <value>idao.IRangeDao</value>
         </property>
         <property name="target">
             <bean parent="abstractDaoGeneric">
-                <constructor-arg value="com.mt.hibernate.entities.LookUp" />
+                <constructor-arg value="hibernate.entities.Rangee" />
+            </bean>
+        </property>
+    </bean>
+    <bean id="CommunityDao" parent="abstractDaoFinderImp">
+        <property name="proxyInterfaces">
+            <value>idao.ICommunityDao</value>
+        </property>
+        <property name="target">
+            <bean parent="abstractDaoGeneric">
+                <constructor-arg value="hibernate.entities.Community" />
+            </bean>
+        </property>
+    </bean>
+    <bean id="NeighbourDao" parent="abstractDaoFinderImp">
+        <property name="proxyInterfaces">
+            <value>idao.INeighbourDao</value>
+        </property>
+        <property name="target">
+            <bean parent="abstractDaoGeneric">
+                <constructor-arg value="hibernate.entities.Neighbour" />
             </bean>
         </property>
     </bean>
 
-    <bean id="categoryService" class="com.mt.services.CategoryService">
-        <constructor-arg ref="categoryDao" />
+    <bean id="personService" class="services.PersonService">
+        <constructor-arg ref="personDao" />
     </bean>
 
-    <bean id="productService" class="com.mt.services.ProductService">
-        <constructor-arg ref="productDao" />
+
+    <bean id="commentService" class="services.CommentService">
+        <constructor-arg ref="CDao" />
     </bean>
 
-    <bean id="manufacturerService" class="com.mt.services.ManufacturerService">
-        <constructor-arg ref="manufacturerDao" />
+    <bean id="userSessionService" class="services.UserSessionService">
+        <constructor-arg ref="USDao" />
     </bean>
 
-    <bean id="imageService" class="com.mt.services.ImageService">
-        <constructor-arg ref="imageDao" />
-    </bean>
-    
-    <bean id="subCategoryService" class="com.mt.services.SubCategoryService">
-        <constructor-arg ref="subCategoryDao" />
-    </bean>
-    
-    <bean id="userService" class="com.mt.services.UserService">
-        <constructor-arg ref="userDao" />
-    </bean>
-    
-    <bean id="countryService" class="com.mt.services.CountryService">
-        <constructor-arg ref="countryDao" />
+    <bean id="announcementService" class="services.AnnouncementService">
+        <constructor-arg ref="ADao" />
     </bean>
 
-    <bean id="stateService" class="com.mt.services.StateService">
-        <constructor-arg ref="stateDao" />
+<!--
+	<bean id="paidannouncementService" class="com.testapp.sample.PaidAnnouncementService">
+		<constructor-arg ref="PADao" />
+	</bean>
+-->
+
+    <bean id="ratingService" class="services.RatingService">
+        <constructor-arg ref="ratingDao" />
+    </bean>
+
+    <bean id="rangeService" class="services.RangeService">
+        <constructor-arg ref="RangeDao" />
+    </bean>
+    <bean id="communityService" class="services.CommunityService">
+        <constructor-arg ref="CommunityDao" />
+    </bean>    
+        <bean id="neighbourService" class="services.NeighbourService">
+        <constructor-arg ref="NeighbourDao" />
     </bean>   
+	<!--
+	<bean id="paidannouncementareaService" class="com.testapp.sample.PaidAnnouncementAreaService">
+		<constructor-arg ref="PAADao" />
+	</bean>
+        -->
+	<!-- -->
+	<!--
+	<bean id="personDao" class="com.testapp.sample.dao.DaoGeneric">
+		<constructor-arg>
+			<value>com.testapp.sample.entity.Person</value>
+		</constructor-arg>
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
 
-    <bean id="companyService" class="com.mt.services.CompanyService">
-        <constructor-arg ref="companyDao" />
-    </bean>       
-    
-    <bean id="lookUpService" class="com.mt.services.LookUpService">
-        <constructor-arg ref="lookUpDao" />
-    </bean>       
+
+	<bean id="personService" class="com.testapp.sample.PersonService">
+		<property name="personDao" ref="personDao"/>
+	</bean>
+
+    <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
+          p:location="/WEB-INF/jdbc.properties" />
+
+    -->
+
+
+
+<!--    dependcy injection for service layer-->
+
+
 
 </beans>

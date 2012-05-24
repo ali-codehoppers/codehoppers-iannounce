@@ -18,4 +18,6 @@ public interface IDaoGeneric<T, PK extends Serializable> {
     void deleteById(PK id);
 
     List<T> getAll();
+    
+    List getNearbyObjects();
 }

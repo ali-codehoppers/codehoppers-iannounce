@@ -239,12 +239,7 @@
             <version>1.2.1</version>
         </dependency>
 
-   <dependency>
-      <groupId>com.google.code.gson</groupId>
-      <artifactId>gson</artifactId>
-      <version>1.7.1</version>
-      <scope>compile</scope>
-    </dependency>
+
         
         
     </dependencies>
@@ -301,6 +296,6 @@
 
         </plugins>
     </build>
-    <artifactId>mexam-buynsell</artifactId>
-    <name>mexam-buynsell</name>
+    <artifactId>iAnnounce</artifactId>
+    <name>iAnnounce Server</name>
 </project>

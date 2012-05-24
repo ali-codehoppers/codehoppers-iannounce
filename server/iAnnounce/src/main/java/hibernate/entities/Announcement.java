@@ -5,10 +5,15 @@ import java.sql.Timestamp;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import org.hibernate.annotations.NamedQuery;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+
 
 @Entity
-@NamedQuery(name = "Announcement.findByName", query = "select a from Announcement a where a.username_FK like ?")
+@NamedQueries({
+    @NamedQuery(name = "Announcement.findByName", query = "select a from Announcement a where a.username_FK like ?"),
+    @NamedQuery(name = "Announcement.findByNeighbourhoodId", query = "select a from Announcement a where a.neighbourhood_id = ?")
+})
 //get announcements by username
 public class Announcement implements Serializable {
 
@@ -21,8 +26,9 @@ public class Announcement implements Serializable {
     private boolean type;
     private String username_FK;
     private int totalRating;
+    private int neighbourhood_id;
 
-    public Announcement(int a_id, double latitude, double longitude, String announcement, int radius, Timestamp ttime, boolean type, String username_FK, int totalRating) {
+    public Announcement(int a_id, double latitude, double longitude, String announcement, int radius, Timestamp ttime, boolean type, String username_FK, int totalRating, int neighbourhood_id) {
         this.a_id = a_id;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -32,6 +38,7 @@ public class Announcement implements Serializable {
         this.type = type;
         this.username_FK = username_FK;
         this.totalRating = totalRating;
+        this.neighbourhood_id = neighbourhood_id;
     }
 
     public Announcement() {
@@ -109,5 +116,13 @@ public class Announcement implements Serializable {
 
     public void setTotalRating(int totalRating) {
         this.totalRating = totalRating;
+    }
+
+    public int getNeighbourhood_id() {
+        return neighbourhood_id;
+    }
+
+    public void setNeighbourhood_id(int neighbourhood_id) {
+        this.neighbourhood_id = neighbourhood_id;
     }
 }
