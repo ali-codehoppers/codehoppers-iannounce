@@ -200,7 +200,13 @@ public class HomePage extends TabActivity {
 			title1.setText("Announce");
 			TabHost.TabSpec spec2 = tabHost.newTabSpec("tab2");			
 			spec2.setIndicator(tabIndicator1);
-			spec2.setContent(new Intent(HomePage.this, Announce.class));
+			Intent myIntent = new Intent(HomePage.this, Announce.class);
+			if(tabId.equals("1")){
+				Bundle b = new Bundle();
+				b.putString("neighbourId", bundle.getString("neighbourId"));
+				myIntent.putExtras(b);
+			}
+			spec2.setContent(myIntent);
 			tabHost.addTab(spec2);
 			
 			

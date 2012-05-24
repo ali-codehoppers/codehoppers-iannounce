@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.List;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate3.SessionFactoryUtils;
@@ -47,6 +48,7 @@ public class DaoGeneric<T, PK extends Serializable> implements IDaoGeneric<T, PK
     }
 
     private Session getSession() {
+        //return sessionFactory.getCurrentSession();
         return SessionFactoryUtils.getSession(sessionFactory, true);
     }
 
@@ -64,6 +66,7 @@ public class DaoGeneric<T, PK extends Serializable> implements IDaoGeneric<T, PK
         queryName += method.getName();
 
         Query query = getSession().getNamedQuery(queryName);
+        
 
         // Params are numbered from 0 in hibernate
         for (int i = 0; i < args.length; i++) {
@@ -71,4 +74,10 @@ public class DaoGeneric<T, PK extends Serializable> implements IDaoGeneric<T, PK
         }
         return query.list();
     }
+    
+    public List getNearbyObjects(){
+        String query = "SELECT l.* ,(((ACOS( SIN( (31.4743 * PI() /180 ) ) * SIN( (l.latitude * PI() /180 )) + COS( (31.4743 * PI( ) /180 )) * COS( ( l.latitude * PI() /180 )) * COS( (( 74.4023 -  l.longitude ) * PI() /180 )))) *180 / PI()) *60 * 1.1515 * 1.609344 ) AS  `distance`FROM  announcement l HAVING  `distance` <= 2 ORDER BY  `distance` ASC";
+        SQLQuery sQLQuery = getSession().createSQLQuery(query);
+        return sQLQuery.list();
+    } 
 }

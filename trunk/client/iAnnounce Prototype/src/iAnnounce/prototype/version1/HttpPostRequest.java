@@ -56,6 +56,7 @@ public class HttpPostRequest {
 	public String URL_getNeigbhourById=base_url+"/getNeighbourById";
 	public String URL_joinNeigbhourhood=base_url+"/joinNeighbourhood";
 	public String URL_announcementByNeigbhourhood=base_url+"/announcementsByNeighbourhood";
+	public String URL_getNeighbourByPerson=base_url+"/getNeighbourByPerson";
 	
 	
 	/**
@@ -347,6 +348,43 @@ public class HttpPostRequest {
 
 	}
 	/**
+	 * Method for getting the neighbours on the base of  
+	 * @param sessionID sessionid of logged in user.
+	 * @return response from server as string (xml) 
+	 */
+	public void getNeighboursByPerson(String sessionID){
+		try{
+			request.setURI(new URI(URL_getNeighbourByPerson));
+
+			List<NameValuePair> postParameters = new ArrayList<NameValuePair>();
+			postParameters.add(new BasicNameValuePair("sessionId", sessionID));
+		
+			UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(
+					postParameters);
+			request.setEntity(formEntity);
+			HttpResponse response = client.execute(request);
+			in = new BufferedReader(new InputStreamReader(response.getEntity()
+					.getContent()));
+			StringBuffer sb = new StringBuffer("");
+			String line = "";
+			String NL = System.getProperty("line.separator");
+			while ((line = in.readLine()) != null) {
+				sb.append(line + NL);
+			}
+			in.close();
+			xmlStringResponse = sb.toString();
+			
+
+
+		} catch (Exception e) {
+			isError=true;
+			xception=e.getMessage();
+		}	
+
+
+
+	}
+	/**
 	 * Method for login, session will be generated
 	 * @param username
 	 * @param Password
@@ -427,7 +465,7 @@ public class HttpPostRequest {
 	 * @param Latitude
 	 * @return server response as xml string
 	 */
-	public void PostAnnouncement(String sessionId,String range,String Announcement,String Longitude, String Latitude){
+	public void PostAnnouncement(String sessionId,String range,String Announcement,String neighbourhoodId,String Longitude, String Latitude){
 		try{
 			request.setURI(new URI(URL_PostAnnouncement));
 
@@ -435,6 +473,7 @@ public class HttpPostRequest {
 			postParameters.add(new BasicNameValuePair("sessionId", sessionId));
 			postParameters.add(new BasicNameValuePair("range", range));
 			postParameters.add(new BasicNameValuePair("announce", Announcement));
+			postParameters.add(new BasicNameValuePair("neighbourId", neighbourhoodId));
 			postParameters.add(new BasicNameValuePair("latitude", Latitude));
 			postParameters.add(new BasicNameValuePair("longitude", Longitude));
 

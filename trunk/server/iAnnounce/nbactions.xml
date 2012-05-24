@@ -6,5 +6,15 @@
                 <goal>package</goal>
                 
             </goals>
+            <properties>
+                <netbeans.deploy>true</netbeans.deploy>
+            </properties>
+        </action>
+        <action>
+            <actionName>CUSTOM-jettyDebug</actionName>
+            <displayName>jettyDebug</displayName>
+            <goals>
+                <goal>jetty:run</goal>
+            </goals>
         </action>
     </actions>
