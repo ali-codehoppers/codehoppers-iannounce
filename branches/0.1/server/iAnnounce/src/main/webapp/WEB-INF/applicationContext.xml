@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+    <bean id="dataSource"
+	class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="url" value="jdbc:mysql://localhost:3306/mexam_buynsell" />
+        <property name="username" value="root" />
+        <property name="password" value="admin" />
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+    </bean>
+
+    <bean id="pool" class="org.apache.commons.pool.impl.GenericObjectPool">
+        <property name="minEvictableIdleTimeMillis">
+            <value>300000</value>
+        </property>
+        <property name="timeBetweenEvictionRunsMillis">
+            <value>60000</value>
+        </property>
+    </bean>
+
+    <bean id="dsConnectionFactory" class="org.apache.commons.dbcp.DataSourceConnectionFactory">
+        <constructor-arg>
+            <ref bean="dataSource"/>
+        </constructor-arg>
+    </bean>
+
+    <bean id="poolableConnectionFactory" class="org.apache.commons.dbcp.PoolableConnectionFactory">
+        <constructor-arg index="0">
+            <ref bean="dsConnectionFactory"/>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <ref bean="pool"/>
+        </constructor-arg>
+        <constructor-arg index="2">
+            <null/>
+        </constructor-arg>
+        <constructor-arg index="3">
+            <null/>
+        </constructor-arg>
+        <constructor-arg index="4">
+            <value>false</value>
+        </constructor-arg>
+        <constructor-arg index="5">
+            <value>true</value>
+        </constructor-arg>
+    </bean>
+
+    <bean id="pooledDS" class="org.apache.commons.dbcp.PoolingDataSource" depends-on="poolableConnectionFactory">
+        <constructor-arg>
+            <ref bean="pool"/>
+        </constructor-arg>
+    </bean>
+
+
+
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean" >
+        <property name="dataSource" ref="pooledDS"/>
+        <property name="configurationClass" value="org.hibernate.cfg.AnnotationConfiguration"/>
+        <property name="configLocation" value="/WEB-INF/hibernate.cfg.xml"/>
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+
+    <tx:annotation-driven transaction-manager="transactionManager" />
+
+    <bean id="finderAdvisor" class="com.mt.dao.FinderAdvisor" />
+
+    <bean id="abstractDaoGeneric" class="com.mt.dao.DaoGeneric" abstract="true">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="abstractDaoFinderImp" class="org.springframework.aop.framework.ProxyFactoryBean" abstract="true">
+        <property name="interceptorNames" value="finderAdvisor" />
+    </bean>
+
+    <bean id="categoryDao" parent="abstractDaoFinderImp">
+        <property name="proxyInterfaces">
+            <value>com.mt.idao.ICategoryDao</value>
+        </property>
+        <property name="target">
+            <bean parent="abstractDaoGeneric">
+                <constructor-arg value="com.mt.hibernate.entities.Category" />
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="productDao" parent="abstractDaoFinderImp">
+        <property name="proxyInterfaces">
+            <value>com.mt.idao.IProductDao</value>
+        </property>
+        <property name="target">
+            <bean parent="abstractDaoGeneric">
+                <constructor-arg value="com.mt.hibernate.entities.Product" />
+            </bean>
+        </property>
+    </bean>
+    
+    <bean id="manufacturerDao" parent="abstractDaoFinderImp">
+        <property name="proxyInterfaces">
+            <value>com.mt.idao.IManufacturerDao</value>
+        </property>
+        <property name="target">
+            <bean parent="abstractDaoGeneric">
+                <constructor-arg value="com.mt.hibernate.entities.Manufacturer" />
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="imageDao" parent="abstractDaoFinderImp">
+        <property name="proxyInterfaces">
+            <value>com.mt.idao.IImageDao</value>
+        </property>
+        <property name="target">
+            <bean parent="abstractDaoGeneric">
+                <constructor-arg value="com.mt.hibernate.entities.Image" />
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="subCategoryDao" parent="abstractDaoFinderImp">
+        <property name="proxyInterfaces">
+            <value>com.mt.idao.ISubCategoryDao</value>
+        </property>
+        <property name="target">
+            <bean parent="abstractDaoGeneric">
+                <constructor-arg value="com.mt.hibernate.entities.SubCategory" />
+            </bean>
+        </property>
+    </bean>
+
+
+    <bean id="userDao" parent="abstractDaoFinderImp">
+        <property name="proxyInterfaces">
+            <value>com.mt.idao.IUserDao</value>
+        </property>
+        <property name="target">
+            <bean parent="abstractDaoGeneric">
+                <constructor-arg value="com.mt.hibernate.entities.User" />
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="countryDao" parent="abstractDaoFinderImp">
+        <property name="proxyInterfaces">
+            <value>com.mt.idao.ICountryDao</value>
+        </property>
+        <property name="target">
+            <bean parent="abstractDaoGeneric">
+                <constructor-arg value="com.mt.hibernate.entities.Country" />
+            </bean>
+        </property>
+    </bean>
+
+
+    <bean id="stateDao" parent="abstractDaoFinderImp">
+        <property name="proxyInterfaces">
+            <value>com.mt.idao.IStateDao</value>
+        </property>
+        <property name="target">
+            <bean parent="abstractDaoGeneric">
+                <constructor-arg value="com.mt.hibernate.entities.State" />
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="companyDao" parent="abstractDaoFinderImp">
+        <property name="proxyInterfaces">
+            <value>com.mt.idao.ICompanyDao</value>
+        </property>
+        <property name="target">
+            <bean parent="abstractDaoGeneric">
+                <constructor-arg value="com.mt.hibernate.entities.Company" />
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="lookUpDao" parent="abstractDaoFinderImp">
+        <property name="proxyInterfaces">
+            <value>com.mt.idao.ILookUpDao</value>
+        </property>
+        <property name="target">
+            <bean parent="abstractDaoGeneric">
+                <constructor-arg value="com.mt.hibernate.entities.LookUp" />
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="categoryService" class="com.mt.services.CategoryService">
+        <constructor-arg ref="categoryDao" />
+    </bean>
+
+    <bean id="productService" class="com.mt.services.ProductService">
+        <constructor-arg ref="productDao" />
+    </bean>
+
+    <bean id="manufacturerService" class="com.mt.services.ManufacturerService">
+        <constructor-arg ref="manufacturerDao" />
+    </bean>
+
+    <bean id="imageService" class="com.mt.services.ImageService">
+        <constructor-arg ref="imageDao" />
+    </bean>
+    
+    <bean id="subCategoryService" class="com.mt.services.SubCategoryService">
+        <constructor-arg ref="subCategoryDao" />
+    </bean>
+    
+    <bean id="userService" class="com.mt.services.UserService">
+        <constructor-arg ref="userDao" />
+    </bean>
+    
+    <bean id="countryService" class="com.mt.services.CountryService">
+        <constructor-arg ref="countryDao" />
+    </bean>
+
+    <bean id="stateService" class="com.mt.services.StateService">
+        <constructor-arg ref="stateDao" />
+    </bean>   
+
+    <bean id="companyService" class="com.mt.services.CompanyService">
+        <constructor-arg ref="companyDao" />
+    </bean>       
+    
+    <bean id="lookUpService" class="com.mt.services.LookUpService">
+        <constructor-arg ref="lookUpDao" />
+    </bean>       
+
+</beans>

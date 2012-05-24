@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<color name="app_background">#000000</color>
+	<color name="light_red">#ba0305</color>
+	<color name="dark_red">#9d0c0f</color>
+		
+	<color name="text_tab_selected">#5d5d5d</color>
+	<color name="text_tab_unselected">#838183</color>
+	
+	<color name="tabGradStart">#356891</color>
+	<color name="tabGradEnd">#356891</color>
+	
+	<color name="tabHostBackground">#356891</color>
+	<color name="announcemts_bg">#a0bbca</color>
+	
+	<color name="title_username">#FFFFFF</color>
+	
+	<color name="tab_title">#7cb5f5</color>
+	
+	<color name="ann_bg">#294c6e</color>
+	
+	<color name="ann_announcer">#FFFFFF</color>
+	
+	<color name="ann_desc">#c9dff8</color>
+	
+	<color name="ann_info_bar">#113058</color>
+	<color name="ann_info_bar_text">#6e90b3</color>
+	
+	<color name="login_text_labels">#113c5b</color>
+	<color name="login_forgot_pass">#70777d</color>
+	<color name="login_register">#6799bc</color>
+	
+	<color name="login_input_focus">#8e9498</color>
+	<color name="login_input_unfocus">#7a838a</color>
+	<color name="login_input_stroke">#C9C9C9</color>
+	<color name="login_input_textColor">#FFFF</color>
+	
+	<color name="option_backgouround_grad">#a9c3cd</color>
+	<color name="option_labels">#6e90b3</color>
+	
+	<color name="grad_bg_start">#e6ecef</color>
+	<color name="grad_bg_end">#c5d1d9</color>
+	
+	<color name="announce_txt">#FFFFFF</color>
+	<color name="announce_char_remaining">#FFFFFF</color>
+	<color name="announce_labels">#284868</color>
+	<color name="custom_input_text">#FFFFFF</color>
+	
+	
+	
+	
+	
+</resources>

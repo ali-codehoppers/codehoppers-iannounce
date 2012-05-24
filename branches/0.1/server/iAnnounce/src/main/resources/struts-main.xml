@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+    <package name="" namespace="" extends="common">
+
+        <action name="hello" class="com.mt.actions.HelloWorld">
+            <interceptor-ref name="basic"/>
+            <result name="success">jsp/home.jsp</result>
+        </action>
+        
+        <action name="home" class="com.mt.actions.Home">
+            <interceptor-ref name="basic"/>
+            <result name="success">jsp/home.jsp</result>
+        </action>
+        
+        <!--      Product    -->
+        
+        <action name="showAddProduct" class="com.mt.actions.Product.ShowAddProduct">
+            <interceptor-ref name="basic"/>
+            <result name="success">jsp/product/addProduct.jsp</result>
+        </action>
+
+        <action name="addProduct" class="com.mt.actions.Product.AddProduct">
+            <interceptor-ref name="basic"/>
+            <result name="success" type="redirect">viewProduct?messeage=${message}&amp;productId=${product.id} </result>
+        </action>
+        
+        <action name="viewProduct" class="com.mt.actions.Product.ViewProduct">
+            <interceptor-ref name="basic"/>
+            <result name="success">jsp/product/viewProduct.jsp</result>
+        </action>
+        
+        <action name="getCategoryProducts" class="com.mt.actions.ajaxActions.GetCategoryProduct">
+            <interceptor-ref name="basic"/>
+            <result >jsp/common/ajax.jsp</result>
+        </action>
+
+        <action name="getSubCategoryProducts" class="com.mt.actions.ajaxActions.GetSubcategoryProduct">
+            <interceptor-ref name="basic"/>
+            <result >jsp/common/ajax.jsp</result>
+        </action>
+        
+        
+        <!-- //     Product    -->
+
+        <!--      User    -->
+        <action name="showAddUser" class="com.mt.actions.User.ShowAddNewUser">
+            <interceptor-ref name="basic"/>
+            <result name="success">jsp/user/addUser.jsp</result>
+        </action>
+
+        <action name="addUser" class="com.mt.actions.User.AddUser">
+            <interceptor-ref name="basic"/>
+            <result name="success" type="redirect">viewUser?messeage=${message}&amp;userId=${user.id} </result>
+        </action>
+
+        <action name="viewUser" class="com.mt.actions.User.ViewUser">
+            <interceptor-ref name="basic"/>
+            <result name="success">jsp/user/viewUser.jsp</result>
+        </action>
+
+
+        <!-- //     User    -->
+
+
+        <!--      Company    -->
+        <action name="showAddCompany" class="com.mt.actions.Company.ShowAddCompany">
+            <interceptor-ref name="basic"/>
+            <result name="success">jsp/company/addCompany.jsp</result>
+        </action>
+
+        <action name="addCompany" class="com.mt.actions.Company.AddCompany">
+            <interceptor-ref name="basic"/>
+            <result name="success" type="redirect">viewCompany?messeage=${message}&amp;companyId=${company.id} </result>
+        </action>
+
+        <action name="viewCompany" class="com.mt.actions.Company.ViewCompany">
+            <interceptor-ref name="basic"/>
+            <result name="success">jsp/company/viewCompany.jsp</result>
+        </action>
+
+
+        <!-- //     Company    -->
+
+
+        <!--      Registration    -->
+        
+        <action name="showRegistration" class="com.mt.actions.Registration.ShowRegistration">
+            <interceptor-ref name="basic"/>
+            <result name="success">jsp/registration/newRegistration.jsp</result>
+        </action>
+
+        <action name="register" class="com.mt.actions.Registration.Register">
+            <interceptor-ref name="basic"/>
+            <result name="success" type="redirect">viewRegistration?messeage=${message}&amp;companyId=${company.id}&amp;userId=${user.id} </result>
+        </action>
+
+        <action name="viewRegistration" class="com.mt.actions.Registration.ViewRegistration">
+            <interceptor-ref name="basic"/>
+            <result name="success">jsp/registration/viewRegistration.jsp</result>
+        </action>
+        
+        <!-- //     Registeration    -->
+
+        <!--        Login            -->
+        
+        <action name="showLogin" class="com.mt.actions.Login.ShowLogin">
+            <interceptor-ref name="basic"/>
+            <result name="success">jsp/login/login.jsp</result>
+        </action>
+
+        <action name="login" class="com.mt.actions.Login.Login">
+            <interceptor-ref name="basic"/>
+            <result name="success" type="redirect">home</result>
+            <result name="fail" type="redirect">showLogin</result>            
+        </action>
+
+        <!-- //     Login    -->
+
+
+
+
+        <action name="getSubCategories" class="com.mt.actions.ajaxActions.GetSubCategories">
+            <interceptor-ref name="basic"/>
+            <result >jsp/common/ajax.jsp</result>
+        </action>
+        
+        <action name="getStates" class="com.mt.actions.ajaxActions.GetStates">
+            <interceptor-ref name="basic"/>
+            <result >jsp/common/ajax.jsp</result>
+        </action>
+
+        <action name="getImage" class="com.mt.actions.GetImage">
+            <interceptor-ref name="basic"/>
+        </action>
+        
+    </package>
+</struts>

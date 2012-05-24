@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent" android:layout_height="wrap_content">
+	<LinearLayout android:orientation="vertical"
+		android:layout_width="match_parent" android:layout_height="wrap_content">
+
+		<TextView android:id="@+id/abt_header" android:text="About Us"
+			android:textSize="24dp" android:gravity="center_horizontal"
+			android:layout_width="match_parent" android:layout_height="wrap_content" />
+
+		<ImageView android:layout_width="match_parent"
+			android:layout_height="250dp" android:id="@+id/abt_imgView01"
+			android:layout_gravity="center_horizontal" />
+
+		<TextView android:id="@+id/abt_text" android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod ultricies nunc, at venenatis nisi rhoncus id. Integer adipiscing ligula vitae nunc malesuada ut rhoncus eros consectetur. Sed mattis, magna et imperdiet adipiscing, mauris libero scelerisque dolor, eget iaculis dui sapien nec quam. In hac habitasse platea dictumst" />
+
+
+
+	</LinearLayout>
+</ScrollView>

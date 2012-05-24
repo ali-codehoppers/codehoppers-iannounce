@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:background="@drawable/option_scrollview" android:padding="10dp">
+	<TableLayout android:id="@+id/tableLayout1"
+		android:background="@drawable/option_tablelayout"
+		android:layout_width="match_parent" android:layout_height="match_parent"
+		android:layout_marginTop="20dp">
+		<TableRow android:layout_height="wrap_content" android:id="@+id/tableRow1"
+			android:layout_width="wrap_content" android:layout_marginLeft="5dip"
+			android:layout_marginRight="5dip" android:layout_marginTop="20dip"
+			android:layout_weight="1">
+
+			<TextView android:id="@+id/TextView01" android:layout_width="wrap_content"
+				android:text="Updates Every" android:layout_height="wrap_content"
+				android:layout_weight="1" android:textColor="@color/option_labels"
+				android:textSize="18sp" />
+			<EditText android:id="@+id/et_LocFreq" android:textSize="16dp"
+				android:layout_weight="1" android:layout_height="30dp"
+				android:layout_width="10dp" style="@style/custom_input"></EditText>
+			<TextView android:layout_height="wrap_content" android:id="@+id/TextView02"
+				android:layout_width="wrap_content" android:text="Min"
+				android:layout_weight="1" android:layout_marginLeft="5dip"
+				android:textColor="@color/option_labels"></TextView>
+		</TableRow>
+
+
+		<TableRow android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:id="@+id/tableRow2"
+			android:layout_marginLeft="5dip" android:layout_marginRight="5dip"
+			android:layout_marginTop="20dip" android:layout_weight="1">
+
+			<TextView android:layout_height="wrap_content" android:id="@+id/TextView03"
+				android:textSize="18sp" android:layout_width="wrap_content"
+				android:text="Updates on Distance" android:layout_weight="1"
+				android:textColor="@color/option_labels" />
+
+			<EditText android:id="@+id/et_distance" android:textSize="16dp"
+				android:layout_weight="1" android:layout_height="30dp"
+				android:layout_width="10dp" style="@style/custom_input"></EditText>
+
+			<TextView android:layout_height="wrap_content" android:id="@+id/TextView04"
+				android:layout_width="wrap_content" android:text="Meters"
+				android:layout_weight="1" android:layout_marginLeft="5dip"
+				android:textColor="@color/option_labels"></TextView>
+
+		</TableRow>
+
+		<TableRow android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:id="@+id/tableRow3"
+			android:layout_marginLeft="5dip" android:layout_marginRight="5dip"
+			android:layout_marginTop="20dip" android:layout_weight="1">
+
+			<TextView android:layout_width="wrap_content"
+				android:textSize="18sp" android:text="Check distance every"
+				android:layout_weight="1" android:textColor="@color/option_labels" />
+
+			<EditText android:id="@+id/et_distanceTime"
+				android:textSize="16dp" android:layout_weight="1"
+				android:layout_height="30dp" android:layout_width="10dp"
+				style="@style/custom_input" />
+
+			<TextView android:textColor="@color/option_labels"
+				android:layout_width="wrap_content" android:text="Min"
+				android:layout_weight="1" android:layout_marginLeft="5dip" />
+
+		</TableRow>
+
+
+
+		<TableRow android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:id="@+id/tableRow4"
+			android:layout_marginLeft="5dip" android:layout_marginRight="5dip"
+			android:layout_marginTop="20dip" android:layout_weight="1">
+
+			<Button android:layout_height="wrap_content" android:text="Save"
+				android:layout_width="wrap_content" android:id="@+id/bt_option_save"
+				android:layout_weight="1"></Button>
+
+			<Button android:layout_height="wrap_content"
+				android:layout_width="wrap_content" android:text="Cancel"
+				android:id="@+id/bt_option_cancel" android:layout_weight="1"></Button>
+
+		</TableRow>
+	</TableLayout>
+</ScrollView>
