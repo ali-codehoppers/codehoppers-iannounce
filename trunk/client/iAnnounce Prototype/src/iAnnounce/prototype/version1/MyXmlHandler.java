@@ -93,6 +93,7 @@ public class MyXmlHandler extends DefaultHandler{
 	private boolean fl_nb_private; 
 	private boolean fl_nb_owner;
 	private boolean fl_nb_member;
+	private boolean fl_nb_membersNear;
 
 	private boolean fl_editProfile;
 
@@ -167,6 +168,7 @@ public class MyXmlHandler extends DefaultHandler{
 		fl_nb_private=false; 
 		fl_nb_owner=false;
 		fl_nb_member=false;
+		fl_nb_membersNear=false;
 
 		fl_comment_post=false;
 
@@ -281,6 +283,8 @@ public class MyXmlHandler extends DefaultHandler{
 						fl_nb_owner=true;
 					}else if(localName.equalsIgnoreCase("isMember")){
 						fl_nb_member=true;
+					}else if(localName.equalsIgnoreCase("membersNear")){
+						fl_nb_membersNear=true;
 					}
 				}
 			} // get Neighbours
@@ -499,6 +503,8 @@ public class MyXmlHandler extends DefaultHandler{
 						fl_nb_owner=false;
 					}else if(localName.equalsIgnoreCase("isMember")){
 						fl_nb_member=false;
+					}else if(localName.equalsIgnoreCase("membersNear")){
+						fl_nb_membersNear=false;
 					}		
 				}
 			} // fl_get_Neighbours
@@ -692,6 +698,8 @@ public class MyXmlHandler extends DefaultHandler{
 						n.owner=x;
 					}else if(fl_nb_member){
 						n.isMember=x;	
+					}else if(fl_nb_membersNear){
+						n.membersNear=x;
 					}
 				}
 			} // fl_get_Neighbours

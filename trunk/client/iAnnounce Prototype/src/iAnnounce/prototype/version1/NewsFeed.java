@@ -1,11 +1,8 @@
 package iAnnounce.prototype.version1;
 
 
-import java.util.zip.Inflater;
-
 import org.xml.sax.SAXException;
 
-import android.R.color;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
@@ -13,7 +10,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;

@@ -5,6 +5,7 @@
 package actions.struts;
 
 import hibernate.entities.Community;
+import hibernate.entities.Person;
 import java.util.List;
 import xtras.Consts;
 
@@ -24,15 +25,17 @@ public class NeighbourhoodGet extends BaseActionClass {
     public String execute() throws Exception {
         if (request.getHeader("User-Agent").contains("UNAVAILABLE")) {
             List<Community> communities = communityService.getAll();
+            Person person = personService.findByName(username).get(0);
             String xml = "";
             int numAnnouncements = 0;
             for (int i = 0; i < communities.size(); i++) {
-
+                List list = neighbourService.getNearbyMembers(person.getLatitude(), person.getLongitude(), 2, communities.get(i).getId());
                 xml += "<neighbour><id>" + communities.get(i).getId() + "</id>";
                 xml += "<Title>" + communities.get(i).getTitle() + "</Title>";
                 xml += "<Description>" + communities.get(i).getDescription() + "</Description>";
                 xml += "<isPrivate>" + communities.get(i).isIsPrivate() + "</isPrivate>";
                 xml += "<owner>" + communities.get(i).getOwner() + "</owner>";
+                xml += "<membersNear>"+list.size()+"</membersNear>";
                 xml += "</neighbour>";
                 numAnnouncements++;
             }

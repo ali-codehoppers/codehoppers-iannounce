@@ -20,4 +20,6 @@ public interface IDaoGeneric<T, PK extends Serializable> {
     List<T> getAll();
     
     List getNearbyObjects();
+    
+    List getNearbyMembers(double latitude,double longitude,int range,int neighbourId);
 }

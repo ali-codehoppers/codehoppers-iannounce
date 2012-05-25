@@ -61,6 +61,9 @@ public class CommunityHome extends Activity {
 				HttpPostRequest http=new HttpPostRequest();
 				SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
 				http.JoinNeighbourhood(settings.getString("sessionId","0"),neighbourId);
+				Intent intent = getIntent();
+				finish();
+				startActivity(intent);
 			}
 		});
 		ImageButton buttonAnnounce = (ImageButton) findViewById(R.id.btn_announce);
@@ -79,6 +82,8 @@ public class CommunityHome extends Activity {
 		buttonLocation.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View v) {
 				//Do stuff here
+				Intent myIntent = new Intent(getApplicationContext(), NeighbourLocations.class);
+				startActivity(myIntent);
 			}
 		});
 		if(myhandler.obj_serverResp1.neigbhours.get(0).isMember.equalsIgnoreCase("true")){

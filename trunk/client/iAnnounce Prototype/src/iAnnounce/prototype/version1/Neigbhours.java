@@ -13,5 +13,7 @@ public class Neigbhours {
 	public String owner;
 	/* If user is a member of not*/
 	public String isMember;
+	/* Number of persons near the current location*/
+	public String membersNear;
 }
 
