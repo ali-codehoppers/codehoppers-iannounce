@@ -54,8 +54,8 @@ public class NeighbourService {
         return iNeighboursDao.getAll();
     }
     
-    public List getNearbyObjects(){
-        return iNeighboursDao.getNearbyObjects();
+    public List getNearbyMembers(double latitude,double longitude,int range,int neighbourId){
+        return iNeighboursDao.getNearbyMembers(latitude, longitude, range, neighbourId);
     }
     
 }

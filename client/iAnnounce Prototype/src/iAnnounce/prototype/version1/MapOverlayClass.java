@@ -14,6 +14,7 @@ import com.google.android.maps.OverlayItem;
  * @author Awais
  *@version 1
  */
+@SuppressWarnings("rawtypes")
 public class MapOverlayClass extends ItemizedOverlay {
 	private ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
 	private Context mContext;

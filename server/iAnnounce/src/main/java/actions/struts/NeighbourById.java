@@ -33,7 +33,6 @@ public class NeighbourById extends BaseActionClass {
             Community community = communityService.getById(id);
             Person person = personService.findByName(username).get(0);
             List<Neighbour> neighbours = neighbourService.findMembershipStatus(id, person.getId());
-            List test = neighbourService.getNearbyObjects();
             boolean isMember = false;
             if(neighbours.size()>0){
                 isMember = true;

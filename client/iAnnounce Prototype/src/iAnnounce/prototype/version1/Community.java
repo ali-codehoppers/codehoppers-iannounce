@@ -10,17 +10,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Xml;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 public class Community extends Activity {
 
 	public String neighbourId;
@@ -97,7 +94,7 @@ public class Community extends Activity {
 			TextView tv_locate=(TextView) view2.findViewById(R.id.tv_ann_info_locate);
 			TextView tv_comment=(TextView) view2.findViewById(R.id.tv_ann_info_comments);
 			
-			tv_like.setText("Members Near you (10)");
+			tv_like.setText("Members Near you ("+neighbours.get(i).membersNear+")");
 			tv_dislike.setText("");
 			tv_locate.setText("Announcement (0)");
 			tv_comment.setText("Locations Near you (5)");

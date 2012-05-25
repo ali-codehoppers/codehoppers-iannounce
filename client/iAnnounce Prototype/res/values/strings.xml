@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
-    <string name="app_name">iAnnounce</string>
-<string name="loginColon">Username:</string>
-<string name="passwordColon">Password:</string>
-<string name="rememberMe"><b>Remember Me</b></string>
-<string name="login">Sign in</string>
-<string name="registerClick"><u>Not a user? Click here to Sign Up</u></string>
-<string name="like">Like</string>
-<string name="dislike">Dislike</string>
-<string name="comments">Comments</string>
-<string name="locate">Located in</string>
+
+	<string name="mapskey">09Ig930Azd3fef4XqBgC5-lmT-fTvNrPENPd4BQ</string>
+	<string name="app_name">iAnnounce</string>
+	<string name="loginColon">Username:</string>
+	<string name="passwordColon">Password:</string>
+	<string name="rememberMe">
+		<b>Remember Me</b>
+	</string>
+	<string name="login">Sign in</string>
+	<string name="registerClick">
+		<u>Not a user? Click here to Sign Up</u>
+	</string>
+	<string name="like">Like</string>
+	<string name="dislike">Dislike</string>
+	<string name="comments">Comments</string>
+	<string name="locate">Located in</string>
 </resources>

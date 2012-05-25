@@ -5,7 +5,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:clickable="true"
-    android:apiKey="0IeOHCKQmyif-CaTPk-EpRbW_231e6dKR4F0Lpw"
+    android:apiKey="@string/mapskey"
 />
 
 <!-- for code hopper pc  0IeOHCKQmyif-CaTPk-EpRbW_231e6dKR4F0Lpw-->
