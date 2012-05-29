@@ -21,6 +21,7 @@ public class MyXmlHandler extends DefaultHandler{
 	private Announcements a;
 	private Classcomment com;
 	private Neigbhours n;
+	private Location l;
 
 
 
@@ -95,6 +96,17 @@ public class MyXmlHandler extends DefaultHandler{
 	private boolean fl_nb_member;
 	private boolean fl_nb_membersNear;
 
+	private boolean fl_locations;
+	private boolean fl_location;
+	private boolean fl_loc_id;
+	private boolean fl_loc_name;
+	private boolean fl_loc_description;
+	private boolean fl_loc_lat;
+	private boolean fl_loc_long;
+	private boolean fl_loc_distance;
+
+
+
 	private boolean fl_editProfile;
 
 	private boolean fl_forgotPass;
@@ -115,6 +127,7 @@ public class MyXmlHandler extends DefaultHandler{
 		a=new Announcements();
 		n = new Neigbhours();
 		com=new Classcomment();
+		l=new Location();
 
 		fl_response=false;
 		fl_responseCode=false;
@@ -169,6 +182,15 @@ public class MyXmlHandler extends DefaultHandler{
 		fl_nb_owner=false;
 		fl_nb_member=false;
 		fl_nb_membersNear=false;
+
+		fl_locations=false;
+		fl_location=false;
+		fl_loc_id=false;
+		fl_loc_name=false;
+		fl_loc_description=false;
+		fl_loc_lat=false;
+		fl_loc_long=false;
+		fl_loc_distance=false;
 
 		fl_comment_post=false;
 
@@ -288,6 +310,30 @@ public class MyXmlHandler extends DefaultHandler{
 					}
 				}
 			} // get Neighbours
+
+			if(localName.equalsIgnoreCase("locations")){
+				fl_locations=true;
+			}
+			if(fl_locations){
+				if(localName.equalsIgnoreCase("location")){
+					fl_location=true;
+				}
+				if(fl_location){
+					if(localName.equalsIgnoreCase("id")){
+						fl_loc_id=true;
+					}else if(localName.equalsIgnoreCase("name")){
+						fl_loc_name=true;
+					}else if(localName.equalsIgnoreCase("description")){
+						fl_loc_description=true;
+					}else if(localName.equalsIgnoreCase("latitude")){
+						fl_loc_lat=true;
+					}else if(localName.equalsIgnoreCase("longitude")){
+						fl_loc_long=true;
+					}else if(localName.equalsIgnoreCase("distance")){
+						fl_loc_distance=true;
+					}
+				}
+			} // get Location
 
 			if(localName.equalsIgnoreCase("myAnnouncements")){
 				fl_myAnn=true;
@@ -509,6 +555,32 @@ public class MyXmlHandler extends DefaultHandler{
 				}
 			} // fl_get_Neighbours
 
+			if(localName.equalsIgnoreCase("locations")){
+				fl_locations=false;
+			}
+			if(fl_locations){
+				if(localName.equalsIgnoreCase("location")){
+					fl_location=false;
+					obj_serverResp1.locations.add(l);
+					l=new Location();
+				}
+				if(fl_location){
+					if(localName.equalsIgnoreCase("id")){
+						fl_loc_id=false;
+					}else if(localName.equalsIgnoreCase("name")){
+						fl_loc_name=false;
+					}else if(localName.equalsIgnoreCase("description")){
+						fl_loc_description=false;
+					}else if(localName.equalsIgnoreCase("latitude")){
+						fl_loc_lat=false;
+					}else if(localName.equalsIgnoreCase("longitude")){
+						fl_loc_long=false;
+					}else if(localName.equalsIgnoreCase("distance")){
+						fl_loc_distance=false;
+					}
+				}
+			} // get fl_Location
+
 			if(fl_myAnn){
 				if(localName.equalsIgnoreCase("myAnnouncements")){
 					fl_myAnn=false;
@@ -704,6 +776,23 @@ public class MyXmlHandler extends DefaultHandler{
 				}
 			} // fl_get_Neighbours
 
+			if(fl_locations){
+				if(fl_location){
+					if(	fl_loc_id){
+						l.id=x;						
+					}else if(fl_loc_name){
+						l.name=x;
+					}else if(fl_loc_description){
+						l.description=x;
+					}else if(fl_loc_lat){
+						l.latitude=x;
+					}else if(fl_loc_long){
+						l.longitude=x;
+					}else if(fl_loc_distance){
+						l.distance=x;
+					}
+				}
+			} // get fl_Location
 			if(fl_myAnn){
 				if(fl_myAnn_announcement){
 					if(fl_myAnn_id){

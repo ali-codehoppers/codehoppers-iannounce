@@ -23,6 +23,7 @@
 	<mapping class="hibernate.entities.UserSession"/>
 	<mapping class="hibernate.entities.Community"/>
 	<mapping class="hibernate.entities.Neighbour"/>
+	<mapping class="hibernate.entities.Location"/>
         
         
         <!--
