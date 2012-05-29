@@ -91,6 +91,13 @@
         <action name="getNeighbourByPerson" class="actions.struts.NeighbourByPerson">
             <interceptor-ref name="basic"/>
         </action>  
+        <action name="addLocation" class="actions.struts.AddLocation">
+            <interceptor-ref name="basic"/>
+        </action>  
+        <action name="getNearByLocations" class="actions.struts.GetNearByLocations">
+            <interceptor-ref name="basic"/>
+        </action>          
+        
         <action name="verifyaccount" class="actions.struts.VerifyAccount">
             
         </action>

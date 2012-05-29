@@ -6,6 +6,6 @@
   android:background="@color/announcemts_bg"
   android:orientation="vertical">
   
-  <Button android:text="Add New Location" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
-  <ScrollView android:layout_width="fill_parent" android:layout_height="fill_parent"></ScrollView>
+  <Button android:text="Add New Location" android:id="@+id/location_new" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
+  <ScrollView android:id="@+id/location_scrollView" android:layout_width="fill_parent" android:layout_height="fill_parent"></ScrollView>
 </LinearLayout>

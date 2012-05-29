@@ -79,6 +79,7 @@ public class ServerResponse {
 	
 	public ArrayList<Neigbhours> neigbhours;
 	
+	public ArrayList<Location> locations;	
 	
 	public String responseCode;
 	public String responseMessage;
@@ -94,6 +95,7 @@ public class ServerResponse {
 		feed=new ArrayList<Announcements>();
 		neigbhours = new ArrayList<Neigbhours>();
 		comments=new ArrayList<Classcomment>();
+		locations= new ArrayList<Location>();
 	}
 	
 	

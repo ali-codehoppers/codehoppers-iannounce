@@ -2,9 +2,13 @@ package iAnnounce.prototype.version1;
 
 import java.util.List;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
@@ -16,22 +20,25 @@ import com.google.android.maps.OverlayItem;
 
 public class NeighbourLocations extends MapActivity {
 	private List<Overlay> mapOverlays;
-	
+
 	@Override
 	protected boolean isRouteDisplayed(){
 		return false;
 	}
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-	    super.onCreate(savedInstanceState);
-	    setContentView(R.layout.location);
-	    MapView mapView = (MapView) findViewById(R.id.mymap);
-	    mapView.setBuiltInZoomControls(true);
-	    
-	    mapOverlays = mapView.getOverlays();
-	    Drawable drawable = this.getResources().getDrawable(R.drawable.location);
-	    MapOverlayClass mapoverlay = new MapOverlayClass(drawable, this);
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.location);
+		MapView mapView = (MapView) findViewById(R.id.mymap);
+		mapView.setBuiltInZoomControls(true);
+
+		Bundle bundle = this.getIntent().getExtras();
+		final String neighbourId = bundle.getString("neighbourId");
+		
+		mapOverlays = mapView.getOverlays();
+		Drawable drawable = this.getResources().getDrawable(R.drawable.location);
+		MapOverlayClass mapoverlay = new MapOverlayClass(drawable, this);
 		SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
 		String longi=settings.getString("Longitude", "0");
 		String lati=settings.getString("Latitude", "0");
@@ -45,15 +52,35 @@ public class NeighbourLocations extends MapActivity {
 		} catch (Exception e) {
 			Toast.makeText(this, "Unable to parse your Location", Toast.LENGTH_LONG).show();
 		}
-	    GeoPoint point = new GeoPoint(latitu,longitu);
-	    OverlayItem overlayitem = new OverlayItem(point, "You", "You current location");
-	    
-	    mapoverlay.addOverlay(overlayitem);
-	    mapOverlays.add(mapoverlay);
-	    MapController mc=mapView.getController();
-	    mc.animateTo(point);
-	    mc.setZoom(16);
-	    
-	    }
-	
+		GeoPoint point = new GeoPoint(latitu,longitu);
+		OverlayItem overlayitem = new OverlayItem(point, "You", "You current location");
+
+		mapoverlay.addOverlay(overlayitem);
+		mapOverlays.add(mapoverlay);
+		MapController mc=mapView.getController();
+		mc.animateTo(point);
+		mc.setZoom(16);
+
+		TextView latText = (TextView) findViewById(R.id.text_latitude);
+		latText.setText(lati);
+		TextView longText = (TextView) findViewById(R.id.text_longitude);
+		longText.setText(longi);
+
+		Button buttonAddLocation = (Button) findViewById(R.id.location_add);
+		buttonAddLocation.setOnClickListener(new Button.OnClickListener() {
+			public void onClick(View v) {
+				//Do stuff here
+				String lati = ((TextView) findViewById(R.id.text_latitude)).getText().toString();
+				String longi = ((TextView) findViewById(R.id.text_longitude)).getText().toString();
+				String name = ((TextView) findViewById(R.id.location_name)).getText().toString();
+				String desc = ((TextView) findViewById(R.id.location_desc)).getText().toString();
+				HttpPostRequest http=new HttpPostRequest();
+				SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
+				http.addLocation(settings.getString("sessionId","0"), name, desc, neighbourId, lati, longi);
+				
+			}
+		});
+
+	}
+
 }

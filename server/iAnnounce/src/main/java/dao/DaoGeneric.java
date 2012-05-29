@@ -81,8 +81,14 @@ public class DaoGeneric<T, PK extends Serializable> implements IDaoGeneric<T, PK
         return sQLQuery.list();
     }
 
-    public List getNearbyMembers(double latitude,double longitude,int range,int neighbourId) {
-        String query = "SELECT l.* ,(((ACOS( SIN( ("+latitude+" * PI() /180 ) ) * SIN( (l.latitude * PI() /180 )) + COS( ("+latitude+" * PI( ) /180 )) * COS( ( l.latitude * PI() /180 )) * COS( (( "+longitude+" -  l.longitude ) * PI() /180 )))) *180 / PI()) *60 * 1.1515 * 1.609344 ) AS  `distance`FROM  person l WHERE l.id IN(SELECT personId FROM neighbour WHERE neighbour.neighbourhoodId="+neighbourId+" ) HAVING  `distance` <= "+range+" ORDER BY  `distance` ASC";
+    public List getNearbyMembers(double latitude, double longitude, int range, int neighbourId) {
+        String query = "SELECT l.* ,(((ACOS( SIN( (" + latitude + " * PI() /180 ) ) * SIN( (l.latitude * PI() /180 )) + COS( (" + latitude + " * PI( ) /180 )) * COS( ( l.latitude * PI() /180 )) * COS( (( " + longitude + " -  l.longitude ) * PI() /180 )))) *180 / PI()) *60 * 1.1515 * 1.609344 ) AS  `distance`FROM  person l WHERE l.id IN(SELECT personId FROM neighbour WHERE neighbour.neighbourhoodId=" + neighbourId + " ) HAVING  `distance` <= " + range + " ORDER BY  `distance` ASC";
+        SQLQuery sQLQuery = getSession().createSQLQuery(query);
+        return sQLQuery.list();
+    }
+
+    public List getNearbyLocations(double latitude, double longitude, int range, int neighbourId) {
+        String query = "SELECT l.* ,(((ACOS( SIN( (" + latitude + " * PI() /180 ) ) * SIN( (l.latitude * PI() /180 )) + COS( (" + latitude + " * PI( ) /180 )) * COS( ( l.latitude * PI() /180 )) * COS( (( " + longitude + " -  l.longitude ) * PI() /180 )))) *180 / PI()) *60 * 1.1515 * 1.609344 ) AS  `distance`FROM  location l WHERE l.neighbourhoodId=" + neighbourId + " HAVING  `distance` <= " + range + " ORDER BY  `distance` ASC";
         SQLQuery sQLQuery = getSession().createSQLQuery(query);
         return sQLQuery.list();
     }

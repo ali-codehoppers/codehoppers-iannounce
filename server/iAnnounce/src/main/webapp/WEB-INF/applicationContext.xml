@@ -18,7 +18,7 @@
 					-->
 
     <bean id="dataSource"
-	class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="url" value="jdbc:mysql://localhost:3306/iannouncedb" />
         <property name="username" value="root" />
         <property name="password" value="root" />
@@ -202,7 +202,18 @@
             </bean>
         </property>
     </bean>
-
+    <bean id="LocationDao" parent="abstractDaoFinderImp">
+        <property name="proxyInterfaces">
+            <value>idao.ILocationDao</value>
+        </property>
+        <property name="target">
+            <bean parent="abstractDaoGeneric">
+                <constructor-arg value="hibernate.entities.Location" />
+            </bean>
+        </property>
+    </bean>
+    
+    
     <bean id="personService" class="services.PersonService">
         <constructor-arg ref="personDao" />
     </bean>
@@ -236,9 +247,12 @@
     <bean id="communityService" class="services.CommunityService">
         <constructor-arg ref="CommunityDao" />
     </bean>    
-        <bean id="neighbourService" class="services.NeighbourService">
+    <bean id="neighbourService" class="services.NeighbourService">
         <constructor-arg ref="NeighbourDao" />
-    </bean>   
+    </bean>    
+    <bean id="locationService" class="services.LocationService">
+        <constructor-arg ref="LocationDao" />
+    </bean>  
 	<!--
 	<bean id="paidannouncementareaService" class="com.testapp.sample.PaidAnnouncementAreaService">
 		<constructor-arg ref="PAADao" />

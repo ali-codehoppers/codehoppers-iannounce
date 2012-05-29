@@ -82,7 +82,10 @@ public class CommunityHome extends Activity {
 		buttonLocation.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View v) {
 				//Do stuff here
-				Intent myIntent = new Intent(getApplicationContext(), NeighbourLocations.class);
+				Intent myIntent = new Intent(getApplicationContext(), ShowLocations.class);
+				Bundle b= new Bundle();
+				b.putString("neighbourId", neighbourId);
+				myIntent.putExtras(b);
 				startActivity(myIntent);
 			}
 		});
