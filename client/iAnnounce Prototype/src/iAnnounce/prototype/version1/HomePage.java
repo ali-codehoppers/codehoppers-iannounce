@@ -26,6 +26,7 @@ import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,10 +47,10 @@ public class HomePage extends TabActivity {
 		
 		
 		//check if custom title is supported BEFORE setting the content view!
-        boolean customTitleSupported = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+       // boolean customTitleSupported = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.home_page);
         
-        if(customTitleSupported){
+       /* if(customTitleSupported){
         	
         	getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,R.layout.titlebar);
         	
@@ -57,7 +58,7 @@ public class HomePage extends TabActivity {
         	SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
         	tv_title.setText((settings.getString("userName", "iAnnounce")).toUpperCase());
         	
-        }
+        }*/
 		
 		
 		
@@ -180,8 +181,9 @@ public class HomePage extends TabActivity {
 				tabId = bundle.getString("tabId");
 			}
 			View tabIndicator = LayoutInflater.from(this).inflate(R.layout.tabs_indicator, getTabWidget(), false);
-			
-			tabIndicator.setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_indicator_selector_ann));
+			//tabIndicator.setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_indicator_selector_ann));
+			ImageView icon = (ImageView)tabIndicator.findViewById(R.id.icon);
+			icon.setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_indicator_selector_ann));
 			TextView title = (TextView) tabIndicator.findViewById(R.id.title);
 			title.setText("Announcements");
 			TabHost.TabSpec spec = tabHost.newTabSpec("tab1");			
@@ -192,7 +194,9 @@ public class HomePage extends TabActivity {
 			
 			
 			View tabIndicator1 = LayoutInflater.from(this).inflate(R.layout.tabs_indicator, getTabWidget(), false);
-			tabIndicator1.setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_indicator_selector_pann));
+			ImageView icon1 = (ImageView)tabIndicator1.findViewById(R.id.icon);
+			icon1.setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_indicator_selector_pann));
+			//tabIndicator1.setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_indicator_selector_pann));
 			TextView title1 = (TextView) tabIndicator1.findViewById(R.id.title);
 			title1.setText("Announce");
 			TabHost.TabSpec spec2 = tabHost.newTabSpec("tab2");			
@@ -208,7 +212,9 @@ public class HomePage extends TabActivity {
 			
 			
 			View tabIndicator2 = LayoutInflater.from(this).inflate(R.layout.tabs_indicator, getTabWidget(), false);
-			tabIndicator2.setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_indicator_selector_myann));
+			//tabIndicator2.setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_indicator_selector_myann));
+			ImageView icon3 = (ImageView)tabIndicator2.findViewById(R.id.icon);
+			icon3.setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_indicator_selector_myann));
 			TextView title2 = (TextView) tabIndicator2.findViewById(R.id.title);
 			title2.setText("My Announcements");
 			TabHost.TabSpec spec3 = tabHost.newTabSpec("tab3");			 
@@ -217,9 +223,11 @@ public class HomePage extends TabActivity {
 			tabHost.addTab(spec3);
 			
 			View tabIndicator3 = LayoutInflater.from(this).inflate(R.layout.tabs_indicator, getTabWidget(), false);
-			tabIndicator3.setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_indicator_selector_myann));
+			//tabIndicator3.setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_indicator_selector_ngbr));
+			ImageView icon4 = (ImageView)tabIndicator3.findViewById(R.id.icon);
+			icon4.setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_indicator_selector_ngbr));
 			TextView title3 = (TextView) tabIndicator3.findViewById(R.id.title);
-			title3.setText("Communities");
+			title3.setText("Neighbourhoods");
 			TabHost.TabSpec spec4 = tabHost.newTabSpec("tab4");			 
 			spec4.setIndicator(tabIndicator3);
 			spec4.setContent(new Intent(HomePage.this,Community.class));

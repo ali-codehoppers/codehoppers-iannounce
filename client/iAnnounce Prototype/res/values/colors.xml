@@ -4,14 +4,14 @@
 	<color name="light_red">#ba0305</color>
 	<color name="dark_red">#9d0c0f</color>
 		
-	<color name="text_tab_selected">#5d5d5d</color>
-	<color name="text_tab_unselected">#838183</color>
+	<color name="text_tab_selected">#4F4D4F</color>
+	<color name="text_tab_unselected">#FFFFFF</color>
 	
-	<color name="tabGradStart">#356891</color>
-	<color name="tabGradEnd">#356891</color>
+	<color name="tabGradStart">#B9B9B9</color>
+	<color name="tabGradEnd">#B9B9B9</color>
 	
-	<color name="tabHostBackground">#356891</color>
-	<color name="announcemts_bg">#a0bbca</color>
+	<color name="tabHostBackground">#B9B9B9</color> <!-- #356891 -->
+	<color name="announcemts_bg">#FFFFFF</color>
 	
 	<color name="title_username">#FFFFFF</color>
 	
@@ -19,12 +19,12 @@
 	
 	<color name="ann_bg">#294c6e</color>
 	
-	<color name="ann_announcer">#FFFFFF</color>
+	<color name="ann_announcer">#222222</color> <!-- FFFFFF -->
 	
-	<color name="ann_desc">#c9dff8</color>
+	<color name="ann_desc">#827E7E</color> <!-- c9dff8 -->
 	
-	<color name="ann_info_bar">#113058</color>
-	<color name="ann_info_bar_text">#6e90b3</color>
+	<color name="ann_info_bar">#FFFFFF</color> <!-- 113058 -->
+	<color name="ann_info_bar_text">#827E7E</color> <!-- #6e90b3 -->
 	
 	<color name="login_text_labels">#113c5b</color>
 	<color name="login_forgot_pass">#70777d</color>

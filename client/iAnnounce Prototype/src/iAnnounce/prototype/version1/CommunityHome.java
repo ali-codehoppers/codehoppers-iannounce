@@ -137,7 +137,7 @@ public class CommunityHome extends Activity {
 			View view2 = layoutInflater.inflate(R.layout.ann_info_bar, null);
 			RelativeLayout relativeLayout = (RelativeLayout) view2.findViewById(R.id.ann_info_bar_RL);
 			
-			TextView tv_like=(TextView) view2.findViewById(R.id.tv_ann_info_likes);
+		/*	TextView tv_like=(TextView) view2.findViewById(R.id.tv_ann_info_likes);
 			TextView tv_dislike=(TextView) view2.findViewById(R.id.tv_ann_info_dislikes);
 			TextView tv_locate=(TextView) view2.findViewById(R.id.tv_ann_info_locate);
 			TextView tv_comment=(TextView) view2.findViewById(R.id.tv_ann_info_comments);
@@ -145,7 +145,7 @@ public class CommunityHome extends Activity {
 			tv_like.setText(getResources().getString(R.string.like)+" ( 0 ) ");
 			tv_dislike.setText(getResources().getString(R.string.dislike)+" ( 0 ) ");
 			tv_locate.setText(getResources().getString(R.string.locate)+" ( 0 km ) ");			
-			tv_comment.setText(getResources().getString(R.string.comments)+" ( 0 ) ");
+			tv_comment.setText(getResources().getString(R.string.comments)+" ( 0 ) ");*/
 			
 			LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 			lp2.setMargins(10, 10, 10, 0);
