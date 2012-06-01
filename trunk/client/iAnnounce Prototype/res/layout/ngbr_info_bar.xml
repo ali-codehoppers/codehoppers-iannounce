@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/ann_info_bar_RL" android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:background="@drawable/ann_info_bar">
+	<LinearLayout android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:padding="5dip"
+		android:id="@+id/img_like" android:orientation="vertical">
+		<ImageView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:src="@drawable/members"></ImageView>
+		<TextView style="@style/info_bar_style" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:id="@+id/tv_ngbr_info_members" />
+	</LinearLayout>
+	<LinearLayout android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:padding="5dip"
+		android:id="@+id/img_dislike" android:layout_toRightOf="@+id/img_like"
+		android:orientation="vertical">
+		<ImageView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:src="@drawable/announce"></ImageView>
+		<TextView style="@style/info_bar_style" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:id="@+id/tv_ngbr_info_announcements"
+			android:layout_below="@+id/img_dislike" />
+	</LinearLayout>
+	<LinearLayout android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:padding="5dip"
+		android:id="@+id/img_comments" android:layout_toRightOf="@+id/img_dislike"
+		android:orientation="vertical">
+		<ImageView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:src="@drawable/locations"></ImageView>
+		<TextView style="@style/info_bar_style" android:layout_width="wrap_content"
+			android:id="@+id/tv_ngbr_info_locations" android:layout_height="wrap_content" />
+	</LinearLayout>
+	<LinearLayout android:layout_below="@+id/img_comments" android:layout_height="2dip" android:layout_width="fill_parent" android:background="#82E7E7E7"></LinearLayout>
+	
+</RelativeLayout>
+

@@ -22,10 +22,10 @@ import android.util.Xml;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 /**
@@ -165,16 +165,16 @@ public class Login extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		boolean customTitleSupported = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
-		setContentView(R.layout.main);
+		//boolean customTitleSupported = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+		setContentView(R.layout.main_new);
 
-		if(customTitleSupported){
+		/*if(customTitleSupported){
 
 			getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,R.layout.titlebar);
 
 			TextView tv_title= (TextView)findViewById(R.id.tv_titlebar);
 			tv_title.setText("iAnnounce");
-		}
+		}*/
 
 
 		settings = getSharedPreferences("iAnnounceVars", 0);
@@ -236,7 +236,7 @@ public class Login extends Activity {
 
 
 
-		final Button searchButton = (Button) findViewById(R.id.mainButtonLogin);
+		final ImageView searchButton = (ImageView) findViewById(R.id.mainButtonLogin);
 
 		searchButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
@@ -340,7 +340,7 @@ public class Login extends Activity {
 		});
 
 
-		final TextView registerTextView = (TextView) findViewById(R.id.mainTextviewRegister);
+		final LinearLayout registerTextView = (LinearLayout) findViewById(R.id.mainTextviewRegister);
 		registerTextView.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				Intent myIntent = new Intent(v.getContext(), Registeration.class);
@@ -348,7 +348,7 @@ public class Login extends Activity {
 			}
 		});
 
-		ImageView im=(ImageView)findViewById(R.id.register_img);
+		/*ImageView im=(ImageView)findViewById(R.id.register_img);
 		im.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
@@ -365,7 +365,7 @@ public class Login extends Activity {
 				Intent myIntent = new Intent(v.getContext(), Registeration.class);
 				startActivity(myIntent);
 			}
-		});
+		});*/
 		
 
 		final TextView forgoTextView = (TextView) findViewById(R.id.forgo);

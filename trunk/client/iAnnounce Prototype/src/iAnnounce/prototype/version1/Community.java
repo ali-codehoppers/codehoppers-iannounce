@@ -86,18 +86,17 @@ public class Community extends Activity {
 			desc.setTextColor(getResources().getColor(R.color.ann_desc));
 			linearLayout.addView(desc);
 			
-			View view2 = layoutInflater.inflate(R.layout.ann_info_bar, null);
+			View view2 = layoutInflater.inflate(R.layout.ngbr_info_bar, null);
 			RelativeLayout relativeLayout = (RelativeLayout) view2.findViewById(R.id.ann_info_bar_RL);
 			
-			TextView tv_like=(TextView) view2.findViewById(R.id.tv_ann_info_likes);
-			TextView tv_dislike=(TextView) view2.findViewById(R.id.tv_ann_info_dislikes);
-			TextView tv_locate=(TextView) view2.findViewById(R.id.tv_ann_info_locate);
-			TextView tv_comment=(TextView) view2.findViewById(R.id.tv_ann_info_comments);
+			TextView tv_members=(TextView) view2.findViewById(R.id.tv_ngbr_info_members);
+			TextView tv_ann=(TextView) view2.findViewById(R.id.tv_ngbr_info_announcements);
+			TextView tv_locations=(TextView) view2.findViewById(R.id.tv_ngbr_info_locations);
 			
-			tv_like.setText("Members Near you ("+neighbours.get(i).membersNear+")");
-			tv_dislike.setText("");
-			tv_locate.setText("Announcement (0)");
-			tv_comment.setText("Locations Near you (5)");
+			
+			tv_members.setText("("+neighbours.get(i).membersNear+")");
+			tv_ann.setText("(0)");
+			tv_locations.setText("(5)");
 			LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 			lp2.setMargins(10, 10, 10, 0);
 			

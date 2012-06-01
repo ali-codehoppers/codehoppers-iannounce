@@ -675,17 +675,16 @@ public class NewsFeed extends Activity {
 			TextView tv_dislike=(TextView) v2.findViewById(R.id.tv_ann_info_dislikes);
 			TextView tv_locate=(TextView) v2.findViewById(R.id.tv_ann_info_locate);
 			
-			tv_like.setText(getResources().getString(R.string.like)+" ( "+obj_serRes.feed.get(i).likes+" ) ");
-			tv_dislike.setText(getResources().getString(R.string.dislike)+" ( "+obj_serRes.feed.get(i).dislikes+" ) ");
-			tv_locate.setText(getResources().getString(R.string.locate)+" ( "+obj_serRes.feed.get(i).distance+" km ) ");
+			tv_like.setText("( "+obj_serRes.feed.get(i).likes+" ) ");
+			tv_dislike.setText("( "+obj_serRes.feed.get(i).dislikes+" ) ");
+			tv_locate.setText("( "+obj_serRes.feed.get(i).distance+" km ) ");
 			
 			
 			TextView tv_comment=(TextView) v2.findViewById(R.id.tv_ann_info_comments);
-			tv_comment.setText(getResources().getString(R.string.comments)+" ( "+obj_serRes.feed.get(i).noOfComments+" ) ");
+			tv_comment.setText("( "+obj_serRes.feed.get(i).noOfComments+" ) ");
 			
 			LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 			lp2.setMargins(10, 10, 10, 0);
-			
 			l2.setLayoutParams(lp2);			
 			
 			
@@ -695,7 +694,7 @@ public class NewsFeed extends Activity {
 			
 			v.setPadding(15, 15, 15, 15);
 			
-			v2.setPadding(30, 10,30, 10);
+			v2.setPadding(10,0,10,0);
 			
 			final int k=i;
 			l3.setOnClickListener(new OnClickListener() {
