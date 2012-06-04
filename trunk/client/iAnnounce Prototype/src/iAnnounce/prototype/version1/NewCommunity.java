@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 public class NewCommunity extends Activity {
@@ -21,7 +22,7 @@ public class NewCommunity extends Activity {
 
 		setContentView(R.layout.new_community);
 
-		Button buttonReturn = (Button) findViewById(R.id.btn_return);
+		ImageView buttonReturn = (ImageView) findViewById(R.id.btn_return);
 		buttonReturn.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View v) {
 				//Do stuff here

@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -24,26 +25,25 @@ public class Community extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		LinearLayout mainLayout = new LinearLayout(this);
-		Button button = new Button(this);
-		button.setText("Create New Community");
-		button.setOnClickListener(new Button.OnClickListener() {
+		setContentView(R.layout.community);		
+		ImageView new_ngbr = (ImageView) findViewById(R.id.new_ngbr);
+		new_ngbr.setOnClickListener(new Button.OnClickListener() {
 		    public void onClick(View v) {
 		            //Do stuff here
 		    	Intent myIntent = new Intent(getApplicationContext(), NewCommunity.class);
                 startActivity(myIntent);
 		    }
 		});
-		LinearLayout buttonLayout = new LinearLayout(this);
+		/*LinearLayout buttonLayout = new LinearLayout(this);
 		//buttonLayout.setGravity(Gravity.CENTER_HORIZONTAL);
-		buttonLayout.addView(button);
+		buttonLayout.addView(new_ngbr);
 		mainLayout.addView(buttonLayout);
 		ScrollView scrollview = new ScrollView(this);
 		scrollview.setBackgroundColor(getResources().getColor(R.color.announcemts_bg));
 		mainLayout.addView(scrollview);
 		mainLayout.setBackgroundColor(getResources().getColor(R.color.announcemts_bg));
-		mainLayout.setOrientation(LinearLayout.VERTICAL);
-		setContentView(mainLayout);		
+		mainLayout.setOrientation(LinearLayout.VERTICAL);*/
+		ScrollView scrollview = (ScrollView) findViewById(R.id.main_scroll);
 		LinearLayout outerLinearLayout = new LinearLayout(this);
 		scrollview.addView(outerLinearLayout);
 		outerLinearLayout.setOrientation(LinearLayout.VERTICAL);

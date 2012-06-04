@@ -8,9 +8,16 @@
 <style name="generalnotitle">
     <item name="android:windowNoTitle">true</item>
     <item name="android:windowFullscreen">false</item>
-    <item name="android:divider">@drawable/sepbar</item>
 </style>
-
+<style name="generaltitle" parent="android:Theme">
+    <item name="android:windowNoTitle">false</item>
+    <item name="android:windowFullscreen">false</item>
+    <item name="android:divider">@drawable/sepbar</item>
+    <!--<item name="android:windowTitleBackgroundStyle">@style/CustomWindowTitleBackground</item>  --> 
+    <item name="android:windowBackground">@color/app_background</item>
+    <item name="android:windowTitleSize">25dip</item>
+    <item name="android:windowTitleBackgroundStyle">@style/CustomWindowTitleBackground</item>
+</style>
 <style name="userText">
 	<item name="android:textColor">#FFFFFF</item>
 </style>
@@ -47,7 +54,8 @@
 <item name="android:textColor">@color/custom_input_text</item>
 </style>
 
-<style name="TabTextStyle" parent="@android:attr/tabWidgetStyle">
-    <item name="android:textColor">@drawable/tab_text</item>
-</style>
+   <style name="CustomWindowTitleBackground">
+        <item name="android:background">#686868</item>
+    </style>
+
 </resources>

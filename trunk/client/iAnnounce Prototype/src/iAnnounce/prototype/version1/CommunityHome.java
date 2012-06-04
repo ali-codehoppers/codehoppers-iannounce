@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -26,7 +27,7 @@ public class CommunityHome extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.community_home);
-		Button buttonReturn = (Button) findViewById(R.id.btn_return);
+		ImageView buttonReturn = (ImageView) findViewById(R.id.btn_return);
 		buttonReturn.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View v) {
 				//Do stuff here
@@ -52,9 +53,9 @@ public class CommunityHome extends Activity {
 		}
 
 		TextView title = (TextView) findViewById(R.id.text_title);
-		title.setText(myhandler.obj_serverResp1.neigbhours.get(0).title);
+		title.setText(myhandler.obj_serverResp1.neigbhours.get(0).title.toUpperCase());
 
-		Button buttonJoin = (Button) findViewById(R.id.btn_join);
+		ImageView buttonJoin = (ImageView) findViewById(R.id.btn_join);
 		buttonJoin.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View v) {
 				//Do stuff here
@@ -66,7 +67,7 @@ public class CommunityHome extends Activity {
 				startActivity(intent);
 			}
 		});
-		ImageButton buttonAnnounce = (ImageButton) findViewById(R.id.btn_announce);
+		ImageView buttonAnnounce = (ImageView) findViewById(R.id.btn_announce);
 		buttonAnnounce.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View v) {
 				//Do stuff here
@@ -78,7 +79,7 @@ public class CommunityHome extends Activity {
 				startActivity(myIntent);
 			}
 		});
-		ImageButton buttonLocation = (ImageButton) findViewById(R.id.btn_location);
+		ImageView buttonLocation = (ImageView) findViewById(R.id.btn_location);
 		buttonLocation.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View v) {
 				//Do stuff here
@@ -137,15 +138,15 @@ public class CommunityHome extends Activity {
 			View view2 = layoutInflater.inflate(R.layout.ann_info_bar, null);
 			RelativeLayout relativeLayout = (RelativeLayout) view2.findViewById(R.id.ann_info_bar_RL);
 			
-		/*	TextView tv_like=(TextView) view2.findViewById(R.id.tv_ann_info_likes);
+			TextView tv_like=(TextView) view2.findViewById(R.id.tv_ann_info_likes);
 			TextView tv_dislike=(TextView) view2.findViewById(R.id.tv_ann_info_dislikes);
 			TextView tv_locate=(TextView) view2.findViewById(R.id.tv_ann_info_locate);
 			TextView tv_comment=(TextView) view2.findViewById(R.id.tv_ann_info_comments);
 			
-			tv_like.setText(getResources().getString(R.string.like)+" ( 0 ) ");
-			tv_dislike.setText(getResources().getString(R.string.dislike)+" ( 0 ) ");
-			tv_locate.setText(getResources().getString(R.string.locate)+" ( 0 km ) ");			
-			tv_comment.setText(getResources().getString(R.string.comments)+" ( 0 ) ");*/
+			tv_like.setText("(0)");
+			tv_dislike.setText("(0)");
+			tv_locate.setText("(0km)");			
+			tv_comment.setText("(0)");
 			
 			LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 			lp2.setMargins(10, 10, 10, 0);
@@ -158,7 +159,7 @@ public class CommunityHome extends Activity {
 			relativeLayout.setLayoutParams(rlp);
 			
 			view.setPadding(15, 15, 15, 15);
-			view2.setPadding(30, 10,30, 10);
+			view2.setPadding(10, 0,10, 0);
 			/*LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) linearLayout.getLayoutParams();
 			layoutParams.setMargins(10,10,10,0);
 			linearLayout.setLayoutParams(layoutParams);*/
