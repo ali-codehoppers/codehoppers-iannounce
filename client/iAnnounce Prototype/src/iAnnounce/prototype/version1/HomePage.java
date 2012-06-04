@@ -47,10 +47,10 @@ public class HomePage extends TabActivity {
 		
 		
 		//check if custom title is supported BEFORE setting the content view!
-       // boolean customTitleSupported = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+        boolean customTitleSupported = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.home_page);
         
-       /* if(customTitleSupported){
+        if(customTitleSupported){
         	
         	getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,R.layout.titlebar);
         	
@@ -58,7 +58,7 @@ public class HomePage extends TabActivity {
         	SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
         	tv_title.setText((settings.getString("userName", "iAnnounce")).toUpperCase());
         	
-        }*/
+        }
 		
 		
 		

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<color name="app_background">#000000</color>
+	<color name="app_background">#686868</color>
 	<color name="light_red">#ba0305</color>
 	<color name="dark_red">#9d0c0f</color>
 		
@@ -13,7 +13,7 @@
 	<color name="tabHostBackground">#B9B9B9</color> <!-- #356891 -->
 	<color name="announcemts_bg">#FFFFFF</color>
 	
-	<color name="title_username">#FFFFFF</color>
+	<color name="title_username">#FEC00A</color> <!-- FFFFFF -->
 	
 	<color name="tab_title">#7cb5f5</color>
 	
@@ -41,9 +41,9 @@
 	<color name="grad_bg_start">#e6ecef</color>
 	<color name="grad_bg_end">#c5d1d9</color>
 	
-	<color name="announce_txt">#FFFFFF</color>
-	<color name="announce_char_remaining">#FFFFFF</color>
-	<color name="announce_labels">#284868</color>
+	<color name="announce_txt">#454545</color> <!-- FFFFFF -->
+	<color name="announce_char_remaining">#454545</color> <!-- FFFFFF -->
+	<color name="announce_labels">#454545</color> <!-- 284868 -->
 	<color name="custom_input_text">#FFFFFF</color>
 	
 	

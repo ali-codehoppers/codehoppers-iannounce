@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:id="@+id/lay_comm_bg"
-  android:orientation="vertical"
-  android:layout_width="match_parent"  
-  android:layout_height="wrap_content" 
-  android:background="@drawable/comm_bg"
-  
-  >
-  
-</LinearLayout>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:background="#B9B9B9">
+	<ImageView android:layout_width="wrap_content" android:id="@+id/new_ngbr"
+		android:layout_height="wrap_content" android:src="@drawable/new_ngbr"
+		android:layout_alignParentRight="true" android:padding="10dip"></ImageView>
+		
+	<ScrollView android:id="@+id/main_scroll" android:layout_below="@+id/new_ngbr" android:layout_width="fill_parent" android:layout_height="fill_parent" android:background="#FFFFFF"></ScrollView>
+
+</RelativeLayout>
