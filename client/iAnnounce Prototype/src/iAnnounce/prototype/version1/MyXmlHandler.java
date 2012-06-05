@@ -95,6 +95,8 @@ public class MyXmlHandler extends DefaultHandler{
 	private boolean fl_nb_owner;
 	private boolean fl_nb_member;
 	private boolean fl_nb_membersNear;
+	private boolean fl_nb_announcements;
+	private boolean fl_nb_locationsNear;
 
 	private boolean fl_locations;
 	private boolean fl_location;
@@ -182,6 +184,8 @@ public class MyXmlHandler extends DefaultHandler{
 		fl_nb_owner=false;
 		fl_nb_member=false;
 		fl_nb_membersNear=false;
+		fl_nb_announcements=false;
+		fl_nb_locationsNear=false;
 
 		fl_locations=false;
 		fl_location=false;
@@ -307,6 +311,10 @@ public class MyXmlHandler extends DefaultHandler{
 						fl_nb_member=true;
 					}else if(localName.equalsIgnoreCase("membersNear")){
 						fl_nb_membersNear=true;
+					}else if(localName.equalsIgnoreCase("announcements")){
+						fl_nb_announcements=true;
+					}else if(localName.equalsIgnoreCase("locationsNear")){
+						fl_nb_locationsNear=true;
 					}
 				}
 			} // get Neighbours
@@ -551,6 +559,10 @@ public class MyXmlHandler extends DefaultHandler{
 						fl_nb_member=false;
 					}else if(localName.equalsIgnoreCase("membersNear")){
 						fl_nb_membersNear=false;
+					}else if(localName.equalsIgnoreCase("announcements")){
+						fl_nb_announcements=true;
+					}else if(localName.equalsIgnoreCase("locationsNear")){
+						fl_nb_locationsNear=true;
 					}		
 				}
 			} // fl_get_Neighbours
@@ -772,6 +784,10 @@ public class MyXmlHandler extends DefaultHandler{
 						n.isMember=x;	
 					}else if(fl_nb_membersNear){
 						n.membersNear=x;
+					}else if(fl_nb_announcements){
+						n.announcements=x;
+					}else if(fl_nb_locationsNear){
+						n.locationssNear=x;
 					}
 				}
 			} // fl_get_Neighbours

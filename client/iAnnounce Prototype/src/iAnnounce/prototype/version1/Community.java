@@ -95,8 +95,8 @@ public class Community extends Activity {
 			
 			
 			tv_members.setText("("+neighbours.get(i).membersNear+")");
-			tv_ann.setText("(0)");
-			tv_locations.setText("(5)");
+			tv_ann.setText("("+neighbours.get(i).announcements+")");
+			tv_locations.setText("("+neighbours.get(i).locationssNear+")");
 			LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 			lp2.setMargins(10, 10, 10, 0);
 			

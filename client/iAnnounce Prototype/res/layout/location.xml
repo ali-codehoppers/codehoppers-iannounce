@@ -1,51 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent" android:layout_height="fill_parent"
-	android:background="@color/announcemts_bg">
-	<com.google.android.maps.MapView
-		xmlns:android="http://schemas.android.com/apk/res/android"
-		android:layout_width="fill_parent" android:layout_height="200dip"
-		android:clickable="true" android:enabled="true" android:id="@+id/mymap"
-		android:apiKey="@string/mapskey" />
-	<LinearLayout android:layout_width="fill_parent"
-		android:layout_height="wrap_content" android:layout_below="@+id/mymap"
-		android:layout_centerHorizontal="true" android:id="@+id/label_latitude">
-		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:text="Lat:"
-			android:textColor="@color/announce_txt" android:textSize="17sp"></TextView>
-		<TextView android:layout_width="wrap_content" android:id="@+id/text_latitude"
-			android:layout_height="wrap_content" android:text="ola" android:paddingLeft="5sp"
-			android:textColor="@color/announce_txt" android:textSize="17sp"></TextView>
-	</LinearLayout>
-	<LinearLayout android:layout_width="fill_parent"
-		android:layout_height="wrap_content" android:layout_below="@+id/label_latitude"
-		android:layout_centerHorizontal="true" android:id="@+id/label_longitude">
-		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:text="Long:"
-			android:textColor="@color/announce_txt" android:id="@+id/label_longitude"
-			android:textSize="17sp"></TextView>
-		<TextView android:layout_width="wrap_content" android:id="@+id/text_longitude"
-			android:layout_height="wrap_content" android:text="hahahaha" android:paddingLeft="5sp"
-			android:textColor="@color/announce_txt" android:textSize="17sp"></TextView>
-	</LinearLayout>
-	<LinearLayout android:layout_below="@+id/label_longitude"
-		android:id="@+id/location_menu" android:orientation="vertical"
-		android:layout_width="fill_parent" android:layout_height="wrap_content">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent" android:background="#FFFFFF">
+	<RelativeLayout android:layout_width="fill_parent"
+		android:layout_height="fill_parent" android:background="@color/announcemts_bg">
+		<com.google.android.maps.MapView
+			xmlns:android="http://schemas.android.com/apk/res/android"
+			android:layout_width="fill_parent" android:layout_height="200dip"
+			android:clickable="true" android:enabled="true" android:id="@+id/mymap"
+			android:apiKey="@string/mapskey" />
+		<LinearLayout android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:layout_below="@+id/mymap"
+			android:background="@color/app_background"
+			android:layout_centerHorizontal="true" android:id="@+id/label_latitude">
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="Lat:"
+				android:textColor="#F3F3F3" android:textSize="17sp"
+				android:layout_marginLeft="5dip"></TextView>
+			<TextView android:layout_width="wrap_content" android:id="@+id/text_latitude"
+				android:layout_height="wrap_content" android:text=""
+				android:paddingLeft="5sp" android:textColor="#F3F3F3"
+				android:textSize="17sp"></TextView>
+		</LinearLayout>
+		<LinearLayout android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:layout_below="@+id/label_latitude"
+			android:layout_centerHorizontal="true" android:id="@+id/label_longitude"
+			android:background="@color/app_background" android:paddingBottom="5dip">
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="Long:"
+				android:textColor="#F3F3F3" android:id="@+id/label_longitude"
+				android:textSize="17sp" android:layout_marginLeft="5dip"></TextView>
+			<TextView android:layout_width="wrap_content" android:id="@+id/text_longitude"
+				android:layout_height="wrap_content" android:text=""
+				android:paddingLeft="5sp" android:textColor="#F3F3F3"
+				android:textSize="17sp"></TextView>
+		</LinearLayout>
+		<LinearLayout android:layout_below="@+id/label_longitude"
+			android:id="@+id/location_menu" android:orientation="vertical"
+			android:layout_width="fill_parent" android:layout_height="wrap_content"
+			android:layout_marginLeft="5dip">
 
-		<TextView android:layout_width="wrap_content" android:id="@+id/label_name"
-			android:layout_height="wrap_content" android:text="Name:"
-			android:textColor="@color/announce_txt" android:textSize="17sp"></TextView>
-		<EditText android:id="@+id/location_name"
-			android:layout_height="wrap_content" android:layout_width="250sp"
-			android:layout_marginTop="7sp" android:layout_toRightOf="@+id/label_name" />
-		<TextView android:id="@+id/label_desc" android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:text="Description:"
-			android:textColor="@color/announce_txt" android:textSize="17sp" />
-		<EditText android:id="@+id/location_desc"
-			android:layout_toRightOf="@+id/label_desc" android:layout_width="250sp"
-			android:layout_height="60sp" android:layout_marginTop="7sp" />
-	</LinearLayout>
-	<Button android:layout_width="wrap_content" android:id="@+id/location_add"
-		android:layout_below="@+id/location_menu" android:layout_height="50dip"
-		android:text="Add Point"></Button>
-</RelativeLayout>
+			<TextView android:layout_width="wrap_content" android:id="@+id/label_name"
+				android:layout_height="wrap_content" android:text="Name"
+				android:textColor="@color/announce_txt" android:textSize="17sp"></TextView>
+			<EditText android:id="@+id/location_name"
+				android:layout_height="wrap_content" android:layout_width="250sp"
+				android:layout_marginTop="7sp" android:layout_toRightOf="@+id/label_name"
+				android:background="@drawable/custom_input" android:textColor="@color/announce_txt" />
+			<TextView android:id="@+id/label_desc" android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="Description"
+				android:textColor="@color/announce_txt" android:textSize="17sp" />
+			<EditText android:id="@+id/location_desc"
+				android:layout_toRightOf="@+id/label_desc" android:layout_width="250sp"
+				android:layout_height="60sp" android:layout_marginTop="7sp"
+				android:background="@drawable/custom_input" android:textColor="@color/announce_txt" />
+		</LinearLayout>
+		<Button android:layout_width="wrap_content" android:id="@+id/location_add"
+			android:layout_below="@+id/location_menu" android:layout_height="50dip"
+			android:text="Add Point" android:layout_margin="5dip"></Button>
+	</RelativeLayout>
+</ScrollView>

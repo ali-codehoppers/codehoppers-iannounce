@@ -36,7 +36,7 @@
 		<activity android:name=".Community"></activity>
 		<activity android:name=".NewCommunity"></activity>
 		<activity android:name=".CommunityHome"></activity>
-		<activity android:name=".NeighbourLocations"></activity>
+		<activity android:name=".NeighbourLocations" android:windowSoftInputMode="stateHidden" ></activity>
 		<activity android:name=".ShowLocations"></activity>
 		<service android:name="iAnnounceService" />
 

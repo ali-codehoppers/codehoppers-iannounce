@@ -15,5 +15,9 @@ public class Neigbhours {
 	public String isMember;
 	/* Number of persons near the current location*/
 	public String membersNear;
+	/* Number of announcements */
+	public String announcements;
+	/* Number of locations near the in the neighbourhood*/
+	public String locationssNear;
 }
 

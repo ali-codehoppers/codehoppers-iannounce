@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="fill_parent"
-  android:layout_height="fill_parent"
-  android:background="@color/announcemts_bg"
-  android:orientation="vertical">
-  
-  <Button android:text="Add New Location" android:id="@+id/location_new" android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
-  <ScrollView android:id="@+id/location_scrollView" android:layout_width="fill_parent" android:layout_height="fill_parent"></ScrollView>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:background="@color/app_background_light" android:orientation="vertical">
+
+	<ImageView android:id="@+id/location_new"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:src="@drawable/new_location" android:layout_marginBottom="5dip" android:padding="5dip"></ImageView>
+
+	<ScrollView android:id="@+id/location_scrollView"
+		android:layout_width="fill_parent" android:layout_height="fill_parent"
+		android:background="#FFFFFF"></ScrollView>
 </LinearLayout>
