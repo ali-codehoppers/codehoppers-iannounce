@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent" android:background="#FFFFFF" android:id="@+id/loc_main">
+  
+  <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/loc_name" android:textColor="@color/ann_announcer" android:textSize="25sp" android:text="Name" ></TextView>
+  <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/loc_dist" android:textColor="@color/ann_announcer" android:textSize="15sp" android:text="1.5 km" android:layout_alignParentRight="true" ></TextView>
+  <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/loc_desc" android:layout_below="@+id/loc_name" android:textColor="@color/ann_desc" android:textSize="17sp" android:paddingTop="10dip" android:text="Description" ></TextView>
+  <LinearLayout android:layout_width="fill_parent" android:layout_height="1dip" android:background="@color/ann_desc" android:layout_below="@+id/loc_desc" android:layout_marginTop="10dip"></LinearLayout>
+</RelativeLayout>

@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,7 +30,15 @@ public class NeighbourLocations extends MapActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		boolean customTitleSupported = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.location);
+		
+		if(customTitleSupported){
+			getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,R.layout.titlebar);
+			TextView tv_title= (TextView)findViewById(R.id.tv_titlebar);        	
+			SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
+			tv_title.setText((settings.getString("userName", "iAnnounce")).toUpperCase());	
+		}
 		MapView mapView = (MapView) findViewById(R.id.mymap);
 		mapView.setBuiltInZoomControls(true);
 

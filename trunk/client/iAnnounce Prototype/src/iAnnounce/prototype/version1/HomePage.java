@@ -42,37 +42,22 @@ public class HomePage extends TabActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		
-		
-		
+
+
+
+
 		//check if custom title is supported BEFORE setting the content view!
-        boolean customTitleSupported = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
-        setContentView(R.layout.home_page);
-        
-        if(customTitleSupported){
-        	
-        	getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,R.layout.titlebar);
-        	
-        	TextView tv_title= (TextView)findViewById(R.id.tv_titlebar);        	
-        	SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
-        	tv_title.setText((settings.getString("userName", "iAnnounce")).toUpperCase());
-        	
-        }
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		boolean customTitleSupported = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+		setContentView(R.layout.home_page);
+
+		if(customTitleSupported){
+			getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,R.layout.titlebar);
+			TextView tv_title= (TextView)findViewById(R.id.tv_titlebar);        	
+			SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
+			tv_title.setText((settings.getString("userName", "iAnnounce")).toUpperCase());	
+		}
+
+
 
 		/*Location work*/
 
@@ -85,7 +70,7 @@ public class HomePage extends TabActivity {
 
 
 		getApplication().startService(new Intent(this, iAnnounceService.class));
-//		getApplicationContext().bindService(new Intent(HomePage.this, iAnnounceService.class), mConnection, Context.BIND_AUTO_CREATE);
+		//		getApplicationContext().bindService(new Intent(HomePage.this, iAnnounceService.class), mConnection, Context.BIND_AUTO_CREATE);
 
 
 
@@ -134,48 +119,48 @@ public class HomePage extends TabActivity {
 
 		}
 		else{
-//			locationManager.requestLocationUpdates(provider, 1*60*1000, distFreq,
-//					locationListener);
-//
-//			/* ifcrash*/
-//
-//			Location location =
-//				locationManager.getLastKnownLocation(provider);
-//
-//			if(location!=null){
-//				updateLocation(location);
-//			}
+			//			locationManager.requestLocationUpdates(provider, 1*60*1000, distFreq,
+			//					locationListener);
+			//
+			//			/* ifcrash*/
+			//
+			//			Location location =
+			//				locationManager.getLastKnownLocation(provider);
+			//
+			//			if(location!=null){
+			//				updateLocation(location);
+			//			}
 			/*----*/
 
-//			TabHost tabHost = getTabHost();  // The activity TabHost
-//			TabHost.TabSpec spec;  // Reusable TabSpec for each tab
-//			Intent intent;  // Reusable Intent for each tab
-//			TabHost.TabSpec spec1;
-//			// Create an Intent to launch an Activity for the tab (to be reused)
-//			intent = new Intent().setClass(this, NewsFeed.class);
-//
-//			// Initialize a TabSpec for each tab and add it to the TabHost
-//			spec1 = tabHost.newTabSpec("news").setIndicator("Announcement Feed",getResources().getDrawable(R.drawable.tabs_annoucements)).setContent(intent);
-//			tabHost.addTab(spec1);
-//
-//			// Do the same for the other tabs
-//			intent = new Intent().setClass(this, Announce.class);
-//			spec = tabHost.newTabSpec("post").setIndicator("Announce").setContent(intent);
-//			tabHost.addTab(spec);
-//
-//
-//
-//
-//			intent = new Intent().setClass(this, MyAnnouncments.class);
-//			spec = tabHost.newTabSpec("mypost").setIndicator("My Announcments").setContent(intent);
-//			tabHost.addTab(spec);
-//
-//			tabHost.setCurrentTab(0);
-			
-			
+			//			TabHost tabHost = getTabHost();  // The activity TabHost
+			//			TabHost.TabSpec spec;  // Reusable TabSpec for each tab
+			//			Intent intent;  // Reusable Intent for each tab
+			//			TabHost.TabSpec spec1;
+			//			// Create an Intent to launch an Activity for the tab (to be reused)
+			//			intent = new Intent().setClass(this, NewsFeed.class);
+			//
+			//			// Initialize a TabSpec for each tab and add it to the TabHost
+			//			spec1 = tabHost.newTabSpec("news").setIndicator("Announcement Feed",getResources().getDrawable(R.drawable.tabs_annoucements)).setContent(intent);
+			//			tabHost.addTab(spec1);
+			//
+			//			// Do the same for the other tabs
+			//			intent = new Intent().setClass(this, Announce.class);
+			//			spec = tabHost.newTabSpec("post").setIndicator("Announce").setContent(intent);
+			//			tabHost.addTab(spec);
+			//
+			//
+			//
+			//
+			//			intent = new Intent().setClass(this, MyAnnouncments.class);
+			//			spec = tabHost.newTabSpec("mypost").setIndicator("My Announcments").setContent(intent);
+			//			tabHost.addTab(spec);
+			//
+			//			tabHost.setCurrentTab(0);
+
+
 			TabHost tabHost= getTabHost();
 			String tabId = "0";
-//			tabHost.setBackgroundColor(Color.BLACK);
+			//			tabHost.setBackgroundColor(Color.BLACK);
 			Bundle bundle = this.getIntent().getExtras();
 			if(bundle != null && bundle.getString("tabId") != null){
 				tabId = bundle.getString("tabId");
@@ -190,9 +175,9 @@ public class HomePage extends TabActivity {
 			spec.setIndicator(tabIndicator);
 			spec.setContent(new Intent(HomePage.this, NewsFeed.class));
 			tabHost.addTab(spec);
-			
-			
-			
+
+
+
 			View tabIndicator1 = LayoutInflater.from(this).inflate(R.layout.tabs_indicator, getTabWidget(), false);
 			ImageView icon1 = (ImageView)tabIndicator1.findViewById(R.id.icon);
 			icon1.setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_indicator_selector_pann));
@@ -209,8 +194,8 @@ public class HomePage extends TabActivity {
 			}
 			spec2.setContent(myIntent);
 			tabHost.addTab(spec2);
-			
-			
+
+
 			View tabIndicator2 = LayoutInflater.from(this).inflate(R.layout.tabs_indicator, getTabWidget(), false);
 			//tabIndicator2.setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_indicator_selector_myann));
 			ImageView icon3 = (ImageView)tabIndicator2.findViewById(R.id.icon);
@@ -221,7 +206,7 @@ public class HomePage extends TabActivity {
 			spec3.setIndicator(tabIndicator2);
 			spec3.setContent(new Intent(HomePage.this,MyAnnouncments.class));
 			tabHost.addTab(spec3);
-			
+
 			View tabIndicator3 = LayoutInflater.from(this).inflate(R.layout.tabs_indicator, getTabWidget(), false);
 			//tabIndicator3.setBackgroundDrawable(getResources().getDrawable(R.drawable.tab_indicator_selector_ngbr));
 			ImageView icon4 = (ImageView)tabIndicator3.findViewById(R.id.icon);
@@ -233,14 +218,14 @@ public class HomePage extends TabActivity {
 			spec4.setContent(new Intent(HomePage.this,Community.class));
 			tabHost.addTab(spec4);			
 			tabHost.setCurrentTab(Integer.parseInt(tabId));
-			
-			
-			
-			
-//			addTab("Announce", R.drawable.tab_indicator_selector_ann, new Intent(HomePage.this, Announce.class));
-//			addTab("My Announcements", R.drawable.tab_indicator_selector_ann, new Intent(HomePage.this, MyAnnouncments.class));
-			
-			
+
+
+
+
+			//			addTab("Announce", R.drawable.tab_indicator_selector_ann, new Intent(HomePage.this, Announce.class));
+			//			addTab("My Announcements", R.drawable.tab_indicator_selector_ann, new Intent(HomePage.this, MyAnnouncments.class));
+
+
 
 
 			/*Message m=Message.obtain(null,iAnnounceService.GET_ANNOUNCEMENTS);
@@ -256,7 +241,7 @@ public class HomePage extends TabActivity {
 		}
 
 	}
-	
+
 
 
 	public void updateLocation(Location Loc){
@@ -295,27 +280,27 @@ public class HomePage extends TabActivity {
 
 	class IncomingHandler extends Handler {
 		Messenger NewsFeed_messenger=NewsFeed.myMess;
-		
+
 		Message m;
 
 		@Override
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case iAnnounceService.RECIEVE_ANNOUNCEMENTS:
-				
+
 				break;
 
 			case iAnnounceService.RECIEVE_TASK_RESPONSE:
 				m=Message.obtain(null,iAnnounceService.RECIEVE_ANNOUNCEMENTS);
 				m.replyTo = mMessenger;
 				m.obj=msg.obj;
-					if(NewsFeed_messenger!=null){			
-				try {
-					NewsFeed_messenger.send(m);
-				} catch (RemoteException e) {			
-					e.printStackTrace();
-				}		
-					}
+				if(NewsFeed_messenger!=null){			
+					try {
+						NewsFeed_messenger.send(m);
+					} catch (RemoteException e) {			
+						e.printStackTrace();
+					}		
+				}
 				break;
 
 			case iAnnounceService.RESPONSE_NETWORK_ERROR:
@@ -323,11 +308,11 @@ public class HomePage extends TabActivity {
 				m.replyTo = mMessenger;
 				m.obj=msg.obj;
 				if(NewsFeed_messenger!=null){	
-				try {
-					NewsFeed_messenger.send(m);
-				} catch (RemoteException e) {			
-					e.printStackTrace();
-				}	
+					try {
+						NewsFeed_messenger.send(m);
+					} catch (RemoteException e) {			
+						e.printStackTrace();
+					}	
 				}
 				break;
 			case  iAnnounceService.RESPONSE_ERROR_FROM_SERVER:
@@ -335,11 +320,11 @@ public class HomePage extends TabActivity {
 				m.replyTo = mMessenger;
 				m.obj=msg.obj;
 				if(NewsFeed_messenger!=null){	
-				try {
-					NewsFeed_messenger.send(m);
-				} catch (RemoteException e) {			
-					e.printStackTrace();
-				}	
+					try {
+						NewsFeed_messenger.send(m);
+					} catch (RemoteException e) {			
+						e.printStackTrace();
+					}	
 				}
 				break;
 			case iAnnounceService.RESPONSE_ERROR_SESSION:
@@ -347,15 +332,15 @@ public class HomePage extends TabActivity {
 				m.replyTo = mMessenger;
 				m.obj=msg.obj;
 				if(NewsFeed_messenger!=null){	
-				try {
-					NewsFeed_messenger.send(m);
-				} catch (RemoteException e) {			
-					e.printStackTrace();
-				}
+					try {
+						NewsFeed_messenger.send(m);
+					} catch (RemoteException e) {			
+						e.printStackTrace();
+					}
 				}
 				break;
-				
-				
+
+
 			default:
 
 			}
@@ -379,7 +364,7 @@ public class HomePage extends TabActivity {
 		}
 
 		public void onServiceDisconnected(ComponentName className) {
-			
+
 			mService = null;				
 			Toast.makeText(getBaseContext(),"Disconnected from Service",Toast.LENGTH_SHORT).show();
 
@@ -388,37 +373,37 @@ public class HomePage extends TabActivity {
 
 
 	protected void onResume() {
-//		
-//		//		Message m=Message.obtain(null,iAnnounceService.GET_ANNOUNCEMENTS);
-//		//		m.replyTo = NewsFeed.myMess;
-//		//		if(mService!=null){
-//		//			try {
-//		//				mService.send(m);
-//		//			} catch (RemoteException e) {			
-//		//				e.printStackTrace();
-//		//			}
-//		//		}
-//		if(mService!=null){
-//			Message m1=Message.obtain(null,iAnnounceService.STOP_TIMERTASK);
-//			m1.replyTo = mMessenger;
-//
-//			try {
-//				mService.send(m1);
-//			} catch (RemoteException e) {			
-//				e.printStackTrace();
-//			}
-//
-//		}
-//
-//		Message m=Message.obtain(null,iAnnounceService.START_TIMERTASK);	
-//		m.replyTo = mMessenger;
-//		if(mService!=null){
-//			try {
-//				mService.send(m);
-//			} catch (RemoteException e) {			
-//				e.printStackTrace();
-//			}
-//		}
+		//		
+		//		//		Message m=Message.obtain(null,iAnnounceService.GET_ANNOUNCEMENTS);
+		//		//		m.replyTo = NewsFeed.myMess;
+		//		//		if(mService!=null){
+		//		//			try {
+		//		//				mService.send(m);
+		//		//			} catch (RemoteException e) {			
+		//		//				e.printStackTrace();
+		//		//			}
+		//		//		}
+		//		if(mService!=null){
+		//			Message m1=Message.obtain(null,iAnnounceService.STOP_TIMERTASK);
+		//			m1.replyTo = mMessenger;
+		//
+		//			try {
+		//				mService.send(m1);
+		//			} catch (RemoteException e) {			
+		//				e.printStackTrace();
+		//			}
+		//
+		//		}
+		//
+		//		Message m=Message.obtain(null,iAnnounceService.START_TIMERTASK);	
+		//		m.replyTo = mMessenger;
+		//		if(mService!=null){
+		//			try {
+		//				mService.send(m);
+		//			} catch (RemoteException e) {			
+		//				e.printStackTrace();
+		//			}
+		//		}
 		super.onResume();
 
 	}
@@ -426,28 +411,28 @@ public class HomePage extends TabActivity {
 	@Override
 	protected void onPause() {
 
-//		Message m=Message.obtain(null,iAnnounceService.STOP_TIMERTASK);
-//		m.replyTo = mMessenger;
-//		if(mService!=null){
-//			try {
-//				mService.send(m);
-//			} catch (RemoteException e) {			
-//				e.printStackTrace();
-//			}
-//
-//		}
-//
+		//		Message m=Message.obtain(null,iAnnounceService.STOP_TIMERTASK);
+		//		m.replyTo = mMessenger;
+		//		if(mService!=null){
+		//			try {
+		//				mService.send(m);
+		//			} catch (RemoteException e) {			
+		//				e.printStackTrace();
+		//			}
+		//
+		//		}
+		//
 		super.onPause();		
 	}
 
 	@Override
 	protected void onStop() {
-		
-//		locationManager.removeUpdates(locationListener);
-//		getApplicationContext().unbindService(mConnection);
-		
+
+		//		locationManager.removeUpdates(locationListener);
+		//		getApplicationContext().unbindService(mConnection);
+
 		getApplication().stopService(new Intent(this, iAnnounceService.class));
-		
+
 		super.onStop();
 	}
 

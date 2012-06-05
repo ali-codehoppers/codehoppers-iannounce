@@ -29,13 +29,17 @@ public class NeighbourhoodGet extends BaseActionClass {
             String xml = "";
             int numAnnouncements = 0;
             for (int i = 0; i < communities.size(); i++) {
-                List list = neighbourService.getNearbyMembers(person.getLatitude(), person.getLongitude(), 2, communities.get(i).getId());
+                List members = neighbourService.getNearbyMembers(person.getLatitude(), person.getLongitude(), 2, communities.get(i).getId());
+                List announcements = announcementService.findByNeighbourhoodId(communities.get(i).getId());
+                List locations = locationService.getNearbyLocations(person.getLatitude(), person.getLongitude(), 2, communities.get(i).getId());
                 xml += "<neighbour><id>" + communities.get(i).getId() + "</id>";
                 xml += "<Title>" + communities.get(i).getTitle() + "</Title>";
                 xml += "<Description>" + communities.get(i).getDescription() + "</Description>";
                 xml += "<isPrivate>" + communities.get(i).isIsPrivate() + "</isPrivate>";
                 xml += "<owner>" + communities.get(i).getOwner() + "</owner>";
-                xml += "<membersNear>"+list.size()+"</membersNear>";
+                xml += "<membersNear>"+members.size()+"</membersNear>";
+                xml += "<announcements>"+announcements.size()+"</announcements>";
+                xml += "<locationsNear>"+locations.size()+"</locationsNear>";
                 xml += "</neighbour>";
                 numAnnouncements++;
             }

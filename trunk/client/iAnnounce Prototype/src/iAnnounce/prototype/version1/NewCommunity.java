@@ -8,10 +8,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Xml;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class NewCommunity extends Activity {
@@ -20,7 +22,16 @@ public class NewCommunity extends Activity {
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 
+		boolean customTitleSupported = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.new_community);
+
+		if(customTitleSupported){
+			getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,R.layout.titlebar);
+			TextView tv_title= (TextView)findViewById(R.id.tv_titlebar);        	
+			SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
+			tv_title.setText((settings.getString("userName", "iAnnounce")).toUpperCase());	
+		}
+
 
 		ImageView buttonReturn = (ImageView) findViewById(R.id.btn_return);
 		buttonReturn.setOnClickListener(new Button.OnClickListener() {
@@ -60,12 +71,12 @@ public class NewCommunity extends Activity {
 				} catch (SAXException e) {
 					e.printStackTrace();
 				}
-				
+
 				Intent myIntent = new Intent(getApplicationContext(), CommunityHome.class);
-		    	Bundle b= new Bundle();
-		    	b.putString("neighbourId", myhandler.obj_serverResp1.neigbhours.get(0).id);
-		    	myIntent.putExtras(b);
-                startActivity(myIntent);
+				Bundle b= new Bundle();
+				b.putString("neighbourId", myhandler.obj_serverResp1.neigbhours.get(0).id);
+				myIntent.putExtras(b);
+				startActivity(myIntent);
 			}
 		});
 
