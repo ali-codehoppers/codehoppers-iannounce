@@ -12,6 +12,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,6 +21,7 @@ import android.provider.Settings;
 import android.text.InputType;
 import android.util.Xml;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -64,9 +66,13 @@ public class Registeration extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		boolean customTitleSupported = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.registration);
-
+		if(customTitleSupported){
+			getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,R.layout.titlebar);
+			TextView tv_title= (TextView)findViewById(R.id.tv_titlebar);        	
+			tv_title.setText("iAnnounce");	
+		}
 		mPickDate = (Button) findViewById(R.id.pickDate);
 		mYear = 1980;
 		mMonth = 0;

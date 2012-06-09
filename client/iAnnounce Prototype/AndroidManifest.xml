@@ -27,7 +27,8 @@
 		<activity android:name="UserProfile"></activity>
 		<activity android:name="EditProfile"></activity>
 		<activity android:name="MyProfile"></activity>
-		<activity android:name="CommentActivity"></activity>
+		<activity android:name="CommentActivity" android:windowSoftInputMode="stateHidden"></activity>
+		<activity android:name="AnnouncementComments" android:windowSoftInputMode="stateHidden"></activity>
 		<activity android:name=".optionAct" android:label="Options"></activity>
 		<activity android:name="MapDisp"></activity>
 		<activity android:name="Act_abt"></activity>

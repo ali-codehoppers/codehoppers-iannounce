@@ -92,4 +92,11 @@ public class DaoGeneric<T, PK extends Serializable> implements IDaoGeneric<T, PK
         SQLQuery sQLQuery = getSession().createSQLQuery(query);
         return sQLQuery.list();
     }
+
+    public List getAnnouncements(double latitude, double longitude,int pageNum) {
+        int start = (pageNum-1)*10;
+        String query = "SELECT a.* ,(((ACOS( SIN( ("+latitude+" * PI() /180 ) ) * SIN( (a.latitude * PI() /180 )) + COS( ("+latitude+" * PI( ) /180 )) * COS( (a.latitude * PI() /180 )) * COS( (( "+longitude+" -  a.longitude ) * PI() /180 )))) *180 / PI()) *60 * 1.1515 * 1.609344 ) AS  `distance` FROM  announcement a WHERE totalRating>-10 HAVING `distance` <= a.radius  ORDER BY  `ttime` DESC LIMIT "+start+",10";
+        SQLQuery sQLQuery = getSession().createSQLQuery(query);
+        return sQLQuery.list();
+    }
 }

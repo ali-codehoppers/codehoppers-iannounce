@@ -4,24 +4,6 @@
 	android:layout_height="fill_parent" android:background="@drawable/ann_info_bar">
 	<LinearLayout android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:padding="5dip"
-		android:id="@+id/img_like" android:orientation="vertical">
-		<ImageView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:src="@drawable/like" android:id="@+id/tv_ann_image_likes" ></ImageView>
-		<TextView style="@style/info_bar_style" android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:id="@+id/tv_ann_info_likes" />
-	</LinearLayout>
-	<LinearLayout android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:padding="5dip"
-		android:id="@+id/img_dislike" android:layout_toRightOf="@+id/img_like"
-		android:orientation="vertical">
-		<ImageView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:src="@drawable/dislike" android:id="@+id/tv_ann_image_dislikes"></ImageView>
-		<TextView style="@style/info_bar_style" android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:id="@+id/tv_ann_info_dislikes"
-			android:layout_below="@+id/img_dislike" />
-	</LinearLayout>
-	<LinearLayout android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:padding="5dip"
 		android:id="@+id/img_comments" android:layout_toRightOf="@+id/img_dislike"
 		android:orientation="vertical">
 		<ImageView android:layout_width="wrap_content"

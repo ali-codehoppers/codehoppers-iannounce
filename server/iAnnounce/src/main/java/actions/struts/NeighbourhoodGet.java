@@ -52,7 +52,7 @@ public class NeighbourhoodGet extends BaseActionClass {
 
 //            xml += "</announcements>"; //</getAnnouncements></response>
             xml += "</response>";
-            //System.out.println(xml);
+            System.out.println(xml);
             xmlResponse = xml;
             return "MOBILE";
 

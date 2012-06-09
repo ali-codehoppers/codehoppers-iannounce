@@ -121,7 +121,7 @@ public class CommunityHome extends Activity {
 			View view = layoutInflater.inflate(R.layout.ann_bg, null);
 			LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.lay_ann_bg);
 			TextView ann = new TextView(getBaseContext());
-			ann.setText(announcement.announcer);
+			ann.setText(announcement.announcer.toUpperCase());
 			ann.setTextColor(getResources().getColor(R.color.ann_announcer));
 			ann.setTextSize(26);
 			//final String n = neighbours.get(i).id;

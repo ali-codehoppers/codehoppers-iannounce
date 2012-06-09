@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="wrap_content"
+	android:layout_height="wrap_content" android:padding="5dip" android:id="@+id/comm_detail">
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:id="@+id/comm_name"
+		android:textColor="@color/ann_announcer" android:textSize="17sp"
+		android:text="MUAZAHMED"></TextView>
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:id="@+id/comm_date"
+		android:textColor="@color/ann_desc" android:textSize="12sp"
+		android:layout_alignParentRight="true" android:text="2 Day ago"></TextView>
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:id="@+id/comm_text"
+		android:textColor="@color/ann_desc" android:textSize="14sp"
+		android:layout_below="@+id/comm_name" android:text="Hello, I am just a test sample here"></TextView>
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="1dip" android:background="@color/app_background_light"
+		android:layout_marginTop="10dip" android:layout_below="@+id/comm_text"></LinearLayout>
+</RelativeLayout>

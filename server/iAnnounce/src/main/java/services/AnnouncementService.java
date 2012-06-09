@@ -47,4 +47,8 @@ public class AnnouncementService {
     public List<Announcement> getAll() {
         return ADao.getAll();
     }
+    
+    public List getAnnouncements(double latitude,double longitude,int pageNum){
+        return ADao.getAnnouncements(latitude, longitude,pageNum);
+    }
 }

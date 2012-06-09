@@ -13,6 +13,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Xml;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -40,9 +41,15 @@ public class EditProfile extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		boolean customTitleSupported = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.edit_profile);
-
 		mPickDate = (Button) findViewById(R.id.pickDate);
+		if(customTitleSupported){
+			getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,R.layout.titlebar);
+			TextView tv_title= (TextView)findViewById(R.id.tv_titlebar);        	
+			SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
+			tv_title.setText((settings.getString("userName", "iAnnounce")).toUpperCase());	
+		}
 		mYear = 1980;
 		mMonth = 0;
 		mDay=1;
