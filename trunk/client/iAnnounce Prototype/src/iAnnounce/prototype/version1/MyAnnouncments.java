@@ -1,9 +1,12 @@
 package iAnnounce.prototype.version1;
 
+import iAnnounce.prototype.version1.R.id;
+
 import org.xml.sax.SAXException;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,13 +15,16 @@ import android.os.Message;
 import android.text.Html;
 import android.util.Log;
 import android.util.Xml;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -70,7 +76,7 @@ public class MyAnnouncments extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.my_announcments);
+		setContentView(R.layout.my_ann_new);
 		
 		fl_gotPage=true;
 		
@@ -79,6 +85,7 @@ public class MyAnnouncments extends Activity {
 		pdialog1.setTitle("");
 		pdialog1.setMessage("Loading. Please wait...");
 		
+		RelativeLayout main_layout = (RelativeLayout) findViewById(R.id.my_ann_main_view);
 		
 
 		sv =new ScrollView(MyAnnouncments.this){
@@ -109,7 +116,7 @@ public class MyAnnouncments extends Activity {
 //		mlay.setOrientation(LinearLayout.VERTICAL);
 //		sv.addView(mlay);
 		
-		setContentView(sv);
+		main_layout.addView(sv);
 
 
 
@@ -261,42 +268,51 @@ public class MyAnnouncments extends Activity {
 			msgHandler.sendMessage(msg);
 		}
 		else{
+			
 			LinearLayout l1=new LinearLayout(getBaseContext());			
 			l1.setOrientation(LinearLayout.VERTICAL);
 			for(int i=0;i<obj_serRes.feed.size();i++){
 
-				LinearLayout l2=new LinearLayout(getBaseContext());
-				l2.setOrientation(LinearLayout.VERTICAL);
+				LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				View view = layoutInflater.inflate(R.layout.ann_bg, null);
+				
+				LinearLayout l2= (LinearLayout) view.findViewById(R.id.lay_ann_bg);
+				//l2.setOrientation(LinearLayout.VERTICAL);
 				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 				lp.setMargins(0,10, 0,10);
 				l2.setLayoutParams(lp);
 
 				TextView Descr=new TextView(getBaseContext());
-				Descr.setText(Html.fromHtml("<b>Description:</b> "+obj_serRes.feed.get(i).description));
+				//Descr.setText(Html.fromHtml("<b>Description:</b> "+obj_serRes.feed.get(i).description));
+				Descr.setText(Html.fromHtml(obj_serRes.feed.get(i).description));
 				Descr.setTextSize(20);
-
+				Descr.setTextColor(getResources().getColor(R.color.ann_announcer));
 				l2.addView(Descr);
 
-				TextView date=new TextView(getBaseContext());
+				/*TextView date=new TextView(getBaseContext());
 				date.setText(Html.fromHtml("<b>Time:</b> "+obj_serRes.feed.get(i).timestamp));
 				date.setTextSize(16);
 
-				l2.addView(date);
+				l2.addView(date);*/
 
 				TextView ratin=new TextView(getBaseContext());
 				ratin.setText(Html.fromHtml("<b>Rating:</b> "+obj_serRes.feed.get(i).averageRating));
-				ratin.setTextSize(16);						
+				ratin.setTextSize(16);	
+				ratin.setTextColor(getResources().getColor(R.color.ann_desc));
 				l2.addView(ratin);
 
-				LinearLayout l3=new LinearLayout(getBaseContext());
+				//LinearLayout l3=new LinearLayout(getBaseContext());
+				
+				View v2=layoutInflater.inflate(R.layout.my_ann_info_bar, null);
+				RelativeLayout relativeLayout =(RelativeLayout)v2.findViewById(R.id.ann_info_bar_RL);
 
-				Button bt_locate=new Button(getBaseContext());
+				ImageView bt_locate= (ImageView) v2.findViewById(R.id.tv_ann_image_locate);
 
 				final String longi=obj_serRes.feed.get(i).longitude;
 				final String lati=obj_serRes.feed.get(i).latitude;
 				final String mapDesc=obj_serRes.feed.get(i).announcer+" :  "+obj_serRes.feed.get(i).description+"("+(obj_serRes.feed.get(i).timestamp).substring(0,(obj_serRes.feed.get(i).timestamp).length())+")";
 
-				bt_locate.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.locate));
+			//	bt_locate.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.locate));
 				bt_locate.setOnClickListener(new OnClickListener() {
 
 					public void onClick(View arg0) {
@@ -310,17 +326,18 @@ public class MyAnnouncments extends Activity {
 					}
 				});
 
-				LinearLayout l4=new LinearLayout(getBaseContext());
-				l4.addView(bt_locate);
-				Button bt_comment=new Button(getBaseContext());
-				bt_comment.setText(obj_serRes.feed.get(i).noOfComments);
-				bt_comment.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.comment));
+				//LinearLayout l4=new LinearLayout(getBaseContext());
+				//l4.addView(bt_locate);
+				ImageView bt_comment= (ImageView) v2.findViewById(R.id.tv_ann_image_comments);
+				TextView tv_comment=(TextView) v2.findViewById(R.id.tv_ann_info_comments);
+				tv_comment.setText("( "+obj_serRes.feed.get(i).noOfComments+" ) ");
+				//bt_comment.setText(obj_serRes.feed.get(i).noOfComments);
+				//bt_comment.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.comment));
 				final int k=i;
 				bt_comment.setOnClickListener(new OnClickListener() {
 
 					public void onClick(View v) {
-						Intent in=new Intent(getBaseContext(),CommentActivity.class);
-
+						Intent in=new Intent(getBaseContext(),AnnouncementComments.class);
 						Bundle b=new Bundle();
 						b.putString("desc",obj_serRes.feed.get(k).description);
 						b.putString("aid",obj_serRes.feed.get(k).announcement_id);
@@ -329,11 +346,10 @@ public class MyAnnouncments extends Activity {
 
 					}
 				});
-
-				l4.addView(bt_comment);
-
-				l2.addView(l3);
-				l2.addView(l4);
+				
+				view.setPadding(15, 15, 15, 15);
+				v2.setPadding(15, 10,15, 10);
+				l2.addView(relativeLayout);
 				l1.addView(l2);
 			}
 

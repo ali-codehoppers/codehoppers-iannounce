@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Xml;
+import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 /**
@@ -19,9 +20,15 @@ public class UserProfile extends Activity {
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		setContentView(R.layout.user_profile);
 		super.onCreate(savedInstanceState);
-
+		boolean customTitleSupported = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+		setContentView(R.layout.user_profile);
+		if(customTitleSupported){
+			getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,R.layout.titlebar);
+			TextView tv_title= (TextView)findViewById(R.id.tv_titlebar);        	
+			SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
+			tv_title.setText((settings.getString("userName", "iAnnounce")).toUpperCase());	
+		}
 		Bundle b=this.getIntent().getExtras();
 		String username=b.getString("username");
 		HttpPostRequest ht=new HttpPostRequest();

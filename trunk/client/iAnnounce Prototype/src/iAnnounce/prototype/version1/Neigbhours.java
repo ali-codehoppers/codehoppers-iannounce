@@ -18,6 +18,6 @@ public class Neigbhours {
 	/* Number of announcements */
 	public String announcements;
 	/* Number of locations near the in the neighbourhood*/
-	public String locationssNear;
+	public String locationsNear;
 }
 

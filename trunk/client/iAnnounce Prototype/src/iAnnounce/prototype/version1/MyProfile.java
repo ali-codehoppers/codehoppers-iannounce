@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Xml;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
@@ -256,7 +257,6 @@ public class MyProfile extends Activity{
 	@Override
 	protected void onResume() {
 		super.onResume();
-
 		setContentView(R.layout.view_profile);
 		Button editButton = (Button) findViewById(R.id.EditProfileButton);
 		editButton.setOnClickListener(new View.OnClickListener() {

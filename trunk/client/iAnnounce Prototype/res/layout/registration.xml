@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent"
-	android:layout_height="fill_parent" >
+	android:layout_height="fill_parent"  android:background="@color/announcemts_bg">
 <RelativeLayout 
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
     <TextView  
 		android:id="@+id/registrationTextviewHeading"
-    	android:layout_width="wrap_content" 
+    	android:layout_width="fill_parent" 
     	android:layout_height="wrap_content" 
     	android:text="Registration Form"
-    	android:layout_marginLeft="30sp"
-    	android:paddingTop="5sp"
+    	android:gravity="center_horizontal"
+    	android:background="@color/app_background_light"
+    	android:padding="5sp"
     	android:layout_marginBottom="10sp"
-    	android:paddingRight="5sp"
     	android:textSize="30sp"
     	   />
 	<TextView  
@@ -26,6 +26,7 @@
     	android:layout_marginTop="10sp"    	    	
     	android:paddingRight="5sp"
     	android:textSize="20sp" 
+    	android:textColor="@color/announce_labels"    	
     />
     <EditText
         android:id="@+id/registrationEdittextName"
@@ -35,6 +36,7 @@
         android:layout_below="@+id/registrationTextviewHeading"
         android:layout_alignLeft="@+id/registrationTextviewDOB2"
         android:layout_marginTop="7sp"
+        android:background="@drawable/custom_input"
         
         
      />
@@ -49,6 +51,7 @@
     	android:layout_marginTop="15sp"
     	android:paddingRight="5sp"
     	android:textSize="20sp" 
+    	android:textColor="@color/announce_labels"   
     />
     <EditText
         android:id="@+id/registrationEdittextLastName"
@@ -58,6 +61,7 @@
         android:layout_below="@+id/registrationEdittextName"
         android:layout_alignLeft="@+id/registrationTextviewDOB2"
         android:layout_marginTop="7sp"
+        android:background="@drawable/custom_input"
         
      />
      
@@ -70,6 +74,7 @@
     	android:layout_marginTop="15sp"
     	android:text="Username:"
     	android:textSize="20sp" 
+    	android:textColor="@color/announce_labels"   
     />
     <EditText
         android:id="@+id/registrationEdittextUsername"
@@ -79,6 +84,7 @@
         android:layout_below="@+id/registrationEdittextLastName"
         android:layout_alignLeft="@+id/registrationTextviewDOB2"
         android:layout_marginTop="7sp"
+        android:background="@drawable/custom_input"
      />
      
      <TextView  
@@ -90,6 +96,7 @@
     	android:text="Password:"
     	android:layout_marginTop="12sp"
     	android:textSize="20sp" 
+    	android:textColor="@color/announce_labels"   
     />
     <EditText
         android:id="@+id/registrationEdittextPassword"
@@ -100,6 +107,7 @@
         android:layout_alignLeft="@+id/registrationTextviewDOB2"
         android:layout_marginTop="5sp"
         android:password="true"
+        android:background="@drawable/custom_input"
      />
      <TextView  
 		android:id="@+id/registrationTextviewEmail"
@@ -110,6 +118,7 @@
     	android:text="Email ID:"
     	android:layout_marginTop="18sp"
     	android:textSize="20sp" 
+    	android:textColor="@color/announce_labels"   
     />
     <EditText
         android:id="@+id/registrationEdittextEmail"
@@ -119,6 +128,7 @@
         android:layout_below="@+id/registrationEdittextPassword"
         android:layout_alignLeft="@+id/registrationTextviewDOB2"
         android:layout_marginTop="10sp"
+        android:background="@drawable/custom_input"
         
      />
       <TextView  
@@ -130,6 +140,7 @@
     	android:text="Gender:"
     	android:layout_marginTop="18sp"
     	android:textSize="20sp" 
+    	android:textColor="@color/announce_labels"   
     />
      <RadioGroup
      android:id="@+id/registrationRadiogroupGender"
@@ -144,11 +155,13 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:checked="true"
-          android:text="Male" />
+          android:text="Male"
+          android:textColor="@color/announce_labels" />
       <RadioButton android:id="@+id/radio_blue"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:text="Female" />
+          android:text="Female"
+          android:textColor="@color/announce_labels" />
     </RadioGroup>
     <TextView  
 		android:id="@+id/registrationTextviewDOB1"
@@ -160,6 +173,7 @@
     	android:layout_marginTop="22sp"
     	android:paddingRight="5sp"
     	android:textSize="20sp" 
+    	android:textColor="@color/announce_labels"   
     />
     <TextView
     	android:id="@+id/registrationTextviewDOB2"
@@ -172,6 +186,7 @@
         android:paddingRight="5sp"
         android:text="1/1/1980"
         android:textSize="20sp" 
+        android:textColor="@color/announce_labels"   
     />
     <Button android:id="@+id/pickDate"
         android:layout_width="wrap_content"

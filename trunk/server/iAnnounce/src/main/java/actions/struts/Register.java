@@ -8,6 +8,7 @@ import hibernate.entities.Person;
 import java.util.Date;
 import java.util.UUID;
 import xtras.Consts;
+import xtras.SendEmail;
 
 /**
  *
@@ -87,7 +88,7 @@ public class Register extends BaseActionClass
                   {
                     //send verification code by email
                     String emailBody = generateEmailBody(person);
-                    // SendEmail verificationmail = new SendEmail(person.getEmail(), emailBody, "iAnnounce::Welcome to iAnnounce");
+                     SendEmail verificationmail = new SendEmail(person.getEmail(), emailBody, "iAnnounce::Welcome to iAnnounce");
 
 //                    xml += "true</isRegistered><description>" + "You have been successfully registered. An email has been sent on your ID for verification. Please verify before login"; //0<responseCode><responseMessage>"+Consts.responseCodes[0]+"</responseMessage><register>Conts.Registration_Success</register>"
                     xml += "0</responseCode><responseMessage>" + Consts.responseCodes[0] + "</responseMessage><register>" + Consts.REGISTERATION_SUCCESS + "</register>";

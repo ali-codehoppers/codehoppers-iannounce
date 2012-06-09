@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent" android:background="@color/announcemts_bg" >
     
      <LinearLayout
     android:orientation="horizontal"
@@ -14,7 +14,9 @@
     	android:layout_height="wrap_content" 
     	android:text="My Profile"
     	android:textSize="35sp"
-    	android:gravity="center_horizontal" 
+    	android:gravity="center_horizontal"
+    	android:textColor="@color/announce_labels"
+    	android:background="@color/app_background_light" 
     />
     </LinearLayout>
 
@@ -27,6 +29,7 @@
     	android:layout_height="wrap_content" 
     	android:text="Name:      "
     	android:textSize="25sp" 
+    	android:textColor="@color/announce_labels"
     />
     <TextView  
     	android:layout_width="wrap_content" 
@@ -34,6 +37,7 @@
     	android:text="Awais Akhter     "
     	android:textSize="25sp"
     	android:id="@+id/mypro_name" 
+    	android:textColor="@color/announce_labels"
     />
     </LinearLayout>
     <LinearLayout
@@ -45,6 +49,7 @@
     	android:layout_height="wrap_content" 
     	android:text="Age:         "
     	android:textSize="25sp" 
+    	android:textColor="@color/announce_labels"
     />
     <TextView  
     	android:layout_width="wrap_content" 
@@ -52,6 +57,7 @@
     	android:text="20"
     	android:textSize="25sp" 
     	android:id="@+id/mypro_age"
+    	android:textColor="@color/announce_labels"
     />
     </LinearLayout>
     <LinearLayout
@@ -63,6 +69,7 @@
     	android:layout_height="wrap_content" 
     	android:text="Gender:   "
     	android:textSize="25sp" 
+    	android:textColor="@color/announce_labels"
     />
     <TextView  
     	android:layout_width="wrap_content" 
@@ -70,6 +77,7 @@
     	android:text="Male"
     	android:textSize="25sp" 
     	android:id="@+id/mypro_gender"
+    	android:textColor="@color/announce_labels"
     />
     </LinearLayout>
     <LinearLayout
@@ -81,6 +89,7 @@
     	android:layout_height="wrap_content" 
     	android:text="Average Rating:     "
     	android:textSize="25sp" 
+    	android:textColor="@color/announce_labels"
     />
     <TextView  
     	android:layout_width="wrap_content" 
@@ -88,6 +97,7 @@
     	android:text="10"
     	android:textSize="25sp" 
     	android:id="@+id/mypro_rating"
+    	android:textColor="@color/announce_labels"
     />
     </LinearLayout>
     <LinearLayout
@@ -99,6 +109,7 @@
     	android:layout_height="wrap_content" 
     	android:text="Number of Posts:  "
     	android:textSize="25sp" 
+    	android:textColor="@color/announce_labels"
     />
     <TextView  
     	android:layout_width="wrap_content" 
@@ -106,6 +117,7 @@
     	android:text="47"
     	android:textSize="25sp" 
     	android:id="@+id/mypro_numofpost"
+    	android:textColor="@color/announce_labels"
     />
     </LinearLayout>
     <LinearLayout

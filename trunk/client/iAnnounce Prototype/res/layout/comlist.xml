@@ -1,7 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:padding="10dp"
-    android:textSize="16sp" >
-</TextView>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:background="@color/announcemts_bg">
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:background="@color/app_background_light"
+		android:orientation="vertical" android:id="@+id/ann_layout"
+		android:padding="5dip">
+		<TextView android:layout_width="fill_parent"
+			android:textColor="@color/ann_announcer" android:layout_height="wrap_content"
+			android:id="@+id/ann_name" android:textSize="17sp"
+			android:paddingBottom="5dip"></TextView>
+		<TextView android:layout_width="fill_parent"
+			android:textColor="@color/announce_txt" android:layout_height="wrap_content"
+			android:id="@+id/ann_text" android:paddingBottom="5dip"></TextView>
+	</LinearLayout>
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:id="@+id/comm_head"
+		android:textColor="@color/ann_announcer" android:textSize="20dip"
+		android:layout_centerInParent="true" android:layout_below="@+id/ann_layout"
+		android:text="Comments"></TextView>
+	<ScrollView android:layout_width="fill_parent"
+		android:layout_height="fill_parent" android:id="@+id/main_scroll"
+		android:layout_below="@+id/comm_head">
+		
+	</ScrollView>
+	<RelativeLayout android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:background="@color/app_background_light"
+		android:layout_alignParentBottom="true">
+		<EditText android:layout_width="fill_parent" android:id="@+id/ann_comment"
+			android:layout_height="50sp" android:background="@drawable/custom_input"></EditText>
+		<TableLayout android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:layout_below="@+id/ann_comment">
+			<TableRow android:layout_width="fill_parent"
+				android:layout_height="wrap_content">
+				<TextView android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:id="@+id/ann_char_left"
+					android:text="100" android:padding="17dip" android:textColor="@color/announce_txt"></TextView>
+				<TextView android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:text="Characters Left"
+					android:padding="17dip" android:textColor="@color/announce_txt"></TextView>
+				<ImageView android:layout_width="wrap_content" android:id="@+id/ann_submit"
+					android:layout_height="wrap_content" android:src="@drawable/submit"
+					android:paddingLeft="15dip" android:paddingTop="2dip"></ImageView>
+			</TableRow>
+		</TableLayout>
+
+	</RelativeLayout>
+</RelativeLayout>

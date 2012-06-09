@@ -560,9 +560,9 @@ public class MyXmlHandler extends DefaultHandler{
 					}else if(localName.equalsIgnoreCase("membersNear")){
 						fl_nb_membersNear=false;
 					}else if(localName.equalsIgnoreCase("announcements")){
-						fl_nb_announcements=true;
+						fl_nb_announcements=false;
 					}else if(localName.equalsIgnoreCase("locationsNear")){
-						fl_nb_locationsNear=true;
+						fl_nb_locationsNear=false;
 					}		
 				}
 			} // fl_get_Neighbours
@@ -787,7 +787,7 @@ public class MyXmlHandler extends DefaultHandler{
 					}else if(fl_nb_announcements){
 						n.announcements=x;
 					}else if(fl_nb_locationsNear){
-						n.locationssNear=x;
+						n.locationsNear=x;
 					}
 				}
 			} // fl_get_Neighbours
