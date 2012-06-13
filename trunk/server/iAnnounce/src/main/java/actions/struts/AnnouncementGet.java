@@ -6,6 +6,7 @@ package actions.struts;
 
 import hibernate.entities.Person;
 import hibernate.entities.Rating;
+import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.ListIterator;
@@ -48,6 +49,7 @@ public class AnnouncementGet extends BaseActionClass {
 
 
         if (request.getHeader("User-Agent").contains("UNAVAILABLE")) {
+       // if (true) {
 
             String xml;
 //            xml = "<announcements>"; //"<response><responseCode>0</responseCode><responseMessage>"+Consts.responseCodes[0]+"</responseMessage><getAnnouncements>"
@@ -96,6 +98,7 @@ public class AnnouncementGet extends BaseActionClass {
                     }
                     }
                     DecimalFormat twoDForm = new DecimalFormat("#.##");
+                    //String desc = URLEncoder.encode(row[1].toString(),"UTF-8"); 
                     Double distance = Double.valueOf(twoDForm.format(row[10]));
                     xml += "<announcement><id>" + row[0] + "</id>";
                     xml += "<announcer>" + row[7] + "</announcer>";
@@ -123,7 +126,8 @@ public class AnnouncementGet extends BaseActionClass {
 //            xml += "</announcements>"; //</getAnnouncements></response>
             xml += "</response>";
 
-           // System.out.println(xml);
+            //System.out.println(xml);
+            //xmlResponse = URLEncoder.encode(xml,"UTF-8");
             xmlResponse = xml;
 
 

@@ -1,7 +1,10 @@
 package iAnnounce.prototype.version1;
 
 
+import java.net.URLDecoder;
+
 import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -140,7 +143,6 @@ public class NewsFeed extends Activity {
 		v.addView(l1);
 		
 //		mainLayout.addView(v);
-		
 		setContentView(v);
 		
 		
@@ -513,6 +515,13 @@ public class NewsFeed extends Activity {
 
 			l2.addView(ann);			
 			TextView Descr=new TextView(getBaseContext());
+			String d="";
+			try{
+				d = URLDecoder.decode(obj_serRes.feed.get(i).description,"UTF-8");
+			}
+			catch(Exception e){
+				
+			}
 			Descr.setText(obj_serRes.feed.get(i).description);
 			Descr.setTextSize(16);
 			Descr.setTextColor(getResources().getColor(R.color.ann_desc));
@@ -659,13 +668,11 @@ public class NewsFeed extends Activity {
 			TextView tv_like=(TextView) v2.findViewById(R.id.tv_ann_info_likes);
 			TextView tv_dislike=(TextView) v2.findViewById(R.id.tv_ann_info_dislikes);
 			TextView tv_locate=(TextView) v2.findViewById(R.id.tv_ann_info_locate);
+			TextView tv_comment=(TextView) v2.findViewById(R.id.tv_ann_info_comments);
 			
 			tv_like.setText("( "+obj_serRes.feed.get(i).likes+" ) ");
 			tv_dislike.setText("( "+obj_serRes.feed.get(i).dislikes+" ) ");
 			tv_locate.setText("( "+obj_serRes.feed.get(i).distance+" km ) ");
-			
-			
-			TextView tv_comment=(TextView) v2.findViewById(R.id.tv_ann_info_comments);
 			tv_comment.setText("( "+obj_serRes.feed.get(i).noOfComments+" ) ");
 			
 			LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
@@ -728,6 +735,8 @@ public class NewsFeed extends Activity {
 			MyXmlHandler myhandler=new MyXmlHandler();
 			try {
 				Xml.parse(ht.xmlStringResponse, myhandler);
+				//XMLReader xr = new 
+				//XML.p
 			} catch (SAXException e) {
 				e.printStackTrace();
 			}

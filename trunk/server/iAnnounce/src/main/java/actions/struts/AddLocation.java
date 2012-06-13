@@ -50,11 +50,11 @@ public class AddLocation extends BaseActionClass {
     public String execute() throws Exception {
         if (request.getHeader("User-Agent").contains("UNAVAILABLE")) {
             
-            System.out.println(neighbourhoodId);
+           /* System.out.println(neighbourhoodId);
             System.out.println(name);
             System.out.println(description);
             System.out.println(latitude);
-            System.out.println(longitude);
+            System.out.println(longitude);*/
             
             Person person = personService.findByName(username).get(0);
             Location location = new Location();

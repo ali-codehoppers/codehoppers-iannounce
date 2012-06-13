@@ -1,7 +1,5 @@
 package iAnnounce.prototype.version1;
 
-import java.util.zip.Inflater;
-
 import org.xml.sax.SAXException;
 
 import android.app.Activity;
@@ -13,7 +11,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
-import android.text.Html;
 import android.text.TextWatcher;
 import android.util.Xml;
 import android.view.LayoutInflater;
@@ -21,14 +18,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
+import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +39,7 @@ public class AnnouncementComments extends Activity{
 	private Bundle b;
 	private int CHAR_LIMIT=100;
 	private TextView commentLen;
+	private String comment;
 
 	private final int ERROR_COMMUNICATION = 0;	
 	private final int ERROR_SERVER = 1;
@@ -52,7 +49,7 @@ public class AnnouncementComments extends Activity{
 
 	private Handler msghandler;
 	private ProgressDialog pdialog1;
-	private ScrollView l1;
+	private RelativeLayout l1;
 
 	private class ThreadGetComment extends Thread{
 		
@@ -146,8 +143,7 @@ public class AnnouncementComments extends Activity{
 
 			HttpPostRequest ht=new HttpPostRequest();
 			SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
-			ht.postComment(settings.getString("sessionId","0"), et_comment.getText().toString(), b.getString("aid"));
-
+			ht.postComment(settings.getString("sessionId","0"), comment, b.getString("aid"));
 			if(ht.isError){
 				msg1.what=ERROR_COMMUNICATION;
 				msg1.obj=ht.xception;
@@ -186,6 +182,7 @@ public class AnnouncementComments extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		boolean customTitleSupported = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+		setContentView(R.layout.comlist);
 		if(customTitleSupported){
 			getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,R.layout.titlebar);
 			TextView tv_title= (TextView)findViewById(R.id.tv_titlebar);        	
@@ -244,8 +241,8 @@ public class AnnouncementComments extends Activity{
 	private void genGUI(){
 		
 		pdialog1.show();
-		setContentView(R.layout.comlist);
-		l1= (ScrollView)findViewById(R.id.main_scroll);
+		
+		l1= (RelativeLayout)findViewById(R.id.main_scroll);
 		et_comment = (EditText) findViewById(R.id.ann_comment); 
 		commentLen= (TextView) findViewById(R.id.ann_char_left);
 
@@ -271,7 +268,6 @@ public class AnnouncementComments extends Activity{
 			}
 
 		});
-
 		ImageView bt_comment= (ImageView) findViewById(R.id.ann_submit);
 		bt_comment.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -280,7 +276,11 @@ public class AnnouncementComments extends Activity{
 				}
 				else if(et_comment.getText().length()<=CHAR_LIMIT){
 					ThreadPostComment th=new ThreadPostComment();
-					th.start();				
+					th.start();	
+					comment = et_comment.getText().toString();
+					et_comment.setText("");
+					InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+					imm.hideSoftInputFromWindow(et_comment.getWindowToken(), 0);
 				}else{
 					Toast.makeText(getApplicationContext(),"Character Limit Reached", Toast.LENGTH_LONG).show();
 					et_comment.requestFocus();

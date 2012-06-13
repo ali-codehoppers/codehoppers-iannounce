@@ -47,6 +47,7 @@ public class ShowLocations extends Activity{
 				b.putString("neighbourId", neighbourId);
 				myIntent.putExtras(b);
 				startActivity(myIntent);
+				finish();
 
 			}
 		});
