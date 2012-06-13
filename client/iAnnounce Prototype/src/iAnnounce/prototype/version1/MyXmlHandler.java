@@ -1,6 +1,8 @@
 package iAnnounce.prototype.version1;
 
 
+import java.nio.charset.Charset;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -714,8 +716,6 @@ public class MyXmlHandler extends DefaultHandler{
 	@Override
 	public void characters(char ch[], int start, int length) {
 		String x= new String(ch,start,length);
-
-
 		if(fl_response){
 			if(fl_responseCode){				
 				obj_serverResp1.responseCode=x;

@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class HttpPostRequest {
 	public boolean isError;
 	public String xception;
 	public String xmlStringResponse;
+	public String encoding = "utf-8";
 
 
 	public HttpPostRequest() {		 		 
@@ -84,7 +86,7 @@ public class HttpPostRequest {
 			postParameters.add(new BasicNameValuePair("gender", gender));
 			postParameters.add(new BasicNameValuePair("dob", DOB));
 			UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(
-					postParameters);
+					postParameters,encoding);
 			request.setEntity(formEntity);
 			HttpResponse response = client.execute(request);
 			in = new BufferedReader(new InputStreamReader(response.getEntity()
@@ -124,7 +126,7 @@ public class HttpPostRequest {
 
 
 			UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(
-					postParameters);
+					postParameters,encoding);
 			request.setEntity(formEntity);
 			HttpResponse response = client.execute(request);
 			in = new BufferedReader(new InputStreamReader(response.getEntity()
@@ -162,11 +164,12 @@ public class HttpPostRequest {
 			postParameters.add(new BasicNameValuePair("latitude", latitude));
 			postParameters.add(new BasicNameValuePair("longitude", longitude));
 			postParameters.add(new BasicNameValuePair("pageNum", pagenum));
-
-
+			
 			UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(
-					postParameters);
+					postParameters,encoding);
+			//formEntity.setContentEncoding(encoding);
 			request.setEntity(formEntity);
+			
 			HttpResponse response = client.execute(request);
 			in = new BufferedReader(new InputStreamReader(response.getEntity()
 					.getContent()));
@@ -204,7 +207,7 @@ public class HttpPostRequest {
 			postParameters.add(new BasicNameValuePair("pageNum", pagenum));
 		
 			UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(
-					postParameters);
+					postParameters,encoding);
 			request.setEntity(formEntity);
 			HttpResponse response = client.execute(request);
 			in = new BufferedReader(new InputStreamReader(response.getEntity()
@@ -243,7 +246,7 @@ public class HttpPostRequest {
 			postParameters.add(new BasicNameValuePair("neighbourId", nId));
 		
 			UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(
-					postParameters);
+					postParameters,encoding);
 			request.setEntity(formEntity);
 			HttpResponse response = client.execute(request);
 			in = new BufferedReader(new InputStreamReader(response.getEntity()
@@ -284,7 +287,7 @@ public class HttpPostRequest {
 			postParameters.add(new BasicNameValuePair("pageNum", pagenum));
 		
 			UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(
-					postParameters);
+					postParameters,encoding);
 			request.setEntity(formEntity);
 			HttpResponse response = client.execute(request);
 			in = new BufferedReader(new InputStreamReader(response.getEntity()
@@ -325,7 +328,7 @@ public class HttpPostRequest {
 			postParameters.add(new BasicNameValuePair("pageNum", pagenum));
 		
 			UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(
-					postParameters);
+					postParameters,encoding);
 			request.setEntity(formEntity);
 			HttpResponse response = client.execute(request);
 			in = new BufferedReader(new InputStreamReader(response.getEntity()
@@ -362,7 +365,7 @@ public class HttpPostRequest {
 			postParameters.add(new BasicNameValuePair("sessionId", sessionID));
 		
 			UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(
-					postParameters);
+					postParameters,encoding);
 			request.setEntity(formEntity);
 			HttpResponse response = client.execute(request);
 			in = new BufferedReader(new InputStreamReader(response.getEntity()
@@ -400,7 +403,7 @@ public class HttpPostRequest {
 			postParameters.add(new BasicNameValuePair("neighbourhood_id", neighbourhoodId));
 		
 			UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(
-					postParameters);
+					postParameters,encoding);
 			request.setEntity(formEntity);
 			HttpResponse response = client.execute(request);
 			in = new BufferedReader(new InputStreamReader(response.getEntity()
@@ -442,7 +445,7 @@ public class HttpPostRequest {
 			postParameters.add(new BasicNameValuePair("longitude", longitude));
 			
 			UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(
-					postParameters);
+					postParameters,encoding);
 			request.setEntity(formEntity);
 			HttpResponse response = client.execute(request);
 			in = new BufferedReader(new InputStreamReader(response.getEntity()
@@ -481,7 +484,7 @@ public class HttpPostRequest {
 			postParameters.add(new BasicNameValuePair("password", AeSimpleMD5.MD5(Password)));
 
 			UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(
-					postParameters);
+					postParameters,encoding);
 			request.setEntity(formEntity);
 			HttpResponse response = client.execute(request);
 			in = new BufferedReader(new InputStreamReader(response.getEntity()
@@ -517,7 +520,7 @@ public class HttpPostRequest {
 			postParameters.add(new BasicNameValuePair("username", username));
 
 			UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(
-					postParameters);
+					postParameters,encoding);
 			request.setEntity(formEntity);
 			HttpResponse response = client.execute(request);
 			in = new BufferedReader(new InputStreamReader(response.getEntity()
@@ -560,7 +563,7 @@ public class HttpPostRequest {
 			postParameters.add(new BasicNameValuePair("longitude", Longitude));
 
 			UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(
-					postParameters);
+					postParameters,encoding);
 			request.setEntity(formEntity);
 			HttpResponse response = client.execute(request);
 			in = new BufferedReader(new InputStreamReader(response.getEntity()
@@ -597,7 +600,7 @@ public class HttpPostRequest {
 			postParameters.add(new BasicNameValuePair("username", userName));
 
 			UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(
-					postParameters);
+					postParameters,encoding);
 			request.setEntity(formEntity);
 			HttpResponse response = client.execute(request);
 			in = new BufferedReader(new InputStreamReader(response.getEntity()
@@ -634,7 +637,7 @@ public class HttpPostRequest {
 			postParameters.add(new BasicNameValuePair("announcementId", annoucementId));
 
 			UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(
-					postParameters);
+					postParameters,encoding);
 			request.setEntity(formEntity);
 			HttpResponse response = client.execute(request);
 			in = new BufferedReader(new InputStreamReader(response.getEntity()
@@ -670,7 +673,7 @@ public class HttpPostRequest {
 			postParameters.add(new BasicNameValuePair("announcementId", annoucementId));
 
 			UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(
-					postParameters);
+					postParameters,encoding);
 			request.setEntity(formEntity);
 			HttpResponse response = client.execute(request);
 			in = new BufferedReader(new InputStreamReader(response.getEntity()
@@ -708,7 +711,7 @@ public class HttpPostRequest {
 			postParameters.add(new BasicNameValuePair("status", status));
 
 			UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(
-					postParameters);
+					postParameters,encoding);
 			request.setEntity(formEntity);
 			HttpResponse response = client.execute(request);
 			in = new BufferedReader(new InputStreamReader(response.getEntity()
@@ -741,7 +744,7 @@ public class HttpPostRequest {
 			postParameters.add(new BasicNameValuePair("sessionId", sessionId));			
 
 			UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(
-					postParameters);
+					postParameters,encoding);
 			request.setEntity(formEntity);
 			HttpResponse response = client.execute(request);
 			in = new BufferedReader(new InputStreamReader(response.getEntity()
@@ -778,7 +781,7 @@ public class HttpPostRequest {
 			postParameters.add(new BasicNameValuePair("password", AeSimpleMD5.MD5(Password)));
 
 			UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(
-					postParameters);
+					postParameters,encoding);
 			request.setEntity(formEntity);
 			HttpResponse response = client.execute(request);
 			in = new BufferedReader(new InputStreamReader(response.getEntity()
@@ -831,7 +834,7 @@ public class HttpPostRequest {
 
 
 			UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(
-					postParameters);
+					postParameters,encoding);
 			request.setEntity(formEntity);
 			HttpResponse response = client.execute(request);
 			in = new BufferedReader(new InputStreamReader(response.getEntity()
@@ -866,7 +869,7 @@ public class HttpPostRequest {
 			postParameters.add(new BasicNameValuePair("pageNum", pagenum));
 
 			UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(
-					postParameters);
+					postParameters,encoding);
 			request.setEntity(formEntity);
 			HttpResponse response = client.execute(request);
 			in = new BufferedReader(new InputStreamReader(response.getEntity()

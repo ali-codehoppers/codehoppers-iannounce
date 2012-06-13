@@ -21,16 +21,11 @@
 				android:text="320" android:textSize="15sp" android:textColor="@color/announce_char_remaining" />
 		</LinearLayout>
 		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:text="Announce to:"
-			android:textSize="20sp" android:textColor="@color/announce_labels" />
-		<Spinner android:id="@+id/spinner" android:layout_width="fill_parent"
-			android:layout_height="wrap_content" />
-		<TextView android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:text="Range:"
 			android:textSize="20sp" android:textColor="@color/announce_labels" />
 		<RadioGroup android:id="@+id/RG_range"
 			android:layout_width="fill_parent" android:layout_height="wrap_content"
-			android:orientation="vertical">
+			android:orientation="horizontal">
 			<RadioButton android:id="@+id/radio_loud"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"
 				android:text="Loud" android:textColor="@color/announce_labels" />
@@ -41,6 +36,11 @@
 				android:layout_width="wrap_content" android:layout_height="wrap_content"
 				android:text="Loudest" android:textColor="@color/announce_labels" />
 		</RadioGroup>
+				<TextView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:text="Announce to:"
+			android:textSize="20sp" android:textColor="@color/announce_labels" />
+		<Spinner android:id="@+id/spinner" android:layout_width="fill_parent"
+			android:layout_height="wrap_content" />
 		<Button android:id="@+id/bt_announce_submit"
 			android:layout_width="wrap_content" android:layout_height="wrap_content"
 			android:paddingRight="15sp" android:paddingLeft="15sp" android:text="Announce" />

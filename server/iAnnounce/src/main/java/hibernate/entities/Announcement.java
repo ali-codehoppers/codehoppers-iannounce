@@ -12,7 +12,7 @@ import javax.persistence.NamedQuery;
 @Entity
 @NamedQueries({
     @NamedQuery(name = "Announcement.findByName", query = "select a from Announcement a where a.username_FK like ?"),
-    @NamedQuery(name = "Announcement.findByNeighbourhoodId", query = "select a from Announcement a where a.neighbourhood_id = ?")
+    @NamedQuery(name = "Announcement.findAllByNeighbourhoodId", query = "select a from Announcement a where a.neighbourhood_id = ?")
 })
 //get announcements by username
 public class Announcement implements Serializable {

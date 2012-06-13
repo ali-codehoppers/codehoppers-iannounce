@@ -86,7 +86,11 @@ public class NeighbourLocations extends MapActivity {
 				HttpPostRequest http=new HttpPostRequest();
 				SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
 				http.addLocation(settings.getString("sessionId","0"), name, desc, neighbourId, lati, longi);
-				
+				Intent myIntent = new Intent(getApplicationContext(), ShowLocations.class);
+				Bundle b= new Bundle();
+				b.putString("neighbourId", neighbourId);
+				myIntent.putExtras(b);
+				startActivity(myIntent);
 			}
 		});
 

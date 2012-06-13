@@ -175,7 +175,7 @@ public class Registeration extends Activity {
 					}
 					else{
 						
-						pdialog1.show();
+						//pdialog1.show();
 						
 						threadRegister th=new threadRegister();
 						

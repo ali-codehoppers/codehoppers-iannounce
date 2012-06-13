@@ -26,4 +26,6 @@ public interface IDaoGeneric<T, PK extends Serializable> {
     List getNearbyLocations(double latitude,double longitude,int range,int neighbourId);
     
     List getAnnouncements(double latitude,double longitude,int pageNum);
+    
+    List getAnnouncementsByNeighbourhood(double latitude, double longitude,int neighbourId,int pageNum);
 }

@@ -30,7 +30,7 @@ public class NeighbourhoodGet extends BaseActionClass {
             int numAnnouncements = 0;
             for (int i = 0; i < communities.size(); i++) {
                 List members = neighbourService.getNearbyMembers(person.getLatitude(), person.getLongitude(), 2, communities.get(i).getId());
-                List announcements = announcementService.findByNeighbourhoodId(communities.get(i).getId());
+                List announcements = announcementService.findAllByNeighbourhoodId(communities.get(i).getId());
                 List locations = locationService.getNearbyLocations(person.getLatitude(), person.getLongitude(), 2, communities.get(i).getId());
                 xml += "<neighbour><id>" + communities.get(i).getId() + "</id>";
                 xml += "<Title>" + communities.get(i).getTitle() + "</Title>";
@@ -52,7 +52,7 @@ public class NeighbourhoodGet extends BaseActionClass {
 
 //            xml += "</announcements>"; //</getAnnouncements></response>
             xml += "</response>";
-            System.out.println(xml);
+           // System.out.println(xml);
             xmlResponse = xml;
             return "MOBILE";
 

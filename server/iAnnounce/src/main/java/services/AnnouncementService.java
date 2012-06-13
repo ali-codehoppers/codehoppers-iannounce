@@ -16,10 +16,12 @@ public class AnnouncementService {
         return ADao.findByName(name);
     }
     
-    public List<Announcement> findByNeighbourhoodId(int id) {
-        return ADao.findByNeighbourhoodId(id);
+    public List<Announcement> getAnnouncementsByNeighbourhood(double latitude, double longitude,int neighbourId,int pageNum) {
+        return ADao.getAnnouncementsByNeighbourhood(latitude, longitude, neighbourId, pageNum);
     }
-    
+    public List<Announcement> findAllByNeighbourhoodId(int id) {
+        return ADao.findAllByNeighbourhoodId(id);
+    }    
     public Integer addNew(Announcement newInstance) {
         return ADao.addNew(newInstance);
     }
