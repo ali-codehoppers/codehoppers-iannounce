@@ -7,23 +7,24 @@
 		android:layout_height="wrap_content" android:layout_width="wrap_content"
 		android:id="@+id/btn_return" android:layout_alignParentLeft="true"
 		android:padding="5dip"></ImageView>
-	<LinearLayout android:layout_width="match_parent"
-		android:layout_height="fill_parent" android:paddingTop="20dip" android:paddingLeft="5dip"
-		android:layout_below="@+id/btn_return" android:background="@color/announcemts_bg" android:orientation="vertical">
+	<ScrollView android:layout_width="match_parent"
+		android:layout_height="fill_parent" android:layout_below="@+id/btn_return"
+		android:background="@color/announcemts_bg">
+		<LinearLayout android:layout_width="match_parent"
+			android:layout_height="fill_parent" android:paddingTop="20dip"
+			android:paddingLeft="5dip" android:orientation="vertical">
 
 			<TextView style="@style/login_text_new" android:text="Name "></TextView>
 
 			<EditText android:id="@+id/communityNewName"
 				android:layout_width="175dip" android:layout_height="30dip"
-			 android:background="@drawable/custom_input"
-				android:textColor="#969696" />
+				android:background="@drawable/custom_input" android:textColor="#969696" />
 
 			<TextView style="@style/login_text_new" android:text="Description "></TextView>
 
 			<EditText android:id="@+id/communityNewDesc"
 				android:layout_width="175dp" android:layout_height="60dp"
-				android:background="@drawable/custom_input"
-				android:textColor="#969696" />
+				android:background="@drawable/custom_input" android:textColor="#969696" />
 
 			<CheckBox android:layout_width="wrap_content" android:id="@+id/ck1"
 				android:layout_height="wrap_content" android:text="Private (Invites Only)"
@@ -35,6 +36,6 @@
 				android:layout_height="wrap_content" android:id="@+id/btn_create"
 				android:text="Create"></Button>
 
-</LinearLayout>
-
+		</LinearLayout>
+	</ScrollView>
 </RelativeLayout>

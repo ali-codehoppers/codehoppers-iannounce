@@ -215,7 +215,7 @@ public class HomePage extends TabActivity {
 			title3.setText("Neighbourhoods");
 			TabHost.TabSpec spec4 = tabHost.newTabSpec("tab4");			 
 			spec4.setIndicator(tabIndicator3);
-			spec4.setContent(new Intent(HomePage.this,Community.class));
+			spec4.setContent(new Intent(HomePage.this,TabNeighbourhoodActivity.class));
 			tabHost.addTab(spec4);			
 			tabHost.setCurrentTab(Integer.parseInt(tabId));
 

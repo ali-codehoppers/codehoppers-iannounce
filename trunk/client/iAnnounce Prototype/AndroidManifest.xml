@@ -39,6 +39,7 @@
 		<activity android:name=".CommunityHome"></activity>
 		<activity android:name=".NeighbourLocations" android:windowSoftInputMode="stateHidden" android:noHistory="true" ></activity>
 		<activity android:name=".ShowLocations"></activity>
+		<activity android:name=".TabNeighbourhoodActivity"></activity>
 		<service android:name="iAnnounceService" />
 
 

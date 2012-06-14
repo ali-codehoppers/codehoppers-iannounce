@@ -68,14 +68,14 @@ public class CommunityHome extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		boolean customTitleSupported = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+		//boolean customTitleSupported = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.community_home);
-		if(customTitleSupported){
+		/*if(customTitleSupported){
 			getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,R.layout.titlebar);
 			TextView tv_title= (TextView)findViewById(R.id.tv_titlebar);        	
 			SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
 			tv_title.setText((settings.getString("userName", "iAnnounce")).toUpperCase());	
-		}
+		}*/
 		RelativeLayout main_layout = (RelativeLayout) findViewById(R.id.scroll_announcements);
 		fl_gotPage=true;
 		
