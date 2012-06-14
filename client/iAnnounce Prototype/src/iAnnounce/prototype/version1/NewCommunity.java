@@ -22,16 +22,16 @@ public class NewCommunity extends Activity {
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 
-		boolean customTitleSupported = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+		//boolean customTitleSupported = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.new_community);
 
-		if(customTitleSupported){
+		/*if(customTitleSupported){
 			getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,R.layout.titlebar);
 			TextView tv_title= (TextView)findViewById(R.id.tv_titlebar);        	
 			SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
 			tv_title.setText((settings.getString("userName", "iAnnounce")).toUpperCase());	
 		}
-
+*/
 
 		ImageView buttonReturn = (ImageView) findViewById(R.id.btn_return);
 		buttonReturn.setOnClickListener(new Button.OnClickListener() {
