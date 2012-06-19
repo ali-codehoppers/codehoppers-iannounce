@@ -2,13 +2,11 @@ package hibernate.entities;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Temporal;
+import javax.persistence.*;
 import org.hibernate.annotations.NamedQuery;
 
 @Entity
+@Table(name = "person")
 @NamedQuery(name = "Person.findByName", query = "select p from Person p where p.username like ?")
 //get user by username
 public class Person implements Serializable {

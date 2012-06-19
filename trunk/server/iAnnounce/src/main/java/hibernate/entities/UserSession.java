@@ -4,9 +4,11 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import org.hibernate.annotations.NamedQuery;
 
 @Entity
+@Table(name = "usersession")
 @NamedQuery(name = "UserSession.findByName", query = "select u from UserSession u where u.sessionID like ?")
 
 //get session by sessionId

@@ -98,8 +98,8 @@
             <interceptor-ref name="basic"/>
         </action>          
         
-        <action name="verifyaccount" class="actions.struts.VerifyAccount">
-            
+        <action name="verifyAccount" class="actions.struts.VerifyAccount">
+            <result>/results/verified.jsp</result>
         </action>
 
 <!--   <action name="persons" class="restful.controller.RestfulFirstController">

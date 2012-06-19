@@ -4,9 +4,11 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import org.hibernate.annotations.NamedQuery;
 
 @Entity
+@Table(name = "rating")
 @NamedQuery(name = "Rating.findByName", query = "select r from Rating r where r.a_id = ?")
 //get rating by announcement
 public class Rating implements Serializable {

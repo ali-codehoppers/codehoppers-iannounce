@@ -3,9 +3,11 @@ package hibernate.entities;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import org.hibernate.annotations.NamedQuery;
 
 @Entity
+@Table(name = "rangee")
 @NamedQuery(name = "Rangee.findByName", query = "select p from Rangee p where p.s like ?")
 //get range by name
 public class Rangee {

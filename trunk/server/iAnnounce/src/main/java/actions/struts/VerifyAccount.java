@@ -5,6 +5,7 @@
 package actions.struts;
 
 import hibernate.entities.Person;
+import xtras.SendEmail;
 
 /**
  *
@@ -43,7 +44,7 @@ public class VerifyAccount extends BaseActionClass
 
             //email account details
             String emailBody = generateEmailBody(person);
-//          SendEmail verificationmail = new SendEmail(person.getEmail(), emailBody, "iAnnounce::Account verified");
+            SendEmail verificationmail = new SendEmail(person.getEmail(), emailBody, "iAnnounce::Account verified");
             return SUCCESS;
           } else
           {

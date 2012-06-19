@@ -134,7 +134,8 @@ public class Register extends BaseActionClass
         String retval;
         retval = "Dear User,\n";
         retval += "Thank you for registering to iAnnounce with username '" + person.getUsername() + "'. To verify your account please click on the link below or paste in on your browser.\n";
-        retval += "http://localhost:8080/sample/do/PersonVerification?username=" + person.getUsername() + "&verificationCode=" + person.getVerificationcode();
+        //retval += "http://localhost:8080/sample/do/PersonVerification?username=" + person.getUsername() + "&verificationCode=" + person.getVerificationcode();
+        retval += "http://202.142.147.36:8080/iAnnounce/verifyAccount?username=" + person.getUsername() + "&verificationCode=" + person.getVerificationcode();
         retval += "\n\nRegards\nTeam iAnnounce";
         return retval;
     }
