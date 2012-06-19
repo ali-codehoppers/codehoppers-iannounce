@@ -2,14 +2,11 @@ package hibernate.entities;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
+import javax.persistence.*;
 
 
 @Entity
+@Table(name = "announcement")
 @NamedQueries({
     @NamedQuery(name = "Announcement.findByName", query = "select a from Announcement a where a.username_FK like ?"),
     @NamedQuery(name = "Announcement.findAllByNeighbourhoodId", query = "select a from Announcement a where a.neighbourhood_id = ?")

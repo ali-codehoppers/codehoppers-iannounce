@@ -5,9 +5,11 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import org.hibernate.annotations.NamedQuery;
 
 @Entity
+@Table(name = "comment")
 @NamedQuery(name = "Comment.findByName", query = "select c from Comment c where c.a_id_KF = ?")
 //get comments by announcement id
 public class Comment implements Serializable {

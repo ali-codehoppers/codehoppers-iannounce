@@ -19,9 +19,9 @@ import javax.mail.internet.MimeMessage;
  */
 public class SendEmail {
 
-    private static final String SMTP_SERVER = "mail.datamedusa.com";
-    private static final String USER_NAME = "eservices@datamedusa.com";
-    private static final String PASSWORD = "datamed";
+    private static final String SMTP_SERVER = "smtp.gmail.com";
+    private static final String USER_NAME = "buynsell.test@gmail.com";
+    private static final String PASSWORD = "codehoppers";
     private static final String FROM = "noreply@iAnnounce.com";
 
    public SendEmail(String recipient, String message, String subject) throws AddressException, MessagingException {
@@ -31,7 +31,9 @@ public class SendEmail {
         Properties properties = new Properties();
         properties.put("mail.smtp.host", SMTP_SERVER);
         properties.put("mail.smtp.auth", "true");
-
+        properties.put("mail.smtp.socketFactory.port", "465");
+        properties.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
+        properties.put("mail.smtp.port", "465");
         Authenticator authenticator = new SMTPAuthenticator();
         Session session = Session.getDefaultInstance(properties, authenticator);
 
