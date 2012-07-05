@@ -45,6 +45,8 @@
 	<color name="announce_txt">#454545</color> <!-- FFFFFF -->
 	<color name="announce_char_remaining">#454545</color> <!-- FFFFFF -->
 	<color name="announce_labels">#454545</color> <!-- 284868 -->
+	<color name="announce_labels_fade">#D2D2D2</color> <!-- 284868 -->
+	
 	<color name="custom_input_text">#FFFFFF</color>
 	
 	

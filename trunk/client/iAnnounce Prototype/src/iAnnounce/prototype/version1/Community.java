@@ -92,6 +92,20 @@ public class Community extends Activity {
 					View view2 = layoutInflater.inflate(R.layout.ngbr_info_bar, null);
 					RelativeLayout relativeLayout = (RelativeLayout) view2.findViewById(R.id.ann_info_bar_RL);
 
+					ImageView img_members=(ImageView) view2.findViewById(R.id.img_ngbr_info_members);
+					ImageView img_ann=(ImageView) view2.findViewById(R.id.img_ngbr_info_announcements);
+					ImageView img_locations=(ImageView) view2.findViewById(R.id.img_ngbr_info_locations);
+					img_locations.setOnClickListener(new ImageView.OnClickListener() {
+						public void onClick(View v) {
+							//Do stuff here
+							Intent myIntent = new Intent(getApplicationContext(), ShowLocations.class);
+							Bundle b= new Bundle();
+							b.putString("neighbourId", neighbourId);
+							myIntent.putExtras(b);
+							startActivity(myIntent);
+						}
+					});
+					
 					TextView tv_members=(TextView) view2.findViewById(R.id.tv_ngbr_info_members);
 					TextView tv_ann=(TextView) view2.findViewById(R.id.tv_ngbr_info_announcements);
 					TextView tv_locations=(TextView) view2.findViewById(R.id.tv_ngbr_info_locations);
