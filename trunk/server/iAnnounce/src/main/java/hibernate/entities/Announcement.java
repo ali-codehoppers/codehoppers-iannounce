@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import javax.persistence.*;
 
-
 @Entity
 @Table(name = "announcement")
 @NamedQueries({
@@ -19,19 +18,23 @@ public class Announcement implements Serializable {
     private double longitude;
     private String announcement;
     private int radius;
+    private boolean isExpired;
     private Timestamp ttime;
+    private Timestamp expireTime;
     private boolean type;
     private String username_FK;
     private int totalRating;
     private int neighbourhood_id;
 
-    public Announcement(int a_id, double latitude, double longitude, String announcement, int radius, Timestamp ttime, boolean type, String username_FK, int totalRating, int neighbourhood_id) {
+    public Announcement(int a_id, double latitude, double longitude, String announcement, int radius, boolean isExpired, Timestamp ttime, Timestamp expireTime, boolean type, String username_FK, int totalRating, int neighbourhood_id) {
         this.a_id = a_id;
         this.latitude = latitude;
         this.longitude = longitude;
         this.announcement = announcement;
         this.radius = radius;
+        this.isExpired = isExpired;
         this.ttime = ttime;
+        this.expireTime = expireTime;
         this.type = type;
         this.username_FK = username_FK;
         this.totalRating = totalRating;
@@ -97,6 +100,26 @@ public class Announcement implements Serializable {
 
     public void setType(boolean type) {
         this.type = type;
+    }
+
+    public void setExpireTime(Timestamp expireTime) {
+        this.expireTime = expireTime;
+    }
+
+
+
+    public void setIsExpired(boolean isExpired) {
+        this.isExpired = isExpired;
+    }
+
+    public Timestamp getExpireTime() {
+        return expireTime;
+    }
+
+
+
+    public boolean isIsExpired() {
+        return isExpired;
     }
 
     public String getUsername_FK() {

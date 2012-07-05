@@ -30,15 +30,14 @@ public class AnnouncementByNeighbourhood extends BaseActionClass {
     public void setPageNum(String pageNum) {
         this.pageNum = pageNum;
     }
-    
 
     public String execute() throws Exception {
         if (request.getHeader("User-Agent").contains("UNAVAILABLE")) {
             int page = Integer.parseInt(pageNum);
             Person person = personService.findByName(username).get(0);
-            List announcementList = announcementService.getAnnouncementsByNeighbourhood(person.getLatitude(), person.getLongitude(),neighbourhood_id,page);
+            List announcementList = announcementService.getAnnouncementsByNeighbourhood(person.getLatitude(), person.getLongitude(), neighbourhood_id, page);
             String xml = "";
-       int numAnnouncements = 0;
+            int numAnnouncements = 0;
             //System.out.println("=====>" + announcementList.size());
             for (ListIterator iter = announcementList.listIterator(); iter.hasNext();) {
                 Object[] row = (Object[]) iter.next();
@@ -67,23 +66,23 @@ public class AnnouncementByNeighbourhood extends BaseActionClass {
                             curruntRating = -1;
                         }
                     }
-                    }
-                    DecimalFormat twoDForm = new DecimalFormat("#.##");
-                    Double distance = Double.valueOf(twoDForm.format(row[10]));
-                    xml += "<announcement><id>" + row[0] + "</id>";
-                    xml += "<announcer>" + row[7] + "</announcer>";
-                    xml += "<Description>" + row[1] + "</Description>";
-                    xml += "<timestamp>" + row[5] + "</timestamp>";
-                    xml += "<noOfComments>" + noOfComments + "</noOfComments>";
-                    xml += "<averageRating>" + row[8] + "</averageRating>";
-                    xml += "<currentUserRating>" + curruntRating + "</currentUserRating>";
-                    xml += "<longitude>" + row[3] + "</longitude>";
-                    xml += "<latitude>" + row[2] + "</latitude>";
-                    xml += "<distance>" + distance + "</distance>"; //in kilometers
-                    xml += "<likes>" + likes + "</likes>";
-                    xml += "<dislikes>" + dislikes + "</dislikes>";
-                    xml += "</announcement>";
-                    numAnnouncements++;
+                }
+                DecimalFormat twoDForm = new DecimalFormat("#.##");
+                Double distance = Double.valueOf(twoDForm.format(row[10]));
+                xml += "<announcement><id>" + row[0] + "</id>";
+                xml += "<announcer>" + row[9] + "</announcer>";
+                xml += "<Description>" + row[1] + "</Description>";
+                xml += "<timestamp>" + row[7] + "</timestamp>";
+                xml += "<noOfComments>" + noOfComments + "</noOfComments>";
+                xml += "<averageRating>" + row[10] + "</averageRating>";
+                xml += "<currentUserRating>" + curruntRating + "</currentUserRating>";
+                xml += "<longitude>" + row[3] + "</longitude>";
+                xml += "<latitude>" + row[2] + "</latitude>";
+                xml += "<distance>" + distance + "</distance>"; //in kilometers
+                xml += "<likes>" + likes + "</likes>";
+                xml += "<dislikes>" + dislikes + "</dislikes>";
+                xml += "</announcement>";
+                numAnnouncements++;
             }
 
 
@@ -96,10 +95,10 @@ public class AnnouncementByNeighbourhood extends BaseActionClass {
 //            xml += "</announcements>"; //</getAnnouncements></response>
             xml += "</response>";
 
-           // System.out.println(xml);
+            // System.out.println(xml);
             xmlResponse = xml;
 
-           // System.out.print(xml);
+            // System.out.print(xml);
             return "MOBILE";
         } else {
             return "PC";
@@ -109,6 +108,4 @@ public class AnnouncementByNeighbourhood extends BaseActionClass {
     public String getXmlResponse() {
         return xmlResponse;
     }
-    
-    
 }
