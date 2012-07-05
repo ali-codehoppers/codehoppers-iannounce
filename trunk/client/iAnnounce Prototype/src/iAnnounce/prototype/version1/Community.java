@@ -100,7 +100,7 @@ public class Community extends Activity {
 							//Do stuff here
 							Intent myIntent = new Intent(getApplicationContext(), ShowLocations.class);
 							Bundle b= new Bundle();
-							b.putString("neighbourId", neighbourId);
+							b.putString("neighbourId", n);
 							myIntent.putExtras(b);
 							startActivity(myIntent);
 						}
