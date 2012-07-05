@@ -37,7 +37,17 @@ public class ShowLocations extends Activity{
 		
 		Bundle bundle = this.getIntent().getExtras();
 		final String neighbourId = bundle.getString("neighbourId");
-
+		TextView allLocations = (TextView) findViewById(R.id.all_locations);
+		allLocations.setOnClickListener(new TextView.OnClickListener() {
+			public void onClick(View v) {
+				Intent myIntent = new Intent(getApplicationContext(), AllLocations.class);
+				Bundle b= new Bundle();
+				b.putString("neighbourId", neighbourId);
+				myIntent.putExtras(b);
+				startActivity(myIntent);
+				finish();
+			}
+		});
 		ImageView buttonNewLocation = (ImageView) findViewById(R.id.location_new);
 		buttonNewLocation.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View v) {
