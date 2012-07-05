@@ -4,6 +4,7 @@ import idao.IDaoGeneric;
 import idao.IFinderExecutor;
 import java.io.Serializable;
 import java.lang.reflect.Method;
+import java.sql.Timestamp;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
@@ -95,7 +96,10 @@ public class DaoGeneric<T, PK extends Serializable> implements IDaoGeneric<T, PK
 
     public List getAnnouncements(double latitude, double longitude,int pageNum) {
         int start = (pageNum-1)*10;
-        String query = "SELECT a.* ,(((ACOS( SIN( ("+latitude+" * PI() /180 ) ) * SIN( (a.latitude * PI() /180 )) + COS( ("+latitude+" * PI( ) /180 )) * COS( (a.latitude * PI() /180 )) * COS( (( "+longitude+" -  a.longitude ) * PI() /180 )))) *180 / PI()) *60 * 1.1515 * 1.609344 ) AS  `distance` FROM  announcement a WHERE totalRating>-10 HAVING `distance` <= a.radius  ORDER BY  `ttime` DESC LIMIT "+start+",10";
+        java.util.Date date = new java.util.Date();
+        Timestamp time = new Timestamp(date.getTime());
+        String query = "SELECT a.* ,(((ACOS( SIN( ("+latitude+" * PI() /180 ) ) * SIN( (a.latitude * PI() /180 )) + COS( ("+latitude+" * PI( ) /180 )) * COS( (a.latitude * PI() /180 )) * COS( (( "+longitude+" -  a.longitude ) * PI() /180 )))) *180 / PI()) *60 * 1.1515 * 1.609344 ) AS  `distance` FROM  announcement a WHERE totalRating>-10 AND (expireTime>'"+time+"' OR expireTime is null) HAVING `distance` <= a.radius  ORDER BY  `ttime` DESC LIMIT "+start+",10";
+       // System.out.println(query);
         SQLQuery sQLQuery = getSession().createSQLQuery(query);
         return sQLQuery.list();
     }

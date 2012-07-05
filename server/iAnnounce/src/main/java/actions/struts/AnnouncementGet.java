@@ -101,11 +101,11 @@ public class AnnouncementGet extends BaseActionClass {
                     //String desc = URLEncoder.encode(row[1].toString(),"UTF-8"); 
                     Double distance = Double.valueOf(twoDForm.format(row[10]));
                     xml += "<announcement><id>" + row[0] + "</id>";
-                    xml += "<announcer>" + row[7] + "</announcer>";
+                    xml += "<announcer>" + row[9] + "</announcer>";
                     xml += "<Description>" + row[1] + "</Description>";
-                    xml += "<timestamp>" + row[5] + "</timestamp>";
+                    xml += "<timestamp>" + row[7] + "</timestamp>";
                     xml += "<noOfComments>" + noOfComments + "</noOfComments>";
-                    xml += "<averageRating>" + row[8] + "</averageRating>";
+                    xml += "<averageRating>" + row[10] + "</averageRating>";
                     xml += "<currentUserRating>" + curruntRating + "</currentUserRating>";
                     xml += "<longitude>" + row[3] + "</longitude>";
                     xml += "<latitude>" + row[2] + "</latitude>";
