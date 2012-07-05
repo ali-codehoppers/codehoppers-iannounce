@@ -21,7 +21,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -110,10 +112,7 @@ public class Announce extends Activity {
 		Button bt=(Button)findViewById(R.id.bt_announce_submit);
 
 		bt.setOnClickListener(new OnClickListener() {
-
 			public void onClick(View v) {
-
-
 				HttpPostRequest http=new HttpPostRequest();
 				SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
 
@@ -136,8 +135,19 @@ public class Announce extends Activity {
 				Spinner spinner = (Spinner) findViewById(R.id.spinner);
 				String selected = spinner.getSelectedItem().toString();
 				int neighbourId = neighbourMap.get(selected);
-
-				http.PostAnnouncement(settings.getString("sessionId","0"), (range.getText()).toString(),announcement ,""+neighbourId, settings.getString("Longitude","0"), settings.getString("Latitude","0"));
+				int duration = 0;
+				CheckBox lifeCheckBox = (CheckBox) findViewById(R.id.life_check_box);
+				EditText lifeSpan = (EditText) findViewById(R.id.life_span);
+				if (lifeCheckBox.isChecked()) {
+					try{
+						duration = Integer.parseInt(lifeSpan.getText().toString());
+					}catch(Exception e)
+					{
+						Toast.makeText(getApplicationContext(),"Enter a valid number for life span", Toast.LENGTH_LONG).show();
+						return;
+					}
+				}
+				http.PostAnnouncement(settings.getString("sessionId","0"), (range.getText()).toString(),announcement,duration ,""+neighbourId, settings.getString("Longitude","0"), settings.getString("Latitude","0"));
 
 				if(http.isError){
 					Toast.makeText(getApplicationContext(),http.xception, Toast.LENGTH_LONG).show();
@@ -167,7 +177,31 @@ public class Announce extends Activity {
 			}
 		});
 
-
+		CheckBox lifeCheckBox = (CheckBox) findViewById(R.id.life_check_box);
+		lifeCheckBox.setOnClickListener(new CheckBox.OnClickListener() {
+			public void onClick(View v) {
+				TextView lifeText1 = (TextView) findViewById(R.id.life_text1);
+				TextView lifeText2 = (TextView) findViewById(R.id.life_text2);
+				EditText lifeSpan = (EditText) findViewById(R.id.life_span);
+				if (((CheckBox) v).isChecked()) {
+					//Toast.makeText(Announce.this,"Checked", Toast.LENGTH_LONG).show();
+					((CheckBox) v).setTextColor(getResources().getColor(R.color.announce_labels));
+					lifeText1.setTextColor(getResources().getColor(R.color.announce_labels));
+					lifeText2.setTextColor(getResources().getColor(R.color.announce_labels));
+					lifeSpan.setFocusable(true);
+					lifeSpan.setFocusableInTouchMode(true);
+				}else
+				{
+//					Toast.makeText(Announce.this,"Unchecked", Toast.LENGTH_LONG).show();
+					((CheckBox) v).setTextColor(getResources().getColor(R.color.announce_labels_fade));
+					lifeText1.setTextColor(getResources().getColor(R.color.announce_labels_fade));
+					lifeText2.setTextColor(getResources().getColor(R.color.announce_labels_fade));
+					lifeSpan.setFocusable(false);
+				}
+					
+				
+			}
+		});
 
 	}
 

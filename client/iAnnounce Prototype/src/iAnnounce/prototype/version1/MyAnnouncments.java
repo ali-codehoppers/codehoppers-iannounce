@@ -168,16 +168,9 @@ public class MyAnnouncments extends Activity {
 	 */
 
 	void getAnnouncementText(){
-
-		pdialog1.show();
-
+		//pdialog1.show();
 		myAnnouncementThread th=new myAnnouncementThread();
-
 		th.start();
-
-
-
-
 		//		HttpPostRequest htreq=new HttpPostRequest();
 		//		SharedPreferences settings = getSharedPreferences("iAnnounceVars", 0);
 		//		htreq.getMyAnnouncements(settings.getString("sessionId", "0"),Integer.toString(pg));

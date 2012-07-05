@@ -38,9 +38,9 @@ public class HttpPostRequest {
 		super();
 		isError=false;
 	}
-	//private String base_url="http://192.168.0.100:8080/iAnnounce";  
+	private String base_url="http://192.168.0.100:8080/iAnnounce";  
 	//	 private String base_url="http://192.168.1.2:8080/do";
-	private String base_url="http://202.142.147.36:8080/iAnnounce";
+	//private String base_url="http://202.142.147.36:8080/iAnnounce";
 	private String URL_register=base_url+"/register";
 	private String URL_forgotPassword=base_url+"/forgetpassword";
 	private String URL_login=base_url+"/login";
@@ -551,7 +551,7 @@ public class HttpPostRequest {
 	 * @param Latitude
 	 * @return server response as xml string
 	 */
-	public void PostAnnouncement(String sessionId,String range,String Announcement,String neighbourhoodId,String Longitude, String Latitude){
+	public void PostAnnouncement(String sessionId,String range,String Announcement,int duration,String neighbourhoodId,String Longitude, String Latitude){
 		try{
 			request.setURI(new URI(URL_PostAnnouncement));
 
@@ -559,6 +559,7 @@ public class HttpPostRequest {
 			postParameters.add(new BasicNameValuePair("sessionId", sessionId));
 			postParameters.add(new BasicNameValuePair("range", range));
 			postParameters.add(new BasicNameValuePair("announce", Announcement));
+			postParameters.add(new BasicNameValuePair("duration", ""+duration));
 			postParameters.add(new BasicNameValuePair("neighbourId", neighbourhoodId));
 			postParameters.add(new BasicNameValuePair("latitude", Latitude));
 			postParameters.add(new BasicNameValuePair("longitude", Longitude));
