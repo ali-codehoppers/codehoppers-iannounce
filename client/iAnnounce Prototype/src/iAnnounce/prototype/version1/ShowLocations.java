@@ -45,7 +45,6 @@ public class ShowLocations extends Activity{
 				b.putString("neighbourId", neighbourId);
 				myIntent.putExtras(b);
 				startActivity(myIntent);
-				finish();
 			}
 		});
 		ImageView buttonNewLocation = (ImageView) findViewById(R.id.location_new);
@@ -105,6 +104,17 @@ public class ShowLocations extends Activity{
 			name.setText(locations.get(i).name);
 			dist.setText(distance+" km");
 			desc.setText(locations.get(i).description);
+			
+			final String locationId = locations.get(i).id;
+			relativeLayout.setOnClickListener(new RelativeLayout.OnClickListener() {
+				public void onClick(View v) {
+					Intent myIntent = new Intent(getApplicationContext(), LocationOnMap.class);
+					Bundle b= new Bundle();
+					b.putString("locationId", locationId);
+					myIntent.putExtras(b);
+					startActivity(myIntent);
+				}
+			});
 			
 			LinearLayout.LayoutParams rlp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 			rlp.setMargins(10, 0, 10, 0);

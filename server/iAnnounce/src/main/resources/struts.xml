@@ -97,6 +97,9 @@
         <action name="getNearByLocations" class="actions.struts.GetNearByLocations">
             <interceptor-ref name="basic"/>
         </action>          
+        <action name="getLocationById" class="actions.struts.GetLocationById">
+            <interceptor-ref name="basic"/>
+        </action>    
         
         <action name="verifyAccount" class="actions.struts.VerifyAccount">
             <result>/results/verified.jsp</result>

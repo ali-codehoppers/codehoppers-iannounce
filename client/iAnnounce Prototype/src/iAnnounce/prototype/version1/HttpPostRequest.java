@@ -62,6 +62,7 @@ public class HttpPostRequest {
 	public String URL_getNeighbourByPerson=base_url+"/getNeighbourByPerson";
 	public String URL_addLocation=base_url+"/addLocation";
 	public String URL_getNearByLocations=base_url+"/getNearByLocations";
+	public String URL_getLocationById=base_url+"/getLocationById";
 	
 	
 	/**
@@ -445,6 +446,44 @@ public class HttpPostRequest {
 			postParameters.add(new BasicNameValuePair("latitude", latitude));
 			postParameters.add(new BasicNameValuePair("longitude", longitude));
 			
+			UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(
+					postParameters,encoding);
+			request.setEntity(formEntity);
+			HttpResponse response = client.execute(request);
+			in = new BufferedReader(new InputStreamReader(response.getEntity()
+					.getContent()));
+			StringBuffer sb = new StringBuffer("");
+			String line = "";
+			String NL = System.getProperty("line.separator");
+			while ((line = in.readLine()) != null) {
+				sb.append(line + NL);
+			}
+			in.close();
+			xmlStringResponse = sb.toString();
+			
+
+
+		} catch (Exception e) {
+			isError=true;
+			xception=e.getMessage();
+		}	
+
+
+
+	}
+	/**
+	 * Method for getting the neighbours on the base of  
+	 * @param sessionID sessionid of logged in user.
+	 * @return response from server as string (xml) 
+	 */
+	public void getLocationById(String sessionID,String locationId ){
+		try{
+			request.setURI(new URI(URL_getLocationById));
+
+			List<NameValuePair> postParameters = new ArrayList<NameValuePair>();
+			postParameters.add(new BasicNameValuePair("sessionId", sessionID));
+			postParameters.add(new BasicNameValuePair("location_id", locationId));
+
 			UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(
 					postParameters,encoding);
 			request.setEntity(formEntity);
